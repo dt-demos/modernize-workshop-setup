@@ -13,15 +13,15 @@ if [ "$#" -ne 1 ]; then
 fi
 UNIX_USER_HOME_PATH=$1
 
-## Set TENANT and API TOKEN
-DT_BASEURL=$(cat creds.json | jq -r '.DT_BASEURL')
-DT_PAAS_TOKEN=$(cat creds.json | jq -r '.DT_PAAS_TOKEN')
-LOGFILE='/tmp/installEZtravel.txt'
+#RJ### Set TENANT and API TOKEN
+#RJ#DT_BASEURL=$(cat creds.json | jq -r '.DT_BASEURL')
+#RJ#DT_PAAS_TOKEN=$(cat creds.json | jq -r '.DT_PAAS_TOKEN')
+#RJ#LOGFILE='/tmp/installEZtravel.txt'
 
 ##Create installer Logfile
 printf "\n\n***** Init Installation ***\n" >> $LOGFILE 2>&1 
-{ date ; apt update; whoami ; echo Setting up ec2 for tenant: $DT_BASEURL with Api-Token: $DT_PAAS_TOKEN ; } >> $LOGFILE ; chmod 777 $LOGFILE
-
+{ date ; apt update; whoami ; } >> $LOGFILE ; chmod 777 $LOGFILE
+#RJ#{ date ; apt update; whoami ; echo Setting up ec2 for tenant: $DT_BASEURL with Api-Token: $DT_PAAS_TOKEN ; } >> $LOGFILE ; chmod 777 $LOGFILE
 
 #RJ#printf "\n\n***** add DTU training user ***\n" >> $LOGFILE 2>&1 
 #RJ## Create user Dynatrace, we specify bash login, home directory, password and add him to the sudoers
@@ -50,10 +50,10 @@ cp /root/.bash_aliases $UNIX_USER_HOME_PATH/.bash_aliases
 printf "\n\n***** Installation of Chromium on the system ***\n" >> $LOGFILE 2>&1 
 apt install chromium-browser -y >>  $LOGFILE 2>&1
 
-## Installation of OneAgent
-printf "\n\n***** Installation of the OneAgent***\n" >> $LOGFILE 2>&1 
-{ wget -nv -O oneagent.sh "$DT_BASEURL/api/v1/deployment/installer/agent/unix/default/latest?Api-Token=$DT_PAAS_TOKEN&arch=x86&flavor=default" ;\
- sh oneagent.sh APP_LOG_CONTENT_ACCESS=1 INFRA_ONLY=0 ;}  >> $LOGFILE 2>&1 
+#RJ### Installation of OneAgent
+#RJ#printf "\n\n***** Installation of the OneAgent***\n" >> $LOGFILE 2>&1 
+#RJ#{ wget -nv -O oneagent.sh "$DT_BASEURL/api/v1/deployment/installer/agent/unix/default/latest?Api-Token=$DT_PAAS_TOKEN&arch=x86&flavor=default" ;\
+#RJ# sh oneagent.sh APP_LOG_CONTENT_ACCESS=1 INFRA_ONLY=0 ;}  >> $LOGFILE 2>&1 
 
 #RJ## Get Bankjobs and run them
 #RJ#printf "\n\n***** Pulling Bankjobs and running them***\n" >> $LOGFILE 2>&1 
