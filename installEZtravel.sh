@@ -7,25 +7,25 @@
 # - Chromium for the Load generation of the EasyTravel Angular Shop 
 # - EasyTravel, Legacy 8080,8079 / Angular 9080 and 80 / WebLauncher 8094 / EasyTravel REST 8091 1697
 
-if [ "$#" -ne 1 ]; then
-  echo "Missing UNIX_USER_HOME_PATH argument. Example: ./installEZtravel.sh /home/workshop" >&2
-  exit 1
-fi
-UNIX_USER_HOME_PATH=$1
+#if [ "$#" -ne 1 ]; then
+#  echo "Missing UNIX_USER_HOME_PATH argument. Example: ./installEZtravel.sh /home/workshop" >&2
+#  exit 1
+#fi
 
 #RJ### Set TENANT and API TOKEN
 #RJ#DT_BASEURL=$(cat creds.json | jq -r '.DT_BASEURL')
 #RJ#DT_PAAS_TOKEN=$(cat creds.json | jq -r '.DT_PAAS_TOKEN')
 LOGFILE='/tmp/installEZtravel.txt'
+UNIX_USER_HOME_PATH=/home/dtu.training
 
 ##Create installer Logfile
 printf "\n\n***** Init Installation ***\n" >> $LOGFILE 2>&1 
 { date ; apt update; whoami ; } >> $LOGFILE ; chmod 777 $LOGFILE
 #RJ#{ date ; apt update; whoami ; echo Setting up ec2 for tenant: $DT_BASEURL with Api-Token: $DT_PAAS_TOKEN ; } >> $LOGFILE ; chmod 777 $LOGFILE
 
-#RJ#printf "\n\n***** add DTU training user ***\n" >> $LOGFILE 2>&1 
-#RJ## Create user Dynatrace, we specify bash login, home directory, password and add him to the sudoers
-#RJ#useradd -s /bin/bash -d $UNIX_USER_HOME_PATH/ -m -G sudo -p $(openssl passwd -1 @perform2020) dtu.training
+printf "\n\n***** add DTU training user ***\n" >> $LOGFILE 2>&1 
+# Create user Dynatrace, we specify bash login, home directory, password and add him to the sudoers
+useradd -s /bin/bash -d $UNIX_USER_HOME_PATH/ -m -G sudo -p $(openssl passwd -1 @training2020) dtu.training
 
 #RJ## Update and install docker
 #RJ#printf "\n\n***** Update and install docker***\n" >> $LOGFILE 2>&1 
