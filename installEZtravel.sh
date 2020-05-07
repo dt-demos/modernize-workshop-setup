@@ -16,7 +16,7 @@ UNIX_USER_HOME_PATH=$1
 #RJ### Set TENANT and API TOKEN
 #RJ#DT_BASEURL=$(cat creds.json | jq -r '.DT_BASEURL')
 #RJ#DT_PAAS_TOKEN=$(cat creds.json | jq -r '.DT_PAAS_TOKEN')
-#RJ#LOGFILE='/tmp/installEZtravel.txt'
+LOGFILE='/tmp/installEZtravel.txt'
 
 ##Create installer Logfile
 printf "\n\n***** Init Installation ***\n" >> $LOGFILE 2>&1 
