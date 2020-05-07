@@ -6,6 +6,8 @@ if ! [ -x "$(command -v jq)" ]; then
   echo "----------------------------------------------------"
   echo "Installing 'jq' utility ..."
   sudo apt-get install -y jq
+else
+  echo "'jq' utility already installed."
 fi
 
 # Install Docker - https://docs.docker.com/engine/install/ubuntu/
@@ -30,4 +32,7 @@ if ! [ -x "$(command -v docker)" ]; then
   sudo apt-get install -y docker-ce docker-ce-cli containerd.io
   
   sudo docker run hello-world
+
+else
+  echo "'docker' already installed."
 fi
