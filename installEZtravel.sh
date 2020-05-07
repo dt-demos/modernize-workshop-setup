@@ -23,15 +23,15 @@ printf "\n\n***** Init Installation ***\n" >> $LOGFILE 2>&1
 { date ; apt update; whoami ; echo Setting up ec2 for tenant: $DT_BASEURL with Api-Token: $DT_PAAS_TOKEN ; } >> $LOGFILE ; chmod 777 $LOGFILE
 
 
-printf "\n\n***** add DTU training user ***\n" >> $LOGFILE 2>&1 
-# Create user Dynatrace, we specify bash login, home directory, password and add him to the sudoers
-useradd -s /bin/bash -d $UNIX_USER_HOME_PATH/ -m -G sudo -p $(openssl passwd -1 @perform2020) dtu.training
+#RJ#printf "\n\n***** add DTU training user ***\n" >> $LOGFILE 2>&1 
+#RJ## Create user Dynatrace, we specify bash login, home directory, password and add him to the sudoers
+#RJ#useradd -s /bin/bash -d $UNIX_USER_HOME_PATH/ -m -G sudo -p $(openssl passwd -1 @perform2020) dtu.training
 
-## Update and install docker
-printf "\n\n***** Update and install docker***\n" >> $LOGFILE 2>&1 
-{ apt install docker.io -y ;\
- service docker start ;\
- usermod -a -G docker dtu.training ;} >> $LOGFILE 2>&1
+#RJ## Update and install docker
+#RJ#printf "\n\n***** Update and install docker***\n" >> $LOGFILE 2>&1 
+#RJ# { apt install docker.io -y ;\
+#RJ# service docker start ;\
+#RJ# usermod -a -G docker dtu.training ;} >> $LOGFILE 2>&1
 
 # Add ProTip alias
 printf "\n\n***** ProTip Alias***\n" >> $LOGFILE 2>&1 
@@ -55,9 +55,9 @@ printf "\n\n***** Installation of the OneAgent***\n" >> $LOGFILE 2>&1
 { wget -nv -O oneagent.sh "$DT_BASEURL/api/v1/deployment/installer/agent/unix/default/latest?Api-Token=$DT_PAAS_TOKEN&arch=x86&flavor=default" ;\
  sh oneagent.sh APP_LOG_CONTENT_ACCESS=1 INFRA_ONLY=0 ;}  >> $LOGFILE 2>&1 
 
-## Get Bankjobs and run them
-#printf "\n\n***** Pulling Bankjobs and running them***\n" >> $LOGFILE 2>&1 
-#docker run -d --name bankjob shinojosa/bankjob:perform2020 >> $LOGFILE 2>&1
+#RJ## Get Bankjobs and run them
+#RJ#printf "\n\n***** Pulling Bankjobs and running them***\n" >> $LOGFILE 2>&1 
+#RJ#docker run -d --name bankjob shinojosa/bankjob:perform2020 >> $LOGFILE 2>&1
 
 # NGINX ReverseProxy for AngularShop mapping 9080 to 80 avoid problems for other ports.
 printf "\n\n***** Configuring reverse proxy***\n" >> $LOGFILE 2>&1 
@@ -110,10 +110,10 @@ sed -i 's/config.reUseChromeDriverFrequency=4/config.reUseChromeDriverFrequency=
 # Fix finding the Java package
 sed -i "s/JAVA_BIN=..\\/jre\\/bin\\/java/JAVA_BIN=\\/usr\\/bin\\/java/g" $UNIX_USER_HOME_PATH/easytravel-2.0.0-x64/weblauncher/weblauncher.sh
 
+#RJ#
 su -c "sh $UNIX_USER_HOME_PATH/easytravel-2.0.0-x64/weblauncher/weblauncher.sh > /tmp/weblauncher.log 2>&1 &" dtu.training 
 
-# su -c 'nohup $UNIX_USER_HOME_PATH/easytravel-2.0.0-x64/runEasyTravelNoGUI.sh --startgroup UEM --startscenario "Standard with REST Service and Angular2 frontend" &' - ubuntu
-# su -c 'nohup /home/ubuntu/easyTravel/easytravel-2.0.0-x64/runEasyTravelNoGUI.sh --startgroup UEM --startscenario "Standard with REST Service and Angular2 frontend" &' - ubuntu
+#RJ#su -c 'nohup $UNIX_USER_HOME_PATH/easytravel-2.0.0-x64/runEasyTravelNoGUI.sh --startgroup UEM --startscenario "Standard with REST Service and Angular2 frontend" &' - ubuntu
 
 { [[ -f  /tmp/weblauncher.log ]] && echo "***EasyTravel launched**" || echo "***Problem launching EasyTravel **" ; } >> $LOGFILE 2>&1
 { date ; echo "installation done" ;} >> $LOGFILE 2>&1 
