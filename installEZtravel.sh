@@ -1,37 +1,18 @@
 #!/bin/bash
-## Commands for Ubuntu Server 18.04 LTS (HVM), SSD Volume Type - ami-06d51e91cea0dac8d
+## Commands for Ubuntu Server 18.04 LTS
 ## These script will install the following components:
-# - OneAgent
-# - Docker
-# - BankJobs shinojosa/bankjob:v0.2 from DockerHub
 # - Chromium for the Load generation of the EasyTravel Angular Shop 
+# - Java default-jre
 # - EasyTravel, Legacy 8080,8079 / Angular 9080 and 80 / WebLauncher 8094 / EasyTravel REST 8091 1697
+# - nginx proxy Docker image that is setup & run to redirect to expose and map port 80 to 9080 
 
-#if [ "$#" -ne 1 ]; then
-#  echo "Missing UNIX_USER_HOME_PATH argument. Example: ./installEZtravel.sh /home/workshop" >&2
-#  exit 1
-#fi
-
-#RJ### Set TENANT and API TOKEN
-#RJ#DT_BASEURL=$(cat creds.json | jq -r '.DT_BASEURL')
-#RJ#DT_PAAS_TOKEN=$(cat creds.json | jq -r '.DT_PAAS_TOKEN')
-LOGFILE='/tmp/installEZtravel.txt'
-UNIX_USER_HOME_PATH=/home/dtu.training
+LOGFILE='/tmp/installEZtravel.log' 
+UNIX_USER_HOME_PATH=/home/root
+mkdir -p $UNIX_USER_HOME_PATH
 
 ##Create installer Logfile
 printf "\n\n***** Init Installation ***\n" >> $LOGFILE 2>&1 
 { date ; apt update; whoami ; } >> $LOGFILE ; chmod 777 $LOGFILE
-#RJ#{ date ; apt update; whoami ; echo Setting up ec2 for tenant: $DT_BASEURL with Api-Token: $DT_PAAS_TOKEN ; } >> $LOGFILE ; chmod 777 $LOGFILE
-
-printf "\n\n***** add DTU training user ***\n" >> $LOGFILE 2>&1 
-# Create user Dynatrace, we specify bash login, home directory, password and add him to the sudoers
-useradd -s /bin/bash -d $UNIX_USER_HOME_PATH/ -m -G sudo -p $(openssl passwd -1 @training2020) dtu.training
-
-#RJ## Update and install docker
-#RJ#printf "\n\n***** Update and install docker***\n" >> $LOGFILE 2>&1 
-#RJ# { apt install docker.io -y ;\
-#RJ# service docker start ;\
-#RJ# usermod -a -G docker dtu.training ;} >> $LOGFILE 2>&1
 
 # Add ProTip alias
 printf "\n\n***** ProTip Alias***\n" >> $LOGFILE 2>&1 
@@ -50,16 +31,8 @@ cp /root/.bash_aliases $UNIX_USER_HOME_PATH/.bash_aliases
 printf "\n\n***** Installation of Chromium on the system ***\n" >> $LOGFILE 2>&1 
 apt install chromium-browser -y >>  $LOGFILE 2>&1
 
-#RJ### Installation of OneAgent
-#RJ#printf "\n\n***** Installation of the OneAgent***\n" >> $LOGFILE 2>&1 
-#RJ#{ wget -nv -O oneagent.sh "$DT_BASEURL/api/v1/deployment/installer/agent/unix/default/latest?Api-Token=$DT_PAAS_TOKEN&arch=x86&flavor=default" ;\
-#RJ# sh oneagent.sh APP_LOG_CONTENT_ACCESS=1 INFRA_ONLY=0 ;}  >> $LOGFILE 2>&1 
-
-#RJ## Get Bankjobs and run them
-#RJ#printf "\n\n***** Pulling Bankjobs and running them***\n" >> $LOGFILE 2>&1 
-#RJ#docker run -d --name bankjob shinojosa/bankjob:perform2020 >> $LOGFILE 2>&1
-
-# NGINX ReverseProxy for AngularShop mapping 9080 to 80 avoid problems for other ports.
+# NGINX ReverseProxy for AngularShop mapping 9080 to 80 avoid problems on student browsers that 
+# can hit non-standard ports
 printf "\n\n***** Configuring reverse proxy***\n" >> $LOGFILE 2>&1 
 export PUBLIC_IP=`hostname -i | awk '{ print $1'}`
 mkdir $UNIX_USER_HOME_PATH/nginx
@@ -73,7 +46,6 @@ server {
     proxy_pass	http://angular;
     }
 }" > $UNIX_USER_HOME_PATH/nginx/angular.conf
-docker run -p 80:80 -v $UNIX_USER_HOME_PATH/nginx:/etc/nginx/conf.d/:ro -d --name reverseproxy nginx:1.15
 
 # Install  default-jre
 printf "\n\n***** JavaRuntime  install ***\n" >> $LOGFILE 2>&1 
@@ -85,8 +57,7 @@ printf "\n\n***** Download, install and configure EasyTravel***\n" >> $LOGFILE 2
 { cd $UNIX_USER_HOME_PATH ;\
  wget -nv -O dynatrace-easytravel-linux-x86_64.jar http://dexya6d9gs5s.cloudfront.net/latest/dynatrace-easytravel-linux-x86_64.jar ;\
  java -jar dynatrace-easytravel-linux-x86_64.jar -y ;\
- chmod 755 -R  easytravel-2.0.0-x64 ;\
- chown dtu.training:dtu.training -R easytravel-2.0.0-x64 ; }  >> $LOGFILE 2>&1 
+ chmod 755 -R easytravel-2.0.0-x64 ; }  >> $LOGFILE 2>&1  
 
 # Configuring EasyTravel Memory Settings, Angular Shop and Weblauncher. 
 sed -i 's/apmServerDefault=Classic/apmServerDefault=APM/g' $UNIX_USER_HOME_PATH/easytravel-2.0.0-x64/resources/easyTravelConfig.properties
@@ -110,16 +81,4 @@ sed -i 's/config.reUseChromeDriverFrequency=4/config.reUseChromeDriverFrequency=
 # Fix finding the Java package
 sed -i "s/JAVA_BIN=..\\/jre\\/bin\\/java/JAVA_BIN=\\/usr\\/bin\\/java/g" $UNIX_USER_HOME_PATH/easytravel-2.0.0-x64/weblauncher/weblauncher.sh
 
-#RJ#
-su -c "sh $UNIX_USER_HOME_PATH/easytravel-2.0.0-x64/weblauncher/weblauncher.sh > /tmp/weblauncher.log 2>&1 &" dtu.training 
-
-#RJ#su -c 'nohup $UNIX_USER_HOME_PATH/easytravel-2.0.0-x64/runEasyTravelNoGUI.sh --startgroup UEM --startscenario "Standard with REST Service and Angular2 frontend" &' - ubuntu
-
-{ [[ -f  /tmp/weblauncher.log ]] && echo "***EasyTravel launched**" || echo "***Problem launching EasyTravel **" ; } >> $LOGFILE 2>&1
-{ date ; echo "installation done" ;} >> $LOGFILE 2>&1 
-
-# Allow unencrypted password via SSH for login
-sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
-
-# Restart ssh service
-service sshd restart
+{ date ; echo "installation done" ;} >> $LOGFILE 2>&1
