@@ -86,3 +86,4 @@ sed -i "s/JAVA_BIN=..\\/jre\\/bin\\/java/JAVA_BIN=\\/usr\\/bin\\/java/g" $UNIX_U
 { date ; echo "installation done" ;} >> $LOGFILE 2>&1
 
 echo "*** EZ Travel Install Done."
+echo "View log with: tail -f $LOGFILE"
