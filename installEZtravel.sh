@@ -38,7 +38,7 @@ echo "*** Add NGINX ReverseProxy for AngularShop ***"
 # can hit non-standard ports
 printf "\n\n***** Configuring reverse proxy***\n" >> $LOGFILE 2>&1 
 export PUBLIC_IP=`hostname -i | awk '{ print $1'}`
-mkdir $UNIX_USER_HOME_PATH/nginx
+mkdir -p $UNIX_USER_HOME_PATH/nginx
 echo "upstream angular {
   server	$PUBLIC_IP:9080;
 } 
@@ -87,3 +87,5 @@ sed -i "s/JAVA_BIN=..\\/jre\\/bin\\/java/JAVA_BIN=\\/usr\\/bin\\/java/g" $UNIX_U
 
 echo "*** EZ Travel Install Done."
 echo "View log with: tail -f $LOGFILE"
+
+sudo ./startEZtravel.sh
