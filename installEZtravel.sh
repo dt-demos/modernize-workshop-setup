@@ -94,4 +94,4 @@ sed -i "s/JAVA_BIN=..\\/jre\\/bin\\/java/JAVA_BIN=\\/usr\\/bin\\/java/g" $UNIX_U
 echo "*** EZ Travel Install Done."
 echo "View log with: tail -f $LOGFILE"
 
-sudo ./startEZtravel.sh
+sudo ./$UNIX_USER_HOME_PATH/startEZtravel.sh
