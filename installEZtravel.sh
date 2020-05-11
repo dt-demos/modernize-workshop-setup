@@ -9,7 +9,7 @@
 echo "*** Starting EZ Travel Install Done."
 
 LOGFILE='/tmp/installEZtravel.log' 
-UNIX_USER_HOME_PATH=/home/root
+UNIX_USER_HOME_PATH=/home/workshop
 mkdir -p $UNIX_USER_HOME_PATH
 
 echo "*** Create EZ Travel Install Logfile: $LOGFILE ***"
@@ -55,11 +55,17 @@ printf "\n\n***** JavaRuntime  install ***\n" >> $LOGFILE 2>&1
 apt install -y openjdk-8-jre-headless >> $LOGFILE 2>&1
 
 echo "*** Download EasyTravel Angular ***"
-printf "\n\n***** Download, install and configure EasyTravel***\n" >> $LOGFILE 2>&1 
+printf "\n\n***** Download, install and configure EasyTravel ***\n" >> $LOGFILE 2>&1 
 { cd $UNIX_USER_HOME_PATH ;\
  wget -nv -O dynatrace-easytravel-linux-x86_64.jar http://dexya6d9gs5s.cloudfront.net/latest/dynatrace-easytravel-linux-x86_64.jar ;\
  java -jar dynatrace-easytravel-linux-x86_64.jar -y ;\
  chmod 755 -R easytravel-2.0.0-x64 ; }  >> $LOGFILE 2>&1  
+
+echo "*** Adjust permissions for workshop user ***"
+printf "\n\n***** Adjust permissions for workshop user ***\n" >> $LOGFILE 2>&1 
+usermod -a -G docker workshop >> $LOGFILE 2>&1
+usermod -a -G sudo workshop >> $LOGFILE 2>&1
+chown workshop:workshop -R easytravel-2.0.0-x64 ; }  >> $LOGFILE 2>&1 
 
 echo "*** Configuring EasyTravel Settings ***"
 sed -i 's/apmServerDefault=Classic/apmServerDefault=APM/g' $UNIX_USER_HOME_PATH/easytravel-2.0.0-x64/resources/easyTravelConfig.properties

@@ -2,9 +2,9 @@
 
 echo "***Stopping EasyTravel**"
 
-if [ "$(ps aux | grep -i easytravel | wc -l)" != "1" ]; then
+if [ "$(ps aux | grep -i /home/workshop/easytravel | wc -l)" != "1" ]; then
   echo stopping easytravel processes
-  kill `ps aux | grep -i easytravel | awk '{print $2}'`
+  kill `ps aux | grep -i /home/workshop/easytravel | awk '{print $2}'`
 else
   echo "No easytravel processes to stop"
 fi

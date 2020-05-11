@@ -1,7 +1,7 @@
 #!/bin/bash
 
 LOGFILE='/tmp/EZtravel.log'
-UNIX_USER_HOME_PATH=/home/root
+UNIX_USER_HOME_PATH=/home/workshop
 
 echo "*** Calling Stop EasyTravel ***"
 sudo ./stopEZtravel.sh
@@ -13,8 +13,7 @@ printf "\n\n***** Init Log ***\n" > $LOGFILE 2>&1
 echo "*** Starting reverse proxy ***"
 docker run -p 80:80 -v $UNIX_USER_HOME_PATH/nginx:/etc/nginx/conf.d/:ro -d --name reverseproxy nginx:1.15
 
-echo "*** Start eztravel ***"
-su -c "sh $UNIX_USER_HOME_PATH/easytravel-2.0.0-x64/weblauncher/weblauncher.sh > /tmp/weblauncher.log 2>&1 &"
+echo "*** Start eztravel as workshop user ***"
 { [[ -f /tmp/weblauncher.log ]] && echo "*** EasyTravel launched ***" || echo "*** Problem launching EasyTravel ***" ; } >> $LOGFILE 2>&1
 
 echo "*** Done ***"
