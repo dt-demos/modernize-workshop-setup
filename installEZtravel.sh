@@ -65,7 +65,7 @@ echo "*** Adjust permissions for workshop user ***"
 printf "\n\n***** Adjust permissions for workshop user ***\n" >> $LOGFILE 2>&1 
 usermod -a -G docker workshop >> $LOGFILE 2>&1
 usermod -a -G sudo workshop >> $LOGFILE 2>&1
-chown workshop:workshop -R easytravel-2.0.0-x64 ; }  >> $LOGFILE 2>&1 
+chown workshop:workshop -R easytravel-2.0.0-x64 >> $LOGFILE 2>&1 
 
 echo "*** Configuring EasyTravel Settings ***"
 sed -i 's/apmServerDefault=Classic/apmServerDefault=APM/g' $UNIX_USER_HOME_PATH/easytravel-2.0.0-x64/resources/easyTravelConfig.properties
@@ -94,4 +94,4 @@ sed -i "s/JAVA_BIN=..\\/jre\\/bin\\/java/JAVA_BIN=\\/usr\\/bin\\/java/g" $UNIX_U
 echo "*** EZ Travel Install Done."
 echo "View log with: tail -f $LOGFILE"
 
-sudo ./$UNIX_USER_HOME_PATH/modernize-workshop-setup/startEZtravel.sh
+sudo $UNIX_USER_HOME_PATH/modernize-workshop-setup/startEZtravel.sh
