@@ -2,3 +2,5 @@ user_data.tmp
 setup.txt
 *.pem
 creds.json*
+azure/notused/
+*.bak
