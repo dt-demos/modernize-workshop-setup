@@ -4,7 +4,7 @@ LOGFILE='/tmp/EZtravel.log'
 UNIX_USER_HOME_PATH=/home/workshop
 
 echo "*** Calling Stop EasyTravel ***"
-sudo ./$UNIX_USER_HOME_PATH/stopEZtravel.sh
+sudo ./$UNIX_USER_HOME_PATH/modernize-workshop-setup/stopEZtravel.sh
 
 echo "*** Starting EasyTravel ***"
 printf "\n\n***** Init Log ***\n" > $LOGFILE 2>&1
