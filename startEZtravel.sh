@@ -39,4 +39,4 @@ echo ""
 echo "View weblauncher log again with: tail -f /tmp/weblauncher.log"
 echo ""
 
-sudo $UNIX_USER_HOME_PATH/showEZtravel.sh
+sudo $UNIX_USER_HOME_PATH/modernize-workshop-setup/showEZtravel.sh
