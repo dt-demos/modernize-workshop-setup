@@ -38,6 +38,5 @@ done < <(timeout 100 tail -f /tmp/weblauncher.log)
 echo ""
 echo "View weblauncher log again with: tail -f /tmp/weblauncher.log"
 echo ""
-echo ""
-echo "easyTravel Angular URL: http://$(curl -s http://checkip.amazonaws.com/)"
-echo "easyTravel Orange URL: http://$(curl -s http://checkip.amazonaws.com/):8080"
+
+sudo $UNIX_USER_HOME_PATH/showEasyTravel.sh
