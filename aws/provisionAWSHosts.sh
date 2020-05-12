@@ -14,13 +14,13 @@ DT_PAAS_TOKEN=$(cat $CREDS_FILE | jq -r '.DT_PAAS_TOKEN')
 
 #*********************************
 
-echo "Provisioning: $NUM_HOSTS hosts"
-echo ""
-
-HOST_CTR=1
+=1
 while [ $HOST_CTR -le $NUM_HOSTS ]
 do
 
+  echo "Provisioning host: $HOST_CTR of $NUM_HOSTS"
+  echo ""
+  
   #set correct user data in file
   cat user_data.template | \
     sed 's~REPLACE_HOST_GROUP~'"$HOST_CTR"'~' | \
@@ -42,3 +42,5 @@ do
 done
 
 rm -rf $USERDATA_FILE
+
+echo "Done."
