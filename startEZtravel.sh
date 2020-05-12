@@ -9,6 +9,11 @@ sudo $UNIX_USER_HOME_PATH/modernize-workshop-setup/stopEZtravel.sh
 printf "\n\n***** Init Log ***\n" > $LOGFILE 2>&1
 { date ; apt update 2>/dev/null; whoami ; } >> $LOGFILE ; chmod 777 $LOGFILE
 
+# remove log
+sudo rm /tmp/weblauncher.log
+# sleep to support a timing issue after it stops
+sleep 15
+
 echo "*** Starting reverse proxy ***"
 docker run -p 80:80 -v $UNIX_USER_HOME_PATH/nginx:/etc/nginx/conf.d/:ro -d --name reverseproxy nginx:1.15
 
@@ -17,4 +22,4 @@ su -c "sh $UNIX_USER_HOME_PATH/easytravel-2.0.0-x64/weblauncher/weblauncher.sh >
 { [[ -f /tmp/weblauncher.log ]] && echo "*** EasyTravel launched ***" || echo "*** Problem launching EasyTravel ***" ; } >> $LOGFILE 2>&1
 
 echo "*** Done ***"
-echo "View log with: tail -f /tmp/weblauncher.log"
+echo "View weblauncher log with: tail -f /tmp/weblauncher.log"
