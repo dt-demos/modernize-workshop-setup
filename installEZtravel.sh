@@ -6,6 +6,11 @@
 # - EasyTravel, Legacy 8080,8079 / Angular 9080 and 80 / WebLauncher 8094 / EasyTravel REST 8091 1697
 # - nginx proxy Docker image that is setup & run to redirect to expose and map port 80 to 9080 
 
+if ! [ $(id -u) = 0 ]; then
+   echo "ERROR: script must be run as root or with sudo"
+   exit 1
+fi
+
 echo "*** Starting EZ Travel Install ***"
 
 LOGFILE='/tmp/installEZtravel.log' 
