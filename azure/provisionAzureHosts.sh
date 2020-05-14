@@ -81,6 +81,7 @@ provision_linux_vm()
   HOSTGROUP=$1
   HOSTNAME="workshop-linux-$HOSTGROUP"
 
+  echo "Checking if $HOSTNAME already exists"
   if [ "$(does_vm_exist)" == "true" ]; then
     echo "Skipping, host $HOSTNAME exists"
   else
@@ -106,7 +107,7 @@ provision_linux_vm()
       echo "Aborting due to VM creation error."
       break
     else
-      add_oneagent_extension oneAgentLinux linux-$HOSTGROUP
+      add_oneagent_extension oneAgentLinux linux
     fi
   fi
 }
@@ -117,13 +118,14 @@ provision_win_vm()
   HOSTGROUP=$1
   HOSTNAME="workshop-win-$HOSTGROUP"
 
+  echo "Checking if $HOSTNAME already exists"
   if [ "$(does_vm_exist)" == "true" ]; then
     echo "Skipping, host $HOSTNAME exists"
   else
     echo ""
     echo "Provisioning $HOSTNAME"
 
-    VM_STATE="$(az vm create 
+    VM_STATE="$(az vm create \
       --name "$HOSTNAME" \
       --resource-group "$AZURE_RESOURCE_GROUP" \
       --image "$IMAGE" \
@@ -142,7 +144,7 @@ provision_win_vm()
       echo "Aborting due to VM creation error."
       break
     else
-      add_oneagent_extension oneAgentWindows windows-$HOSTGROUP
+      add_oneagent_extension oneAgentWindows windows
     fi
   fi
 }
@@ -154,6 +156,7 @@ provision_eztravel_vm()
   HOSTGROUP=$1
   HOSTNAME="workshop-ez-$HOSTGROUP"
 
+  echo "Checking if $HOSTNAME already exists"
   if [ "$(does_vm_exist)" == "true" ]; then
     echo "Skipping, host $HOSTNAME exists"
   else
@@ -191,10 +194,10 @@ provision_eztravel_vm()
       # Legacy 8080,8079 / Angular 9080 and 80 / WebLauncher (Admin UI) 8094 / REST 8091 / ??? 1697
       OPEN_PORT="$(az vm open-port --port 80   --priority 1010 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
       OPEN_PORT="$(az vm open-port --port 8080 --priority 1020 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
-      #OPEN_PORT="$(az vm open-port --port 8079 --priority 1030 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
-      #OPEN_PORT="$(az vm open-port --port 9080 --priority 1040 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
-      OPEN_PORT="$(az vm open-port --port 8094 --priority 1050 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
-      OPEN_PORT="$(az vm open-port --port 8091 --priority 1060 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
+      OPEN_PORT="$(az vm open-port --port 8094 --priority 1030 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
+      OPEN_PORT="$(az vm open-port --port 8091 --priority 1040 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
+      #OPEN_PORT="$(az vm open-port --port 8079 --priority 1050 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
+      #OPEN_PORT="$(az vm open-port --port 9080 --priority 1060 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
       #OPEN_PORT="$(az vm open-port --port 1697 --priority 1070 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
 
       if [ "$ADD_EZTRAVEL_ONEAGENT" == "yes" ]; then
@@ -213,6 +216,7 @@ provision_eztravel_backend_vm()
   HOSTGROUP=$1
   HOSTNAME="workshop-ez-backend-$HOSTGROUP"
 
+  echo "Checking if $HOSTNAME already exists"
   if [ "$(does_vm_exist)" == "true" ]; then
     echo "Skipping, host $HOSTNAME exists"
   else
@@ -262,7 +266,7 @@ provision_eztravel_backend_vm()
 #*********************************
 echo "*** Provisioning $NUM_HOSTS hosts of type $HOST_TYPE ***"
 create_resource_group
-HOST_CTR=2
+HOST_CTR=1
 while [ $HOST_CTR -le $NUM_HOSTS ]
 do
 
