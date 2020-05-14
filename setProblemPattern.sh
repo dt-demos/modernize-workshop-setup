@@ -16,10 +16,10 @@ fi
 MY_IP=$(curl -s http://checkip.amazonaws.com/)
 
 echo "*** Setting $PROBLEM_PATTERN on $MY_IP to $ENABLED ***"
-STATUS_CODE=$(curl --write-out %{http_code} --silent --output /dev/null http://$MY_IP:8091/services/ConfigurationService/setPluginEnabled?name=$PROBLEM_PATTERN&enabled=$ENABLED)
-
-if [[ "$STATUS_CODE" -ne 200 ]] ; then
+STATUS_CODE=$(curl --write-out %{http_code} --silent --output /dev/null "http://$MY_IP:8091/services/ConfigurationService/setPluginEnabled?name=$PROBLEM_PATTERN&enabled=$ENABLED")
+if [[ "$STATUS_CODE" -ne 202 ]] ; then
   echo "ERROR: Received STATUS_CODE = $STATUS_CODE"
+  exit 1
 else
-  exit 0
+  echo "Done. Value set."
 fi
