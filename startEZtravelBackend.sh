@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if ! [ $(id -u) = 0 ]; then
+   echo "ERROR: script must be run as root or with sudo"
+   exit 1
+fi
+
 if [ "$(docker ps -a -q)" != "" ]; then
   echo "*** Stopping and removing EZ Travel Backend and Mongo Docker containers ***"
   docker stop $(docker ps -a -q)
@@ -10,6 +15,7 @@ echo "*** Starting Mongo Docker container ***"
 
 docker run -d --name mongodb \
     -p 27017:27017 -p 28018:28018 \
+    -e DT_CUSTOM_PROP="container=mongo app=eztravel" \
     dynatrace/easytravel-mongodb
 
 echo "*** Starting Backend Docker container ***"
@@ -19,6 +25,7 @@ PRIVATE_IP=`hostname -i | awk '{ print $1'}`
 docker run -p 8091:8080 -d --name backend \
     -e CATALINA_OPTS="-Dconfig.apmServerDefault=${ET_APM_SERVER_DEFAULT} -Xmx300m" \
     -e ET_DATABASE_LOCATION="$PRIVATE_IP:27017" \
+    -e DT_CUSTOM_PROP="container=backend app=eztravel" \
     dynatrace/easytravel-backend
 
 echo "*** Running containers ***"
