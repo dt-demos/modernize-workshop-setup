@@ -3,4 +3,4 @@
 PROBLEM_PATTERN=SlowApacheWebserver
 ENABLED=$1
 
-./setProblem.sh $PROBLEM_PATTERN $ENABLED
+./setProblemPattern.sh $PROBLEM_PATTERN $ENABLED
