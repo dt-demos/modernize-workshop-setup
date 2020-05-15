@@ -5,6 +5,7 @@ echo "=========================================="
 echo "Provisioning Azure workshop resources"
 echo "Starting: $(date)"
 echo "=========================================="
+./loadConfig.sh
 ./createHosts.sh ez
 ./createHosts.sh ez-backend 1 yes
 ./createHosts.sh win 3 yes

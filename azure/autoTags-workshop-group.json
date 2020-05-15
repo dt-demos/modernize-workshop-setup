@@ -1,0 +1,36 @@
+{
+    "name": "workshop-group",
+    "rules": [
+      {
+        "type": "SERVICE",
+        "enabled": true,
+        "valueFormat": "{HostGroup:Name}",
+        "propagationTypes": [],
+        "conditions": [
+          {
+            "key": {
+              "attribute": "SERVICE_TYPE"
+            },
+            "comparisonInfo": {
+              "type": "SERVICE_TYPE",
+              "operator": "EQUALS",
+              "value": "WEB_SERVICE",
+              "negate": false
+            }
+          },
+          {
+            "key": {
+              "attribute": "HOST_GROUP_NAME"
+            },
+            "comparisonInfo": {
+              "type": "STRING",
+              "operator": "EXISTS",
+              "value": null,
+              "negate": false,
+              "caseSensitive": null
+            }
+          }
+        ]
+      }
+    ]
+  }
