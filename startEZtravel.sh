@@ -2,12 +2,13 @@
 
 LOGFILE='/tmp/EZtravel.log'
 UNIX_USER_HOME_PATH=/home/workshop
+START_TIME="$(date)"
 
 echo "*** Calling Stop EasyTravel ***"
 sudo $UNIX_USER_HOME_PATH/modernize-workshop-setup/stopEZtravel.sh
 
 printf "\n\n***** Init Log ***\n" > $LOGFILE 2>&1
-{ date ; apt update 2>/dev/null; whoami ; } >> $LOGFILE ; chmod 777 $LOGFILE
+{ date ; apt update 2>/dev/null; whoami ; } >> $LOGFILE ; sudo chmod 777 $LOGFILE
 
 printf "\n\n***** Deleting /tmp/weblauncher.log ***\n" remove log >> $LOGFILE 2>&1
 sudo rm -f /tmp/weblauncher.log
@@ -34,6 +35,10 @@ while IFS= read -r LOGLINE || [[ -n "$LOGLINE" ]]; do
     printf '%s\n' "$LOGLINE"
     [[ "${LOGLINE}" == *"easyTravel procedures started successfully"* ]] && echo "easyTravel READY" && break
 done < <(timeout 100 tail -f /tmp/weblauncher.log)
+
+END_TIME="$(date)"
+echo ""
+echo "START_TIME: $START_TIME     END_TIME: $END_TIME"
 
 echo ""
 echo "View weblauncher log again with: tail -f /tmp/weblauncher.log"
