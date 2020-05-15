@@ -264,6 +264,8 @@ provision_eztravel_backend_vm()
 }
 
 #*********************************
+echo ""
+echo ""
 echo "*** Provisioning $NUM_HOSTS hosts of type $HOST_TYPE ***"
 create_resource_group
 HOST_CTR=1
