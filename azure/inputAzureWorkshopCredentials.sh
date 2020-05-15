@@ -22,14 +22,14 @@ echo "==================================================================="
 echo -e "${YLW}Please enter your Dynatrace credentials as requested below: ${NC}"
 echo "Press <enter> to keep the current value"
 echo "==================================================================="
-echo    "Dynatrace Base URL     (ex. https://ABC.live.dynatrace.com) "
-read -p "                       (current: $DT_BASEURL) : " DT_BASEURL_NEW
-read -p "Dynatrace Environment  (current: $DT_ENVIRONMENT_ID) : " DT_ENVIRONMENT_ID_NEW
-read -p "Dynatrace PaaS Token   (current: $DT_PAAS_TOKEN) : " DT_PAAS_TOKEN_NEW
-read -p "Dynatrace API Token    (current: $DT_API_TOKEN) : " DT_API_TOKEN_NEW
-#read -p "Azure Resource Group   (current: $AZURE_RESOURCE_GROUP) : " AZURE_RESOURCE_GROUP_NEW
-read -p "Azure Subscription     (current: $AZURE_SUBSCRIPTION) : " AZURE_SUBSCRIPTION_NEW
-#read -p "Azure Location         (current: $AZURE_LOCATION) : " AZURE_LOCATION_NEW
+echo    "Dynatrace Base URL       (ex. https://ABC.live.dynatrace.com) "
+read -p "                         (current: $DT_BASEURL) : " DT_BASEURL_NEW
+read -p "Dynatrace Environment ID (current: $DT_ENVIRONMENT_ID) : " DT_ENVIRONMENT_ID_NEW
+read -p "Dynatrace PaaS Token     (current: $DT_PAAS_TOKEN) : " DT_PAAS_TOKEN_NEW
+read -p "Dynatrace API Token      (current: $DT_API_TOKEN) : " DT_API_TOKEN_NEW
+#read -p "Azure Resource Group     (current: $AZURE_RESOURCE_GROUP) : " AZURE_RESOURCE_GROUP_NEW
+read -p "Azure Subscription ID    (current: $AZURE_SUBSCRIPTION) : " AZURE_SUBSCRIPTION_NEW
+#read -p "Azure Location           (current: $AZURE_LOCATION) : " AZURE_LOCATION_NEW
 echo "==================================================================="
 echo ""
 
@@ -44,13 +44,13 @@ AZURE_LOCATION=${AZURE_LOCATION_NEW:-$AZURE_LOCATION}
 
 echo -e "Please confirm all are correct:"
 echo ""
-echo "Dynatrace Base URL     : $DT_BASEURL"
-echo "Dynatrace Environment  : $DT_ENVIRONMENT_ID"
-echo "Dynatrace PaaS Token   : $DT_PAAS_TOKEN"
-echo "Dynatrace API Token    : $DT_API_TOKEN"
-echo "Azure Subscription     : $AZURE_SUBSCRIPTION"
-#echo "Azure Resource Group   : $AZURE_RESOURCE_GROUP"
-#echo "Azure Location         : $AZURE_LOCATION"
+echo "Dynatrace Base URL       : $DT_BASEURL"
+echo "Dynatrace Environment ID : $DT_ENVIRONMENT_ID"
+echo "Dynatrace PaaS Token     : $DT_PAAS_TOKEN"
+echo "Dynatrace API Token      : $DT_API_TOKEN"
+echo "Azure Subscription ID    : $AZURE_SUBSCRIPTION"
+#echo "Azure Resource Group     : $AZURE_RESOURCE_GROUP"
+#echo "Azure Location           : $AZURE_LOCATION"
 echo "==================================================================="
 read -p "Is this all correct? (y/n) : " -n 1 -r
 echo ""
