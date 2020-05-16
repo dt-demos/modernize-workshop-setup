@@ -15,6 +15,7 @@ then
     AZURE_RESOURCE_GROUP=$(cat creds.json | jq -r '.AZURE_RESOURCE_GROUP')
     AZURE_SUBSCRIPTION=$(cat creds.json | jq -r '.AZURE_SUBSCRIPTION')
     AZURE_LOCATION=$(cat creds.json | jq -r '.AZURE_LOCATION')
+    RESOURCE_PREFIX=$(cat creds.json | jq -r '.RESOURCE_PREFIX')
 fi
 
 clear
@@ -22,6 +23,7 @@ echo "==================================================================="
 echo -e "${YLW}Please enter your Dynatrace credentials as requested below: ${NC}"
 echo "Press <enter> to keep the current value"
 echo "==================================================================="
+read -p "Your last name           (current: $RESOURCE_PREFIX) : " RESOURCE_PREFIX_NEW
 echo    "Dynatrace Base URL       (ex. https://ABC.live.dynatrace.com) "
 read -p "                         (current: $DT_BASEURL) : " DT_BASEURL_NEW
 read -p "Dynatrace Environment ID (current: $DT_ENVIRONMENT_ID) : " DT_ENVIRONMENT_ID_NEW
@@ -34,6 +36,7 @@ echo "==================================================================="
 echo ""
 
 # set value to new input or default to current value
+RESOURCE_PREFIX=${RESOURCE_PREFIX_NEW:-$RESOURCE_PREFIX}
 DT_BASEURL=${DT_BASEURL_NEW:-$DT_BASEURL}
 DT_API_TOKEN=${DT_API_TOKEN_NEW:-$DT_API_TOKEN}
 DT_PAAS_TOKEN=${DT_PAAS_TOKEN_NEW:-$DT_PAAS_TOKEN}
@@ -41,16 +44,19 @@ DT_ENVIRONMENT_ID=${DT_ENVIRONMENT_ID_NEW:-$DT_ENVIRONMENT_ID}
 AZURE_RESOURCE_GROUP=${AZURE_RESOURCE_GROUP_NEW:-$AZURE_RESOURCE_GROUP}
 AZURE_SUBSCRIPTION=${AZURE_SUBSCRIPTION_NEW:-$AZURE_SUBSCRIPTION}
 AZURE_LOCATION=${AZURE_LOCATION_NEW:-$AZURE_LOCATION}
+# append a prefix to resource group
+AZURE_RESOURCE_GROUP="$RESOURCE_PREFIX-$AZURE_RESOURCE_GROUP"
 
 echo -e "Please confirm all are correct:"
 echo ""
+echo "Your last name           : $RESOURCE_PREFIX"
 echo "Dynatrace Base URL       : $DT_BASEURL"
 echo "Dynatrace Environment ID : $DT_ENVIRONMENT_ID"
 echo "Dynatrace PaaS Token     : $DT_PAAS_TOKEN"
 echo "Dynatrace API Token      : $DT_API_TOKEN"
 echo "Azure Subscription ID    : $AZURE_SUBSCRIPTION"
-#echo "Azure Resource Group     : $AZURE_RESOURCE_GROUP"
-#echo "Azure Location           : $AZURE_LOCATION"
+echo "Azure Resource Group     : $AZURE_RESOURCE_GROUP"
+echo "Azure Location           : $AZURE_LOCATION"
 echo "==================================================================="
 read -p "Is this all correct? (y/n) : " -n 1 -r
 echo ""
@@ -62,6 +68,7 @@ then
     rm $CREDS_FILE 2> /dev/null
 
     cat $CREDS_TEMPLATE_FILE | \
+      sed 's~RESOURCE_PREFIX_PLACEHOLDER~'"$RESOURCE_PREFIX"'~' | \
       sed 's~AZURE_RESOURCE_GROUP_PLACEHOLDER~'"$AZURE_RESOURCE_GROUP"'~' | \
       sed 's~AZURE_SUBSCRIPTION_PLACEHOLDER~'"$AZURE_SUBSCRIPTION"'~' | \
       sed 's~AZURE_LOCATION_PLACEHOLDER~'"$AZURE_LOCATION"'~' | \
