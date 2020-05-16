@@ -1,36 +1,51 @@
 {
-    "name": "workshop-group",
-    "rules": [
-      {
-        "type": "SERVICE",
-        "enabled": true,
-        "valueFormat": "{HostGroup:Name}",
-        "propagationTypes": [],
-        "conditions": [
-          {
-            "key": {
-              "attribute": "SERVICE_TYPE"
-            },
-            "comparisonInfo": {
-              "type": "SERVICE_TYPE",
-              "operator": "EQUALS",
-              "value": "WEB_SERVICE",
-              "negate": false
-            }
+  "name": "workshop-group",
+  "rules": [
+    {
+      "type": "SERVICE",
+      "enabled": true,
+      "valueFormat": "ez-travel",
+      "propagationTypes": [
+        "SERVICE_TO_HOST_LIKE",
+        "SERVICE_TO_PROCESS_GROUP_LIKE"
+      ],
+      "conditions": [
+        {
+          "key": {
+            "attribute": "HOST_NAME"
           },
-          {
-            "key": {
-              "attribute": "HOST_GROUP_NAME"
-            },
-            "comparisonInfo": {
-              "type": "STRING",
-              "operator": "EXISTS",
-              "value": null,
-              "negate": false,
-              "caseSensitive": null
-            }
+          "comparisonInfo": {
+            "type": "STRING",
+            "operator": "CONTAINS",
+            "value": "workshop-ez-1",
+            "negate": false,
+            "caseSensitive": true
           }
-        ]
-      }
-    ]
-  }
+        }
+      ]
+    },
+    {
+      "type": "SERVICE",
+      "enabled": true,
+      "valueFormat": "workshop-ez-backend",
+      "propagationTypes": [
+        "SERVICE_TO_HOST_LIKE",
+        "SERVICE_TO_PROCESS_GROUP_LIKE"
+      ],
+      "conditions": [
+        {
+          "key": {
+            "attribute": "HOST_NAME"
+          },
+          "comparisonInfo": {
+            "type": "STRING",
+            "operator": "CONTAINS",
+            "value": "workshop-ez-backend-1",
+            "negate": false,
+            "caseSensitive": true
+          }
+        }
+      ]
+    }
+  ]
+}
