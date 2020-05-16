@@ -96,7 +96,7 @@ provision_linux_vm()
       --name "$HOSTNAME" \
       --resource-group "$AZURE_RESOURCE_GROUP" \
       --image "UbuntuLTS" \
-      --tags Owner=azure-workshop \
+      --tags Owner=azure-modernize-workshop \
       --subscription "$AZURE_SUBSCRIPTION" \
       --location "$AZURE_LOCATION" \
       --custom-data cloud-init.txt \
@@ -133,7 +133,7 @@ provision_win_vm()
       --name "$HOSTNAME" \
       --resource-group "$AZURE_RESOURCE_GROUP" \
       --image "$IMAGE" \
-      --tags Owner=azure-workshop \
+      --tags Owner=azure-modernize-workshop \
       --size Standard_B1ms \
       --image win2016datacenter \
       --subscription "$AZURE_SUBSCRIPTION" \
@@ -171,7 +171,7 @@ provision_eztravel_vm()
       --name "$HOSTNAME" \
       --resource-group "$AZURE_RESOURCE_GROUP" \
       --image UbuntuLTS \
-      --tags Owner=azure-workshop \
+      --tags Owner=azure-modernize-workshop \
       --subscription "$AZURE_SUBSCRIPTION" \
       --location "$AZURE_LOCATION" \
       --custom-data cloud-init-ez.txt \
@@ -231,7 +231,7 @@ provision_eztravel_backend_vm()
       --name "$HOSTNAME" \
       --resource-group "$AZURE_RESOURCE_GROUP" \
       --image UbuntuLTS \
-      --tags Owner=azure-workshop \
+      --tags Owner=azure-modernize-workshop \
       --subscription "$AZURE_SUBSCRIPTION" \
       --location "$AZURE_LOCATION" \
       --custom-data cloud-init-ez-backend.txt \
@@ -268,6 +268,60 @@ provision_eztravel_backend_vm()
 }
 
 #*********************************
+# cloud-init logs: /var/log/cloud-init.log
+provision_eztravel_docker_vm()
+{
+  HOSTGROUP=$1
+  HOSTNAME="workshop-ez-docker-$HOSTGROUP"
+
+  echo "Checking if $HOSTNAME already exists"
+  if [ "$(does_vm_exist)" == "true" ]; then
+    echo "Skipping, host $HOSTNAME exists"
+  else
+    echo ""
+    echo "Provisioning $HOSTNAME"
+    
+    VM_STATE="$(az vm create \
+      --name "$HOSTNAME" \
+      --resource-group "$AZURE_RESOURCE_GROUP" \
+      --image UbuntuLTS \
+      --tags Owner=azure-modernize-workshop \
+      --subscription "$AZURE_SUBSCRIPTION" \
+      --location "$AZURE_LOCATION" \
+      --custom-data cloud-init-ez-docker.txt \
+      --authentication-type password \
+      --admin-username workshop \
+      --admin-password Workshop123# \
+      --size Standard_D2s_v3 \
+      | jq -r '.powerState')"
+
+    echo "VM State: $VM_STATE"
+    if [ "$VM_STATE" != "VM running" ]; then
+      echo "Aborting due to VM creation error."
+      break
+    else
+      ## TO DO 
+      ## https://docs.microsoft.com/en-us/azure/virtual-machines/linux/nsg-quickstart
+      ## https://docs.microsoft.com/en-us/azure/virtual-machines/linux/create-cli-complete
+      ## az network nsg create
+      ## az network nsg rule create
+      ## az network nic list
+      ## az network nic update
+      
+      echo "Opening Ports"
+      echo "port 8080 - frontend"
+      OPEN_PORT="$(az vm open-port --port 8080 --priority 1020 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
+
+      if [ "$ADD_EZTRAVEL_ONEAGENT" == "yes" ]; then
+        add_oneagent_extension oneAgentLinux eztravel-docker
+      else
+        echo "Skipping OneAgent install"
+      fi
+    fi
+  fi
+}
+
+#*********************************
 echo ""
 echo ""
 echo "*** Provisioning $NUM_HOSTS hosts of type $HOST_TYPE ***"
@@ -292,6 +346,10 @@ do
   ez-backend)
     echo "Provisioning $HOST_TYPE ($HOST_CTR of $NUM_HOSTS): Starting: $(date)"
     provision_eztravel_backend_vm $HOST_CTR
+    ;;
+  ez-docker)
+    echo "Provisioning $HOST_TYPE ($HOST_CTR of $NUM_HOSTS): Starting: $(date)"
+    provision_eztravel_docker_vm $HOST_CTR
     ;;
   *) 
     echo "Invalid HOST_TYPE option. Valid values are 'linux','win','ez','ez-backend'"
