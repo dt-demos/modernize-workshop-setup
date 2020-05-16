@@ -45,7 +45,11 @@ AZURE_RESOURCE_GROUP=${AZURE_RESOURCE_GROUP_NEW:-$AZURE_RESOURCE_GROUP}
 AZURE_SUBSCRIPTION=${AZURE_SUBSCRIPTION_NEW:-$AZURE_SUBSCRIPTION}
 AZURE_LOCATION=${AZURE_LOCATION_NEW:-$AZURE_LOCATION}
 # append a prefix to resource group
-AZURE_RESOURCE_GROUP="$RESOURCE_PREFIX-$AZURE_RESOURCE_GROUP"
+AZURE_RESOURCE_GROUP="$RESOURCE_PREFIX-azure-modernize-workshop"
+#remove trailing / if the have it
+if [ "${DT_BASEURL: -1}" == "/" ]; then
+  echo "removing / from DT_BASEURL"
+fi
 
 echo -e "Please confirm all are correct:"
 echo ""
