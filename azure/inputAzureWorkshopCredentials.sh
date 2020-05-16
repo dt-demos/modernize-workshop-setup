@@ -49,6 +49,7 @@ AZURE_RESOURCE_GROUP="$RESOURCE_PREFIX-azure-modernize-workshop"
 #remove trailing / if the have it
 if [ "${DT_BASEURL: -1}" == "/" ]; then
   echo "removing / from DT_BASEURL"
+  DT_BASEURL="$(echo ${DT_BASEURL%?})"
 fi
 
 echo -e "Please confirm all are correct:"
