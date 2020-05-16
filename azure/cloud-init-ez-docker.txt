@@ -12,4 +12,4 @@ runcmd:
   - git clone https://github.com/dt-demos/modernize-workshop-setup.git /home/workshop/modernize-workshop-setup
   - sudo chown workshop:workshop -R /home/workshop
   - sudo usermod -a -G sudo workshop
-  - sudo docker-compose -f /home/workshop/docker-compose.yml up -d
+  - sudo docker-compose -f /home/workshop/modernize-workshop-setup/docker-compose.yml up -d
