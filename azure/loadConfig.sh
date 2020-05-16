@@ -97,6 +97,7 @@ echo ""
 echo "*** Setting up Dynatrace config for $DT_BASEURL ***"
 echo
 #get autoTags workshop-group
+#get "service/customServices/java" CheckDestination
 add autoTags workshop-group autoTags-workshop-group.json
 
 echo ""
