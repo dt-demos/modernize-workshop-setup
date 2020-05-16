@@ -3,7 +3,12 @@
 #*********************************
 NUM_HOSTS=1
 USERDATA_FILE=user_data.tmp
+
 CREDS_FILE=creds.json
+if ! [ -f "$CREDS_FILE" ]; then
+  echo "ERROR: missing $CREDS_FILE"
+  exit 1
+fi
 
 EZ_TRAVEL_AMI=$(cat $CREDS_FILE | jq -r '.EZ_TRAVEL_AMI')
 AWS_PROFILE=$(cat $CREDS_FILE | jq -r '.AWS_PROFILE')

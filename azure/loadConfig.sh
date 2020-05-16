@@ -1,7 +1,13 @@
 #!/bin/bash
 
-export DT_BASEURL=$(cat creds.json | jq -r '.DT_BASEURL')
-export DT_API_TOKEN=$(cat creds.json | jq -r '.DT_API_TOKEN')
+CREDS_FILE=creds.json
+if ! [ -f "$CREDS_FILE" ]; then
+  echo "ERROR: missing $CREDS_FILE"
+  exit 1
+fi
+
+export DT_BASEURL=$(cat $CREDS_FILE | jq -r '.DT_BASEURL')
+export DT_API_TOKEN=$(cat $CREDS_FILE | jq -r '.DT_API_TOKEN')
 
 # generic add function
 add() {

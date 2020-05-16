@@ -14,11 +14,15 @@ ADD_EZTRAVEL_ONEAGENT=$3   # only for eztravel, pass in 'yes' if want agent adde
 # Example: 5 linux host                             :  ./deployHosts.sh linux 5
 # Example: 5 windows hosts                          :  ./deployHosts.sh win 5
 
+CREDS_FILE=creds.json
+if ! [ -f "$CREDS_FILE" ]; then
+  echo "ERROR: missing $CREDS_FILE"
+  exit 1
+fi
+
 if [ -z $2 ]; then
   NUM_HOSTS=1
 fi
-
-CREDS_FILE=creds.json
 
 AZURE_RESOURCE_GROUP=$(cat $CREDS_FILE | jq -r '.AZURE_RESOURCE_GROUP')
 AZURE_SUBSCRIPTION=$(cat $CREDS_FILE | jq -r '.AZURE_SUBSCRIPTION')
