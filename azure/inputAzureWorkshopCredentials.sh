@@ -61,7 +61,7 @@ echo "Dynatrace PaaS Token     : $DT_PAAS_TOKEN"
 echo "Dynatrace API Token      : $DT_API_TOKEN"
 echo "Azure Subscription ID    : $AZURE_SUBSCRIPTION"
 echo "Azure Resource Group     : $AZURE_RESOURCE_GROUP"
-echo "Azure Location           : $AZURE_LOCATION"
+#echo "Azure Location           : $AZURE_LOCATION"
 echo "==================================================================="
 read -p "Is this all correct? (y/n) : " -n 1 -r
 echo ""
