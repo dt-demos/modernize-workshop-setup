@@ -44,22 +44,22 @@ echo "*** Add NGINX ReverseProxy for AngularShop ***"
 printf "\n\n***** Configuring reverse proxy***\n" >> $LOGFILE 2>&1 
 export PUBLIC_IP=`hostname -i | awk '{ print $1'}`
 mkdir -p $UNIX_USER_HOME_PATH/nginx
-echo "upstream angular {
-  server	$PUBLIC_IP:9080;
-} 
+echo "upstream classic {
+  server        10.0.0.4:8079;
+}
 server {
-  listen		0.0.0.0:80;
-  server_name	localhost;
+  listen                0.0.0.0:80;
+  server_name   localhost;
   location / {
-    proxy_pass	http://angular;
+    proxy_pass  http://classic;
     }
-}" > $UNIX_USER_HOME_PATH/nginx/angular.conf
+}" > $UNIX_USER_HOME_PATH/nginx/classic.conf
 
-echo "*** Install  default-jre ***"
+echo "*** Install default-jre ***"
 printf "\n\n***** JavaRuntime  install ***\n" >> $LOGFILE 2>&1 
 apt install -y openjdk-8-jre-headless >> $LOGFILE 2>&1
 
-echo "*** Download EasyTravel Angular ***"
+echo "*** Download EasyTravel ***"
 printf "\n\n***** Download, install and configure EasyTravel ***\n" >> $LOGFILE 2>&1 
 { cd $UNIX_USER_HOME_PATH ;\
  wget -nv -O dynatrace-easytravel-linux-x86_64.jar http://dexya6d9gs5s.cloudfront.net/latest/dynatrace-easytravel-linux-x86_64.jar ;\

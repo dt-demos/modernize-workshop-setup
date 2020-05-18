@@ -34,11 +34,21 @@ addConfig() {
   echo "==================================================================================="
   echo "Checking if $CONFIG_API_NAME $CONFIG_NAME exists"
 
-  DT_ID=$(curl -s -X GET \
+  if [ "$CONFIG_API_NAME" == "dashboards" ]; then
+    # list stored in an array called dashboards[]
+    DT_ID=$(curl -s -X GET \
+      "$DT_BASEURL/api/config/v1/$CONFIG_API_NAME?Api-Token=$DT_API_TOKEN" \
+      -H 'Content-Type: application/json' \
+      -H 'cache-control: no-cache' \
+      | jq -r '.dashboards[] | select(.name == "'${CONFIG_NAME}'") | .id')
+  else
+     # list stored in an array called values[]
+    DT_ID=$(curl -s -X GET \
     "$DT_BASEURL/api/config/v1/$CONFIG_API_NAME?Api-Token=$DT_API_TOKEN" \
     -H 'Content-Type: application/json' \
     -H 'cache-control: no-cache' \
     | jq -r '.values[] | select(.name == "'${CONFIG_NAME}'") | .id')
+  fi
 
   # if exists, then delete it
   if [ "$DT_ID" != "" ]
@@ -68,18 +78,25 @@ addConfig() {
     echo "Waiting 30 seconds to ensure $CONFIG_NAME exists"
     sleep 30
     echo "Adding applicationDetectionRules for $CONFIG_NAME (ID=$DT_ID)"
-    addApplicationRule $DT_ID app1-rule1.json
-    addApplicationRule $DT_ID app1-rule2.json
-    addApplicationRule $DT_ID app1-rule3.json
-    addApplicationRule $DT_ID app1-rule4.json
+    addApplicationRule $DT_ID app-rule1-EasyTravelAngular.json
+    addApplicationRule $DT_ID app-rule2-EasyTravelAngular.json
+    addApplicationRule $DT_ID app-rule3-EasyTravelAngular.json
+    addApplicationRule $DT_ID app-rule4-EasyTravelAngular.json
     echo ""
   fi
   if [ "$CONFIG_NAME" == "EasyTravelOrange" ]; then
     echo "Waiting 30 seconds to ensure $CONFIG_NAME exists"
     sleep 30
     echo "Adding applicationDetectionRules for $CONFIG_NAME (ID=$ID)"
-    addApplicationRule $DT_ID app2-rule1.json
-    addApplicationRule $DT_ID app2-rule2.json
+    addApplicationRule $DT_ID app-rule1-EasyTravelOrange.json
+    addApplicationRule $DT_ID app-rule2-EasyTravelOrange.json
+    echo ""
+  fi
+  if [ "$CONFIG_NAME" == "EasyTravelOrangeDocker" ]; then
+    echo "Waiting 30 seconds to ensure $CONFIG_NAME exists"
+    sleep 30
+    echo "Adding applicationDetectionRules for $CONFIG_NAME (ID=$ID)"
+    addApplicationRule $DT_ID app-rule1-EasyTravelOrangeDocker.json
     echo ""
   fi
 }
@@ -132,9 +149,18 @@ addApplicationRule() {
     -d @./dynatrace/gen/$CONFIG_FILE
 }
 
-# load application get ID then use that ID in the appRule files
-# docker - webrequest contains easytravel
-# nondocker - webrequet contains cloudapp
+setServiceAnomalyDetection() {
+  CONFIG_FILE=$1
+
+  echo "==================================================================================="
+  echo "Setting ServiceAnomalyDetection"
+
+  curl -L -X PUT \
+    "$DT_BASEURL/api/config/v1/anomalyDetection/services?Api-Token=$DT_API_TOKEN" \
+    -H 'Content-Type: application/json' \
+    -H 'cache-control: no-cache' \
+    -d @$CONFIG_FILE
+}
 
 setFrequentIssueDetectionOff() {
   ENABLED=$1
@@ -160,8 +186,7 @@ setFrequentIssueDetectionOff() {
 # autoTags
 # alertingProfiles
 #---
-#getConfig autoTags workshop-group
-#getConfig "service/customServices/java" CheckDestination
+#addConfig "applications/web" EasyTravelAngular ./dynatrace/application-1.json
 ########################################
 
 echo ""
@@ -170,12 +195,19 @@ echo
 
 setFrequentIssueDetectionOff
 
+setServiceAnomalyDetection ./dynatrace/service-anomalydetection.json
+
+addConfig "service/customServices/java" CheckDestination ./dynatrace/customService-CheckDestination.json
+
+addConfig managementZones ez-travel ./dynatrace/mz-eztravel.json
+addConfig managementZones ez-travel-docker ./dynatrace/mz-eztravel-docker.json
+
+addConfig dashboards modernize-workshop ./dynatrace/dashboard-workshop.json
+
 addConfig autoTags workshop-group ./dynatrace/autoTags-workshop-group.json
 
-addConfig "applications/web" EasyTravelAngular ./dynatrace/application-1.json
-addConfig "applications/web" EasyTravelOrange ./dynatrace/application-2.json
-
-#addConfig dashboards EasyTravel ./dynatrace/db.json
+addConfig "applications/web" EasyTravelOrange ./dynatrace/app-EasyTravelOrange.json
+addConfig "applications/web" EasyTravelOrangeDocker ./dynatrace/app-EasyTravelOrangeDocker.json
 
 echo ""
 echo "*** Done Setting up Dynatrace config ***"

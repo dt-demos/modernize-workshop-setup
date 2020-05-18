@@ -202,13 +202,14 @@ provision_eztravel_vm()
 
       echo "Opening Ports"
       # Legacy 8080,8079 / Angular 9080 and 80 / WebLauncher (Admin UI) 8094 / REST 8091 / ??? 1697
-      #OPEN_PORT="$(az vm open-port --port 80   --priority 1010 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
-      OPEN_PORT="$(az vm open-port --port 8080 --priority 1020 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
+      # using the proxy Legacy is on port 80
+      OPEN_PORT="$(az vm open-port --port 80   --priority 1010 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
+      #OPEN_PORT="$(az vm open-port --port 8080 --priority 1020 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
       OPEN_PORT="$(az vm open-port --port 8094 --priority 1030 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
       OPEN_PORT="$(az vm open-port --port 8091 --priority 1040 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
-      OPEN_PORT="$(az vm open-port --port 8079 --priority 1050 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
+      #OPEN_PORT="$(az vm open-port --port 8079 --priority 1050 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
       #OPEN_PORT="$(az vm open-port --port 9080 --priority 1060 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
-      OPEN_PORT="$(az vm open-port --port 1697 --priority 1070 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
+      #OPEN_PORT="$(az vm open-port --port 1697 --priority 1070 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
 
       if [ "$ADD_EZTRAVEL_ONEAGENT" == "yes" ]; then
         add_oneagent_extension oneAgentLinux eztravel

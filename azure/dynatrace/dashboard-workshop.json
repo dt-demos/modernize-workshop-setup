@@ -1,0 +1,523 @@
+{
+  "dashboardMetadata": {
+    "name": "modernize-workshop",
+    "shared": false,
+    "sharingDetails": {
+      "linkShared": true,
+      "published": false
+    },
+    "dashboardFilter": {
+      "timeframe": "",
+      "managementZone": null
+    }
+  },
+  "tiles": [
+    {
+      "name": "Custom chart",
+      "tileType": "CUSTOM_CHARTING",
+      "configured": true,
+      "bounds": {
+        "top": 874,
+        "left": 38,
+        "width": 570,
+        "height": 266
+      },
+      "tileFilter": {
+        "timeframe": null,
+        "managementZone": null
+      },
+      "filterConfig": {
+        "type": "MIXED",
+        "customName": "System load",
+        "defaultName": "Custom chart",
+        "chartConfig": {
+          "legendShown": true,
+          "type": "TIMESERIES",
+          "series": [
+            {
+              "metric": "builtin:host.cpu.load",
+              "aggregation": "AVG",
+              "percentile": null,
+              "type": "LINE",
+              "entityType": "HOST",
+              "dimensions": [
+                {
+                  "id": "0",
+                  "name": "dt.entity.host",
+                  "values": [],
+                  "entityDimension": true
+                }
+              ],
+              "sortAscending": false,
+              "sortColumn": true,
+              "aggregationRate": "TOTAL"
+            }
+          ],
+          "resultMetadata": {}
+        },
+        "filtersPerEntityType": {
+          "HOST": {
+            "AUTO_TAGS": [
+              "workshop-group:ez-travel"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "Custom chart",
+      "tileType": "CUSTOM_CHARTING",
+      "configured": true,
+      "bounds": {
+        "top": 1178,
+        "left": 38,
+        "width": 570,
+        "height": 228
+      },
+      "tileFilter": {
+        "timeframe": null,
+        "managementZone": null
+      },
+      "filterConfig": {
+        "type": "MIXED",
+        "customName": "Response time",
+        "defaultName": "Custom chart",
+        "chartConfig": {
+          "legendShown": true,
+          "type": "TIMESERIES",
+          "series": [
+            {
+              "metric": "builtin:service.response.time",
+              "aggregation": "AVG",
+              "percentile": null,
+              "type": "LINE",
+              "entityType": "SERVICE",
+              "dimensions": [
+                {
+                  "id": "0",
+                  "name": "dt.entity.service",
+                  "values": [],
+                  "entityDimension": true
+                }
+              ],
+              "sortAscending": false,
+              "sortColumn": true,
+              "aggregationRate": "TOTAL"
+            }
+          ],
+          "resultMetadata": {}
+        },
+        "filtersPerEntityType": {
+          "SERVICE": {
+            "AUTO_TAGS": [
+              "workshop-group:ez-travel"
+            ],
+            "SERVICE_TYPE": [
+              "2"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "Custom chart",
+      "tileType": "CUSTOM_CHARTING",
+      "configured": true,
+      "bounds": {
+        "top": 1178,
+        "left": 608,
+        "width": 570,
+        "height": 228
+      },
+      "tileFilter": {
+        "timeframe": null,
+        "managementZone": null
+      },
+      "filterConfig": {
+        "type": "MIXED",
+        "customName": "Response time - Docker",
+        "defaultName": "Custom chart",
+        "chartConfig": {
+          "legendShown": true,
+          "type": "TIMESERIES",
+          "series": [
+            {
+              "metric": "builtin:service.response.time",
+              "aggregation": "AVG",
+              "percentile": null,
+              "type": "LINE",
+              "entityType": "SERVICE",
+              "dimensions": [
+                {
+                  "id": "0",
+                  "name": "dt.entity.service",
+                  "values": [],
+                  "entityDimension": true
+                }
+              ],
+              "sortAscending": false,
+              "sortColumn": true,
+              "aggregationRate": "TOTAL"
+            }
+          ],
+          "resultMetadata": {}
+        },
+        "filtersPerEntityType": {
+          "SERVICE": {
+            "AUTO_TAGS": [
+              "workshop-group:ez-travel-docker"
+            ],
+            "SERVICE_TYPE": [
+              "2"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "Custom chart",
+      "tileType": "CUSTOM_CHARTING",
+      "configured": true,
+      "bounds": {
+        "top": 874,
+        "left": 608,
+        "width": 570,
+        "height": 266
+      },
+      "tileFilter": {
+        "timeframe": null,
+        "managementZone": null
+      },
+      "filterConfig": {
+        "type": "MIXED",
+        "customName": "System load - Docker",
+        "defaultName": "Custom chart",
+        "chartConfig": {
+          "legendShown": true,
+          "type": "TIMESERIES",
+          "series": [
+            {
+              "metric": "builtin:host.cpu.load",
+              "aggregation": "AVG",
+              "percentile": null,
+              "type": "LINE",
+              "entityType": "HOST",
+              "dimensions": [
+                {
+                  "id": "0",
+                  "name": "dt.entity.host",
+                  "values": [],
+                  "entityDimension": true
+                }
+              ],
+              "sortAscending": false,
+              "sortColumn": true,
+              "aggregationRate": "TOTAL"
+            }
+          ],
+          "resultMetadata": {}
+        },
+        "filtersPerEntityType": {
+          "HOST": {
+            "AUTO_TAGS": [
+              "workshop-group:ez-travel-docker"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "Custom chart",
+      "tileType": "CUSTOM_CHARTING",
+      "configured": true,
+      "bounds": {
+        "top": 608,
+        "left": 38,
+        "width": 570,
+        "height": 228
+      },
+      "tileFilter": {
+        "timeframe": null,
+        "managementZone": null
+      },
+      "filterConfig": {
+        "type": "MIXED",
+        "customName": "Response time",
+        "defaultName": "Custom chart",
+        "chartConfig": {
+          "legendShown": true,
+          "type": "TOP_LIST",
+          "series": [
+            {
+              "metric": "builtin:service.response.time",
+              "aggregation": "AVG",
+              "percentile": null,
+              "type": "LINE",
+              "entityType": "SERVICE",
+              "dimensions": [
+                {
+                  "id": "0",
+                  "name": "dt.entity.service",
+                  "values": [],
+                  "entityDimension": true
+                }
+              ],
+              "sortAscending": false,
+              "sortColumn": true,
+              "aggregationRate": "TOTAL"
+            }
+          ],
+          "resultMetadata": {}
+        },
+        "filtersPerEntityType": {
+          "SERVICE": {
+            "AUTO_TAGS": [
+              "workshop-group:ez-travel"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "Service health",
+      "tileType": "SERVICES",
+      "configured": true,
+      "bounds": {
+        "top": 38,
+        "left": 38,
+        "width": 228,
+        "height": 228
+      },
+      "tileFilter": {
+        "timeframe": null,
+        "managementZone": null
+      },
+      "filterConfig": null,
+      "chartVisible": true
+    },
+    {
+      "name": "Problems",
+      "tileType": "OPEN_PROBLEMS",
+      "configured": true,
+      "bounds": {
+        "top": 38,
+        "left": 570,
+        "width": 152,
+        "height": 152
+      },
+      "tileFilter": {
+        "timeframe": null,
+        "managementZone": null
+      }
+    },
+    {
+      "name": "Custom chart",
+      "tileType": "CUSTOM_CHARTING",
+      "configured": true,
+      "bounds": {
+        "top": 342,
+        "left": 38,
+        "width": 570,
+        "height": 228
+      },
+      "tileFilter": {
+        "timeframe": null,
+        "managementZone": null
+      },
+      "filterConfig": {
+        "type": "MIXED",
+        "customName": "Request Count",
+        "defaultName": "Custom chart",
+        "chartConfig": {
+          "legendShown": true,
+          "type": "TOP_LIST",
+          "series": [
+            {
+              "metric": "builtin:service.requestCount.total",
+              "aggregation": "NONE",
+              "percentile": null,
+              "type": "LINE",
+              "entityType": "SERVICE",
+              "dimensions": [
+                {
+                  "id": "0",
+                  "name": "dt.entity.service",
+                  "values": [],
+                  "entityDimension": true
+                }
+              ],
+              "sortAscending": false,
+              "sortColumn": true,
+              "aggregationRate": "TOTAL"
+            }
+          ],
+          "resultMetadata": {}
+        },
+        "filtersPerEntityType": {
+          "SERVICE": {
+            "AUTO_TAGS": [
+              "workshop-group:ez-travel"
+            ],
+            "SERVICE_TYPE": [
+              "2"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "EZ TRAVEL",
+      "tileType": "HEADER",
+      "configured": true,
+      "bounds": {
+        "top": 304,
+        "left": 38,
+        "width": 304,
+        "height": 38
+      },
+      "tileFilter": {
+        "timeframe": null,
+        "managementZone": null
+      }
+    },
+    {
+      "name": "EZ TRAVEL DOCKER",
+      "tileType": "HEADER",
+      "configured": true,
+      "bounds": {
+        "top": 304,
+        "left": 608,
+        "width": 304,
+        "height": 38
+      },
+      "tileFilter": {
+        "timeframe": null,
+        "managementZone": null
+      }
+    },
+    {
+      "name": "Custom chart",
+      "tileType": "CUSTOM_CHARTING",
+      "configured": true,
+      "bounds": {
+        "top": 342,
+        "left": 608,
+        "width": 570,
+        "height": 228
+      },
+      "tileFilter": {
+        "timeframe": null,
+        "managementZone": null
+      },
+      "filterConfig": {
+        "type": "MIXED",
+        "customName": "Request Count",
+        "defaultName": "Custom chart",
+        "chartConfig": {
+          "legendShown": true,
+          "type": "TOP_LIST",
+          "series": [
+            {
+              "metric": "builtin:service.requestCount.total",
+              "aggregation": "NONE",
+              "percentile": null,
+              "type": "LINE",
+              "entityType": "SERVICE",
+              "dimensions": [
+                {
+                  "id": "0",
+                  "name": "dt.entity.service",
+                  "values": [],
+                  "entityDimension": true
+                }
+              ],
+              "sortAscending": false,
+              "sortColumn": true,
+              "aggregationRate": "TOTAL"
+            }
+          ],
+          "resultMetadata": {}
+        },
+        "filtersPerEntityType": {
+          "SERVICE": {
+            "AUTO_TAGS": [
+              "workshop-group:ez-travel-docker"
+            ],
+            "SERVICE_TYPE": [
+              "2"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "Custom chart",
+      "tileType": "CUSTOM_CHARTING",
+      "configured": true,
+      "bounds": {
+        "top": 608,
+        "left": 608,
+        "width": 570,
+        "height": 228
+      },
+      "tileFilter": {
+        "timeframe": null,
+        "managementZone": null
+      },
+      "filterConfig": {
+        "type": "MIXED",
+        "customName": "Response time",
+        "defaultName": "Custom chart",
+        "chartConfig": {
+          "legendShown": true,
+          "type": "TOP_LIST",
+          "series": [
+            {
+              "metric": "builtin:service.response.time",
+              "aggregation": "AVG",
+              "percentile": null,
+              "type": "LINE",
+              "entityType": "SERVICE",
+              "dimensions": [
+                {
+                  "id": "0",
+                  "name": "dt.entity.service",
+                  "values": [],
+                  "entityDimension": true
+                }
+              ],
+              "sortAscending": false,
+              "sortColumn": true,
+              "aggregationRate": "TOTAL"
+            }
+          ],
+          "resultMetadata": {}
+        },
+        "filtersPerEntityType": {
+          "SERVICE": {
+            "AUTO_TAGS": [
+              "workshop-group:ez-travel-docker"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "Host health",
+      "tileType": "HOSTS",
+      "configured": true,
+      "bounds": {
+        "top": 38,
+        "left": 304,
+        "width": 228,
+        "height": 228
+      },
+      "tileFilter": {
+        "timeframe": null,
+        "managementZone": null
+      },
+      "filterConfig": null,
+      "chartVisible": true
+    }
+  ]
+}
