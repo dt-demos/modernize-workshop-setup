@@ -320,8 +320,8 @@ provision_eztravel_docker_vm()
       ## az network nic update
       
       echo "Opening Ports"
-      echo "port 8080 - frontend"
-      OPEN_PORT="$(az vm open-port --port 8080 --priority 1010 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
+      echo "port 80 - frontend"
+      OPEN_PORT="$(az vm open-port --port 80 --priority 1010 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
 
       if [ "$ADD_EZTRAVEL_ONEAGENT" == "yes" ]; then
         add_oneagent_extension oneAgentLinux eztravel-docker
