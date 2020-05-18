@@ -5,3 +5,4 @@ creds.json*
 azure/notused/
 *.bak
 notused/
+azure/dynatrace/gen/*.json
