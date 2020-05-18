@@ -27,6 +27,29 @@
     {
       "type": "SERVICE",
       "enabled": true,
+      "valueFormat": "ez-travel-docker",
+      "propagationTypes": [
+        "SERVICE_TO_HOST_LIKE",
+        "SERVICE_TO_PROCESS_GROUP_LIKE"
+      ],
+      "conditions": [
+        {
+          "key": {
+            "attribute": "HOST_NAME"
+          },
+          "comparisonInfo": {
+            "type": "STRING",
+            "operator": "CONTAINS",
+            "value": "workshop-ez-docker-1",
+            "negate": false,
+            "caseSensitive": true
+          }
+        }
+      ]
+    },
+    {
+      "type": "SERVICE",
+      "enabled": true,
       "valueFormat": "workshop-ez-backend",
       "propagationTypes": [
         "SERVICE_TO_HOST_LIKE",
