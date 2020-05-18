@@ -4,3 +4,4 @@ setup.txt
 creds.json*
 azure/notused/
 *.bak
+notused/
