@@ -85,6 +85,23 @@ get() {
   fi
 }
 
+setFrequentIssueDetectionOff() {
+  ENABLED=$1
+
+  echo "==================================================================================="
+  echo "Setting FrequentIssueDetection off"
+
+  curl -L -X PUT \
+    "$DT_BASEURL/api/config/v1/frequentIssueDetection?Api-Token=$DT_API_TOKEN" \
+    -H 'Content-Type: application/json' \
+    -H 'cache-control: no-cache' \
+    --data-raw '{
+        "frequentIssueDetectionApplicationEnabled": false,
+        "frequentIssueDetectionServiceEnabled": false,
+        "frequentIssueDetectionInfrastructureEnabled": false
+    }'
+}
+
 ########################################
 # Example values for CONFIG_API_NAME 
 # managementZones
@@ -98,8 +115,8 @@ echo "*** Setting up Dynatrace config for $DT_BASEURL ***"
 echo
 #get autoTags workshop-group
 #get "service/customServices/java" CheckDestination
-add autoTags workshop-group autoTags-workshop-group.json
-
+#add autoTags workshop-group autoTags-workshop-group.json
+setFrequentIssueDetectionOff
 echo ""
 echo "*** Done Setting up Dynatrace config ***"
 echo ""
