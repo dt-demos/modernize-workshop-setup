@@ -80,6 +80,7 @@ create_resource_group()
 }
 
 #*********************************
+#      --custom-data cloud-init.txt \
 provision_linux_vm()
 {
   HOSTGROUP=$1
@@ -88,6 +89,7 @@ provision_linux_vm()
   echo "Checking if $HOSTNAME already exists"
   if [ "$(does_vm_exist)" == "true" ]; then
     echo "Skipping, host $HOSTNAME exists"
+    echo ""
   else
     echo ""
     echo "Provisioning $HOSTNAME"
@@ -99,7 +101,6 @@ provision_linux_vm()
       --tags Owner=azure-modernize-workshop \
       --subscription "$AZURE_SUBSCRIPTION" \
       --location "$AZURE_LOCATION" \
-      --custom-data cloud-init.txt \
       --authentication-type password \
       --admin-username azureuser \
       --admin-password Azureuser123# \
@@ -125,6 +126,7 @@ provision_win_vm()
   echo "Checking if $HOSTNAME already exists"
   if [ "$(does_vm_exist)" == "true" ]; then
     echo "Skipping, host $HOSTNAME exists"
+    echo ""
   else
     echo ""
     echo "Provisioning $HOSTNAME"
@@ -155,6 +157,9 @@ provision_win_vm()
 
 #*********************************
 # cloud-init logs: /var/log/cloud-init.log
+#   = 
+# Standard_D2s_v3 = 2 vcpus, 8 GiB memory
+# Standard_B1ms   = 1 vcpus, 2 GiB memory
 provision_eztravel_vm()
 {
   HOSTGROUP=$1
@@ -163,6 +168,7 @@ provision_eztravel_vm()
   echo "Checking if $HOSTNAME already exists"
   if [ "$(does_vm_exist)" == "true" ]; then
     echo "Skipping, host $HOSTNAME exists"
+    echo ""
   else
     echo ""
     echo "Provisioning $HOSTNAME"
@@ -178,7 +184,7 @@ provision_eztravel_vm()
       --authentication-type password \
       --admin-username workshop \
       --admin-password Workshop123# \
-      --size Standard_D2s_v3 \
+      --size Standard_E2_v3 \
       | jq -r '.powerState')"
 
     echo "VM State: $VM_STATE"
@@ -200,14 +206,15 @@ provision_eztravel_vm()
       OPEN_PORT="$(az vm open-port --port 8080 --priority 1020 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
       OPEN_PORT="$(az vm open-port --port 8094 --priority 1030 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
       OPEN_PORT="$(az vm open-port --port 8091 --priority 1040 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
-      #OPEN_PORT="$(az vm open-port --port 8079 --priority 1050 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
+      OPEN_PORT="$(az vm open-port --port 8079 --priority 1050 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
       #OPEN_PORT="$(az vm open-port --port 9080 --priority 1060 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
-      #OPEN_PORT="$(az vm open-port --port 1697 --priority 1070 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
+      OPEN_PORT="$(az vm open-port --port 1697 --priority 1070 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
 
       if [ "$ADD_EZTRAVEL_ONEAGENT" == "yes" ]; then
         add_oneagent_extension oneAgentLinux eztravel
       else
         echo "Skipping OneAgent install"
+        echo ""
       fi
     fi
   fi
@@ -223,6 +230,7 @@ provision_eztravel_backend_vm()
   echo "Checking if $HOSTNAME already exists"
   if [ "$(does_vm_exist)" == "true" ]; then
     echo "Skipping, host $HOSTNAME exists"
+    echo ""
   else
     echo ""
     echo "Provisioning $HOSTNAME"
@@ -262,6 +270,7 @@ provision_eztravel_backend_vm()
         add_oneagent_extension oneAgentLinux eztravel-backend
       else
         echo "Skipping OneAgent install"
+        echo ""
       fi
     fi
   fi
@@ -277,6 +286,7 @@ provision_eztravel_docker_vm()
   echo "Checking if $HOSTNAME already exists"
   if [ "$(does_vm_exist)" == "true" ]; then
     echo "Skipping, host $HOSTNAME exists"
+    echo ""
   else
     echo ""
     echo "Provisioning $HOSTNAME"
@@ -292,7 +302,7 @@ provision_eztravel_docker_vm()
       --authentication-type password \
       --admin-username workshop \
       --admin-password Workshop123# \
-      --size Standard_D2s_v3 \
+      --size Standard_E2_v3 \
       | jq -r '.powerState')"
 
     echo "VM State: $VM_STATE"
@@ -316,14 +326,14 @@ provision_eztravel_docker_vm()
         add_oneagent_extension oneAgentLinux eztravel-docker
       else
         echo "Skipping OneAgent install"
+        echo ""
       fi
     fi
   fi
 }
 
 #*********************************
-echo ""
-echo ""
+echo "==================================================================================="
 echo "*** Provisioning $NUM_HOSTS hosts of type $HOST_TYPE ***"
 create_resource_group
 HOST_CTR=1
@@ -362,3 +372,4 @@ do
 done
 
 echo "*** Done. ***"
+echo "==================================================================================="
