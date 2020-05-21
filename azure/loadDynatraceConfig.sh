@@ -66,13 +66,20 @@ addConfig() {
   fi
 
   echo "Adding $CONFIG_API_NAME $CONFIG_NAME"
-  DT_ID=$(curl -s -X POST \
+
+curl -s -X POST \
     "$DT_BASEURL/api/config/v1/$CONFIG_API_NAME?Api-Token=$DT_API_TOKEN" \
     -H 'Content-Type: application/json' \
     -H 'cache-control: no-cache' \
-    -d @$CONFIG_FILE \
-    | jq -r '.id')
-  echo "Created $CONFIG_NAME (ID=$DT_ID)"
+    -d @$CONFIG_FILE
+
+  #DT_ID=$(curl -s -X POST \
+  #  "$DT_BASEURL/api/config/v1/$CONFIG_API_NAME?Api-Token=$DT_API_TOKEN" \
+  #  -H 'Content-Type: application/json' \
+  #  -H 'cache-control: no-cache' \
+  #  -d @$CONFIG_FILE \
+  #  | jq -r '.id')
+  #echo "Created $CONFIG_NAME (ID=$DT_ID)"
 
   if [ "$CONFIG_NAME" == "EasyTravelAngular" ]; then
     echo "Waiting 30 seconds to ensure $CONFIG_NAME exists"
@@ -192,6 +199,10 @@ setFrequentIssueDetectionOff() {
 echo ""
 echo "*** Setting up Dynatrace config for $DT_BASEURL ***"
 echo
+
+# config needed for Azure monitor
+./createAzureMonitorServicePrincipal.sh
+addConfig "azure/credentials" azure-modernize-workshop ./dynatrace/gen/azure-credentials.json
 
 setFrequentIssueDetectionOff
 

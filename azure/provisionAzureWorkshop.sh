@@ -5,9 +5,17 @@ echo "=========================================="
 echo "Provisioning Azure workshop resources"
 echo "Starting: $(date)"
 echo "=========================================="
+
+# workshop config like tags, dashboard, MZ
 ./loadDynatraceConfig.sh
+
+# setup active gate
+./createHosts.sh active-gate
+
+# workshop VMs with easyTravel
 ./createHosts.sh ez 1 yes
 ./createHosts.sh ez-docker 1 yes
+
 #./createHosts.sh win 3 yes
 #./createHosts.sh linux 6 yes
 echo ""

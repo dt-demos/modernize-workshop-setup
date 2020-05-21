@@ -6,3 +6,5 @@ azure/notused/
 *.bak
 notused/
 azure/dynatrace/gen/*.json
+azure-sp.json
+cloud-init-active-gate.txt

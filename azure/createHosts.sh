@@ -30,6 +30,7 @@ AZURE_LOCATION=$(cat $CREDS_FILE | jq -r '.AZURE_LOCATION')
 DT_ENVIRONMENT_ID=$(cat $CREDS_FILE | jq -r '.DT_ENVIRONMENT_ID')
 DT_BASEURL=$(cat $CREDS_FILE | jq -r '.DT_BASEURL')
 DT_PAAS_TOKEN=$(cat $CREDS_FILE | jq -r '.DT_PAAS_TOKEN')
+DT_API_TOKEN=$(cat $CREDS_FILE | jq -r '.DT_API_TOKEN')
 
 #*********************************
 does_vm_exist()
@@ -76,6 +77,54 @@ create_resource_group()
       --subscription "$AZURE_SUBSCRIPTION"
   else
     echo "Using resource group $AZURE_RESOURCE_GROUP"
+  fi
+}
+
+#*********************************
+provision_linux_active_gate()
+{
+  HOSTGROUP=$1
+  HOSTNAME="workshop-active-gate-$HOSTGROUP"
+
+  # make cloud-init with users API and TOKEN info
+  ACTIVATE_GATE_FILE="cloud-init-active-gate.txt"
+
+  echo "#cloud-config" > $ACTIVATE_GATE_FILE
+  echo "runcmd:" >> $ACTIVATE_GATE_FILE
+  echo "  - wget -O /tmp/Dynatrace-ActiveGate-Linux-x86-1.193.130.sh \"$DT_BASEURL/api/v1/deployment/installer/gateway/unix/latest?arch=x86&flavor=default\" --header=\"Authorization:Api-Token $DT_PAAS_TOKEN\"" >> $ACTIVATE_GATE_FILE
+  echo "  - sudo /bin/sh /tmp/Dynatrace-ActiveGate-Linux-x86-1.193.130.sh" >> $ACTIVATE_GATE_FILE
+  echo "" >> $ACTIVATE_GATE_FILE
+
+  echo "Checking if $HOSTNAME already exists"
+  if [ "$(does_vm_exist)" == "true" ]; then
+    echo "Skipping, host $HOSTNAME exists"
+    echo ""
+  else
+    echo ""
+    echo "Provisioning $HOSTNAME"
+
+    VM_STATE="$(az vm create \
+      --name "$HOSTNAME" \
+      --resource-group "$AZURE_RESOURCE_GROUP" \
+      --image "UbuntuLTS" \
+      --custom-data "$ACTIVATE_GATE_FILE" \
+      --tags Owner=azure-modernize-workshop \
+      --subscription "$AZURE_SUBSCRIPTION" \
+      --location "$AZURE_LOCATION" \
+      --authentication-type password \
+      --admin-username azureuser \
+      --admin-password Azureuser123# \
+      --size Standard_B1ms \
+      | jq -r '.powerState')"
+
+    echo "VM State: $VM_STATE"
+    if [ "$VM_STATE" != "VM running" ]; then
+      echo "Aborting due to VM creation error."
+      break
+    else
+      echo ""
+      #add_oneagent_extension oneAgentLinux active-gate
+    fi
   fi
 }
 
@@ -362,8 +411,12 @@ do
     echo "Provisioning $HOST_TYPE ($HOST_CTR of $NUM_HOSTS): Starting: $(date)"
     provision_eztravel_docker_vm $HOST_CTR
     ;;
+  active-gate)
+    echo "Provisioning $HOST_TYPE ($HOST_CTR of $NUM_HOSTS): Starting: $(date)"
+    provision_linux_active_gate $HOST_CTR
+    ;;
   *) 
-    echo "Invalid HOST_TYPE option. Valid values are 'linux','win','ez','ez-backend'"
+    echo "Invalid HOST_TYPE option. Valid values are 'linux','win','ez','ez-backend','active-gate'"
     break
     ;;
   esac
