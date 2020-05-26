@@ -2,6 +2,7 @@
 
 PROBLEM_PATTERN=$1
 ENABLED=$2
+HOSTNAME=workshop-ez-1
 
 if [ -z $ENABLED ]; then
   ENABLED=true
@@ -17,9 +18,9 @@ if [ -z "$PROBLEM_PATTERN" ]; then
    exit 1
 fi
 
-MY_IP=$(curl -s http://checkip.amazonaws.com/)
+MY_IP=$(az vm list --query "[?name=='$HOSTNAME'].publicIps" -d -o tsv)
 
-echo "*** Setting $PROBLEM_PATTERN on $MY_IP ***"
+echo "*** Setting $PROBLEM_PATTERN on $HOSTNAME ($MY_IP) ***"
 STATUS_CODE=$(curl --write-out %{http_code} --silent --output /dev/null "http://$MY_IP:8091/services/ConfigurationService/setPluginEnabled?name=$PROBLEM_PATTERN&enabled=$ENABLED")
 if [[ "$STATUS_CODE" -ne 202 ]] ; then
   echo "ERROR: Received STATUS_CODE = $STATUS_CODE"
