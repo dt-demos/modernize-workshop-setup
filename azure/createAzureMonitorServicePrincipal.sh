@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source ./dynatraceConfig.lib
+
 echo ""
 echo "=========================================="
 echo "Adding Azure monitor for Dynatrace"
@@ -43,6 +45,10 @@ cat ./dynatrace/$CONFIG_FILE | \
     sed 's~appId.*~'appId"\": \"$SP_APP_ID"\",'~' | \
     sed 's~directoryId.*~'directoryId"\": \"$SP_TENTANT"\",'~' | \
     sed 's~key.*~'key"\": \"$SP_PASSWORD"\",'~' > ./dynatrace/gen/$CONFIG_FILE
+
+
+echo "Adding Dynatrace config needed for Azure monitor"
+addConfig "azure/credentials" azure-modernize-workshop ./dynatrace/gen/azure-credentials.json
 
 echo ""
 echo "============================================="
