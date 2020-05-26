@@ -45,7 +45,7 @@ printf "\n\n***** Configuring reverse proxy***\n" >> $LOGFILE 2>&1
 export PUBLIC_IP=`hostname -i | awk '{ print $1'}`
 mkdir -p $UNIX_USER_HOME_PATH/nginx
 echo "upstream classic {
-  server        10.0.0.4:8079;
+  server        $PUBLIC_IP:8079;
 }
 server {
   listen                0.0.0.0:80;
