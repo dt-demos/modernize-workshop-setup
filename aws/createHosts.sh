@@ -61,7 +61,7 @@ provision_linux_active_gate()
     echo "Skipping, host $HOSTNAME exists"
     echo ""
   else
-    echo "Provisioning $HOSTNAME"
+    echo "Adding $HOSTNAME"
     echo ""
       
     # make user data file DT API and TOKEN info
@@ -105,7 +105,7 @@ provision_eztravel_vm()
     echo ""
   else
     echo ""
-    echo "Provisioning $SECURITY_GROUP"
+    echo "Adding $SECURITY_GROUP"
     aws ec2 create-security-group --group-name $SECURITY_GROUP --description $SECURITY_GROUP 
     aws ec2 authorize-security-group-ingress --group-name $SECURITY_GROUP --protocol tcp --port 80 --cidr 0.0.0.0/0
     aws ec2 authorize-security-group-ingress --group-name $SECURITY_GROUP --protocol tcp --port 8094 --cidr 0.0.0.0/0
@@ -120,7 +120,7 @@ provision_eztravel_vm()
     echo ""
   else
     echo ""
-    echo "Provisioning $HOSTNAME"
+    echo "Adding $HOSTNAME"
     
     USERDATA_TEMPLATE_FILE=user_data_ez.template
     USERDATA_FILE=user_data_ez.gen
@@ -164,8 +164,7 @@ provision_eztravel_docker_vm()
     echo ""
   else
     echo ""
-    echo "Provisioning $SECURITY_GROUP"
-    exit
+    echo "Adding $SECURITY_GROUP"
     aws ec2 create-security-group --group-name $SECURITY_GROUP --description $SECURITY_GROUP 
     aws ec2 authorize-security-group-ingress --group-name $SECURITY_GROUP --protocol tcp --port 80 --cidr 0.0.0.0/0
   fi
@@ -177,7 +176,7 @@ provision_eztravel_docker_vm()
     echo ""
   else
     echo ""
-    echo "Provisioning $HOSTNAME"
+    echo "Adding $HOSTNAME"
     
     USERDATA_TEMPLATE_FILE=user_data_ez_docker.template
     USERDATA_FILE=user_data_ez_docker.gen
@@ -208,22 +207,22 @@ provision_eztravel_docker_vm()
 
 #*********************************
 echo "==================================================================================="
-echo "*** Provisioning $NUM_HOSTS hosts of type $HOST_TYPE ***"
+echo "*** Adding $NUM_HOSTS hosts of type $HOST_TYPE ***"
 HOST_CTR=1
 while [ $HOST_CTR -le $NUM_HOSTS ]
 do
 
   case $HOST_TYPE in
   ez)
-    echo "Provisioning $HOST_TYPE ($HOST_CTR of $NUM_HOSTS): Starting: $(date)"
+    echo "Adding $HOST_TYPE ($HOST_CTR of $NUM_HOSTS): Starting: $(date)"
     provision_eztravel_vm $HOST_CTR
     ;;
   ez-docker)
-    echo "Provisioning $HOST_TYPE ($HOST_CTR of $NUM_HOSTS): Starting: $(date)"
+    echo "Adding $HOST_TYPE ($HOST_CTR of $NUM_HOSTS): Starting: $(date)"
     provision_eztravel_docker_vm $HOST_CTR
     ;;
   active-gate)
-    echo "Provisioning $HOST_TYPE ($HOST_CTR of $NUM_HOSTS): Starting: $(date)"
+    echo "Adding $HOST_TYPE ($HOST_CTR of $NUM_HOSTS): Starting: $(date)"
     provision_linux_active_gate $HOST_CTR
     ;;
   *) 
