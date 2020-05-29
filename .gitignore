@@ -3,8 +3,12 @@ setup.txt
 *.pem
 creds.json*
 azure/notused/
+aws/notused/
 *.bak
 notused/
 azure/dynatrace/gen/*.json
 azure-sp.json
 cloud-init-active-gate.txt
+*keypair.json
+*.gen
+*.pem

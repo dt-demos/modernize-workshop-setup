@@ -1,9 +1,14 @@
 #!/bin/bash
 
+echo ""
+echo "=========================================="
+echo "Installing workshop tools"
+echo "Starting: $(date)"
+echo "=========================================="
+
 # jq
 # https://stedolan.github.io/jq
 if ! [ -x "$(command -v jq)" ]; then
-  echo "----------------------------------------------------"
   echo "Installing 'jq' utility ..."
   sudo yum install jq -y
 fi
@@ -17,7 +22,10 @@ if [ `aws --version | grep "aws-cli/2" | wc -l` == "0" ]; then
   sudo ./aws/install
 fi
 
-# update path
-#echo 'export PATH="$HOME/bin:/usr/local/bin:$PATH"' >> ~/.bashrc
-#export PATH="$HOME/bin:/usr/local/bin:$PATH"
-
+echo ""
+echo "============================================="
+echo "Installing workshop tools COMPLETE"
+echo "jq  --version: $(jq  --version)"
+echo "aws --version: $(aws --version)"
+echo "============================================="
+echo ""

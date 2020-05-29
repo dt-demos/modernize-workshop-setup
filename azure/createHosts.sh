@@ -9,10 +9,10 @@ HOST_TYPE=$1               # 'linux','win',ez'
 NUM_HOSTS=$2
 ADD_EZTRAVEL_ONEAGENT=$3   # only for eztravel, pass in 'yes' if want agent added
 
-# Example: 1 host running ezTravel with no OneAgent :  ./deployHosts.sh ez
-# Example: 2 host running ezTravel with OneAgent    :  ./deployHosts.sh ez 1 yes
-# Example: 5 linux host                             :  ./deployHosts.sh linux 5
-# Example: 5 windows hosts                          :  ./deployHosts.sh win 5
+# Example: 1 host running ezTravel with no OneAgent :  ./createHosts.sh ez
+# Example: 2 host running ezTravel with OneAgent    :  ./createHosts.sh ez 1 yes
+# Example: 5 linux host                             :  ./createHosts.sh linux 5
+# Example: 5 windows hosts                          :  ./createHosts.sh win 5
 
 CREDS_FILE=creds.json
 if ! [ -f "$CREDS_FILE" ]; then

@@ -1,0 +1,26 @@
+#!/bin/bash
+# download and install Dynatrace OneAgent
+wget  -O Dynatrace-OneAgent.sh "REPLACE_URL/api/v1/deployment/installer/agent/unix/default/latest?Api-Token=REPLACE_TOKEN&arch=x86&flavor=default"
+/bin/sh Dynatrace-OneAgent.sh APP_LOG_CONTENT_ACCESS=1 INFRA_ONLY=0 HOST_GROUP=REPLACE_HOST_GROUP
+# install Docker
+sudo apt-get update
+sudo apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo apt-get update
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+# install JQ
+sudo apt-get install -y git jq
+# install docker-compose
+sudo apt install -y docker-compose
+# Create user workshop, we specify bash login, home directory, password and add him to the sudoers
+useradd -s /bin/bash -d /home/workshop/ -m -G sudo -p $(openssl passwd -1 Workshop123#) workshop
+# prep EZ travel files
+sudo mkdir -p /home/workshop
+git clone https://github.com/dt-demos/modernize-workshop-setup.git /home/workshop/modernize-workshop-setup
+sudo chown workshop:workshop -R /home/workshop
+# run docker-compose
+sudo usermod -a -G sudo workshop
+sudo docker-compose -f /home/workshop/modernize-workshop-setup/docker-compose.yml up -d
+# set image to auto-terminate
+#echo "sudo halt" | at now + 60 minutes 

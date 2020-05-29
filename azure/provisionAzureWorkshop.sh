@@ -1,13 +1,22 @@
 #!/bin/bash
 
+load_dynatrace_config()
+{
+    # workshop config like tags, dashboard, MZ
+    # doing this change directory business, so that can share script across AWS and Azure
+    cp creds.json ../dynatrace/creds.json
+    cd ../dynatrace
+    ./loadDynatraceConfig.sh
+    cd ../azure
+}
+
 echo ""
 echo "=========================================="
 echo "Provisioning Azure workshop resources"
 echo "Starting: $(date)"
 echo "=========================================="
 
-# workshop config like tags, dashboard, MZ
-./loadDynatraceConfig.sh
+load_dynatrace_config
 
 # setup active gate
 ./createHosts.sh active-gate

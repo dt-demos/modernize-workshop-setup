@@ -1,5 +1,0 @@
-#!/bin/bash
-wget  -O Dynatrace-OneAgent.sh "REPLACE_URL/api/v1/deployment/installer/agent/unix/default/latest?Api-Token=REPLACE_TOKEN&arch=x86&flavor=default"
-/bin/sh Dynatrace-OneAgent.sh APP_LOG_CONTENT_ACCESS=1 INFRA_ONLY=0 HOST_GROUP=REPLACE_HOST_GROUP
-su -c 'nohup /home/ubuntu/easyTravel/easytravel-2.0.0-x64/runEasyTravelNoGUI.sh --startgroup UEM --startscenario "Standard with REST Service and Angular2 frontend" &' - ubuntu
-echo "sudo halt" | at now + 60 minutes 
