@@ -101,6 +101,42 @@ addConfig() {
   fi
 }
 
+deleteConfig() {
+
+  CONFIG_API_NAME=${1}
+  CONFIG_NAME=${2}
+
+  echo "==================================================================================="
+  echo "Checking if $CONFIG_API_NAME $CONFIG_NAME exists"
+  if [ "$CONFIG_API_NAME" == "dashboards" ]; then
+    # list stored in an array called dashboards[]
+    DT_ID=$(curl -s -X GET \
+      "$DT_BASEURL/api/config/v1/$CONFIG_API_NAME?Api-Token=$DT_API_TOKEN" \
+      -H 'Content-Type: application/json' \
+      -H 'cache-control: no-cache' \
+      | jq -r '.dashboards[] | select(.name == "'${CONFIG_NAME}'") | .id' | head -1)
+  else
+    # list stored in an array called values[] - ONLY get the first one.  
+    DT_ID=$(curl -s -X GET \
+      "$DT_BASEURL/api/config/v1/$CONFIG_API_NAME?Api-Token=$DT_API_TOKEN" \
+      -H 'Content-Type: application/json' \
+      -H 'cache-control: no-cache' \
+      | jq -r '.values[] | select(.name == "'${CONFIG_NAME}'") | .id' | head -1)
+  fi
+
+  # if exists, then delete it
+  if [ "$DT_ID" != "" ];then
+    echo "Deleting $CONFIG_API_NAME $CONFIG_NAME (ID = $DT_ID)"
+    curl -X DELETE \
+    "$DT_BASEURL/api/config/v1/$CONFIG_API_NAME/$DT_ID?Api-Token=$DT_API_TOKEN" \
+    -H 'Content-Type: application/json' \
+    -H 'cache-control: no-cache'
+  else
+    echo "$CONFIG_API_NAME $CONFIG_NAME does not exist"
+  fi
+
+}
+
 # this function used to create the JSON files
 # be sure to delete the 'metadata' and 'id' before using it in the add
 getConfig() {
@@ -163,10 +199,9 @@ setServiceAnomalyDetection() {
 }
 
 setFrequentIssueDetectionOff() {
-  ENABLED=$1
 
   echo "==================================================================================="
-  echo "Setting FrequentIssueDetection off"
+  echo "Setting FrequentIssueDetection OFF"
 
   curl -L -X PUT \
     "$DT_BASEURL/api/config/v1/frequentIssueDetection?Api-Token=$DT_API_TOKEN" \
@@ -178,3 +213,20 @@ setFrequentIssueDetectionOff() {
         "frequentIssueDetectionInfrastructureEnabled": false
     }'
 }
+
+setFrequentIssueDetectionOn() {
+
+  echo "==================================================================================="
+  echo "Setting FrequentIssueDetection ON"
+
+  curl -L -X PUT \
+    "$DT_BASEURL/api/config/v1/frequentIssueDetection?Api-Token=$DT_API_TOKEN" \
+    -H 'Content-Type: application/json' \
+    -H 'cache-control: no-cache' \
+    --data-raw '{
+        "frequentIssueDetectionApplicationEnabled": true,
+        "frequentIssueDetectionServiceEnabled": true,
+        "frequentIssueDetectionInfrastructureEnabled": true
+    }'
+}
+

@@ -6,6 +6,8 @@ echo ""
 echo "*** Setting up Dynatrace config for $DT_BASEURL ***"
 echo
 
+addConfig dashboards modernize-workshop ./dynatrace/dashboard-workshop.json
+
 setFrequentIssueDetectionOff
 
 setServiceAnomalyDetection ./dynatrace/service-anomalydetection.json
@@ -14,8 +16,6 @@ addConfig "service/customServices/java" CheckDestination ./dynatrace/customServi
 
 addConfig managementZones ez-travel ./dynatrace/mz-eztravel.json
 addConfig managementZones ez-travel-docker ./dynatrace/mz-eztravel-docker.json
-
-addConfig dashboards modernize-workshop ./dynatrace/dashboard-workshop.json
 
 addConfig autoTags workshop-group ./dynatrace/autoTags-workshop-group.json
 

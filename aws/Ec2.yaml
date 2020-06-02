@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: EC2 Example
+
+Resources:
+  EC2SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+        GroupDescription: Allow http to client host 
+        SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0 
+        
+  Ec2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-063dd30adbb186909 # Amazon Linux AMI in N.California
+      UserData:
+        'Fn::Base64': 
+          !Sub |
+            #!/bin/bash
+            yum -y update
+
+            # install apache
+            yum install httpd24 -y  
+
+            # start server
+            service httpd start
+            chkconfig httpd on
+      SecurityGroups:
+        - !Ref EC2SecurityGroup
+      Tags:
+        - Key: Name
+          Value: My EC2 Instance
+       
