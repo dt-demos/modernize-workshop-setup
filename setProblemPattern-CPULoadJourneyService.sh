@@ -10,4 +10,4 @@ echo "--------------------------------------------------------------------------
 echo "$PROBLEM_PATTERN"
 echo "--------------------------------------------------------------------------------------"
 echo "This plugin causes additional high CPU usage when searching for a journey.  "
-echo "It is executed a number of times, regardless whether the requested journey is found or not""
+echo "It is executed a number of times, regardless whether the requested journey is found or not"
