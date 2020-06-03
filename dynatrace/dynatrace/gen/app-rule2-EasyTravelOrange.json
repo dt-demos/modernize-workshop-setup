@@ -1,8 +1,0 @@
-{
-  "applicationIdentifier": "APPLICATION-F066643BC69D9132",
-  "filterConfig": {
-      "pattern": ":8079",
-      "applicationMatchType": "CONTAINS",
-      "applicationMatchTarget": "URL"
-  }
-}

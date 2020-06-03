@@ -65,7 +65,7 @@ provision_linux_active_gate()
     echo ""
       
     # make user data file DT API and TOKEN info
-    USERDATA_FILE="user_data_active_gate.gen"
+    USERDATA_FILE="gen/user_data_active_gate.gen"
 
     echo "#cloud-config" > $USERDATA_FILE
     echo "runcmd:" >> $USERDATA_FILE
@@ -122,8 +122,8 @@ provision_eztravel_vm()
     echo ""
     echo "Adding $HOSTNAME"
     
-    USERDATA_TEMPLATE_FILE=user_data_ez.template
-    USERDATA_FILE=user_data_ez.gen
+    USERDATA_TEMPLATE_FILE="user_data_ez.template"
+    USERDATA_FILE="gen/user_data_ez.gen"
     # us-east-1 ... Ubuntu Server 18.04 LTS (HVM), SSD Volume Type - ami-085925f297f89fce1 (64-bit x86) / ami-05d7ab19b28efa213 (64-bit Arm)
     IMAGE_AMI=ami-085925f297f89fce1
 
@@ -178,8 +178,8 @@ provision_eztravel_docker_vm()
     echo ""
     echo "Adding $HOSTNAME"
     
-    USERDATA_TEMPLATE_FILE=user_data_ez_docker.template
-    USERDATA_FILE=user_data_ez_docker.gen
+    USERDATA_TEMPLATE_FILE="user_data_ez_docker.template"
+    USERDATA_FILE="gen/user_data_ez_docker.gen"
     # us-east-1 ... Ubuntu Server 18.04 LTS (HVM), SSD Volume Type - ami-085925f297f89fce1 (64-bit x86) / ami-05d7ab19b28efa213 (64-bit Arm)
     IMAGE_AMI=ami-085925f297f89fce1
 

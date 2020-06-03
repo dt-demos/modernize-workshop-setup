@@ -6,7 +6,9 @@ azure/notused/
 aws/notused/
 *.bak
 notused/
-azure/dynatrace/gen/*.json
+dynatrace/dynatrace/gen/*.json
+azure/gen/*.json
+aws/gen/*.json
 azure-sp.json
 cloud-init-active-gate.txt
 *keypair.json

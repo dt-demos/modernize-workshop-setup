@@ -1,8 +1,0 @@
-{
-  "applicationIdentifier": "APPLICATION-4DA6B3CAB8E8A592",
-  "filterConfig": {
-      "pattern": "easytravel-www",
-      "applicationMatchType": "CONTAINS",
-      "applicationMatchTarget": "URL"
-  }
-}

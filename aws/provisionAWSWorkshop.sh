@@ -26,7 +26,7 @@ add_aws_keypair()
   else
     echo "Creating a keypair named $AWS_KEYPAIR_NAME for the ec2 instances"
     echo "Saving output to $AWS_KEYPAIR_NAME-keypair.json"
-    aws ec2 create-key-pair --key-name $AWS_KEYPAIR_NAME --query 'KeyMaterial' --output text > $AWS_KEYPAIR_NAME-keypair.pem
+    aws ec2 create-key-pair --key-name $AWS_KEYPAIR_NAME --query 'KeyMaterial' --output text > gen/$AWS_KEYPAIR_NAME-keypair.pem
   fi
 }
 
