@@ -5,6 +5,6 @@
     "DT_PAAS_TOKEN": "DT_PAAS_TOKEN_PLACEHOLDER",
     "DT_API_TOKEN": "DT_API_TOKEN_PLACEHOLDER",
     "AWS_PROFILE": "default",
-    "AWS_REGION": "us-east-1",
-    "AWS_KEYPAIR_NAME": "dynatrace-modernize-workshop"
+    "AWS_REGION": "us-west-2",
+    "AWS_KEYPAIR_NAME": "AWS_KEYPAIR_NAME_PLACEHOLDER"
 }
