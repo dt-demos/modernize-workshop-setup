@@ -6,7 +6,7 @@ load_dynatrace_config()
     # doing this change directory business, so that can share script across AWS and Azure
     cp creds.json ../dynatrace/creds.json
     cd ../dynatrace
-    ./loadDynatraceConfig.sh
+    ./setupDynatraceConfig.sh
     cd ../azure
 }
 
