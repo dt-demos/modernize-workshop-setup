@@ -75,7 +75,7 @@ echo "=========================================="
 
 #load_dynatrace_config
 add_aws_keypair
-#create_stack
+create_stack
 
 echo ""
 echo "============================================="
