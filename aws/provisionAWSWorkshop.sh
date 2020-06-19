@@ -73,7 +73,7 @@ echo "Provisioning AWS workshop resources"
 echo "Starting: $(date)"
 echo "=========================================="
 
-#load_dynatrace_config
+load_dynatrace_config
 add_aws_keypair
 create_stack
 
