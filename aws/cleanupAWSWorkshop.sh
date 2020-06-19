@@ -27,14 +27,14 @@ delete_keypair()
     --profile $AWS_PROFILE \
     --region $AWS_REGION | grep $AWS_KEYPAIR_NAME)
   if [ -z "$KEY" ]; then
+    echo ""
+    echo "Skipping, delete key-pair $KEYPAIR_NAME since it does not exists"
+  else
     echo "Deleting $KEYPAIR_NAME ($INSTANCE_ID)"
     aws ec2 delete-key-pair \
       --key-name $KEYPAIR_NAME \
       --profile $AWS_PROFILE \
       --region $AWS_REGION
-  else
-    echo ""
-    echo "Skipping, delete key-pair $KEYPAIR_NAME since it does not exists"
   fi
 }
 
