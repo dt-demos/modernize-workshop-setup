@@ -21,12 +21,12 @@ delete_keypair()
   echo "Checking to see if $KEYPAIR_NAME exists"
   echo "-----------------------------------------------------------------------------------"
 
-  aws ec2 describe-key-pairs \
-    --key-names "$KEYPAIR_NAME" \
+  # delete the keypair needed for ec2 if it exists
+  AWS_KEYPAIR_NAME=$(cat creds.json | jq -r '.AWS_KEYPAIR_NAME')
+  KEY=$(aws ec2 describe-key-pairs \
     --profile $AWS_PROFILE \
-    --region $AWS_REGION \
-    --output text --query 'KeyPairs[*].[KeyName]' > /dev/null
-  if [ $? == 0 ] ; then
+    --region $AWS_REGION | grep $AWS_KEYPAIR_NAME)
+  if [ -z "$KEY" ]; then
     echo "Deleting $KEYPAIR_NAME ($INSTANCE_ID)"
     aws ec2 delete-key-pair \
       --key-name $KEYPAIR_NAME \

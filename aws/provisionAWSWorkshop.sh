@@ -47,20 +47,16 @@ load_dynatrace_config()
 
 add_aws_keypair()
 {
-  # add the keypair needed for ec2
+  # add the keypair needed for ec2 if it does not exist
   AWS_KEYPAIR_NAME=$(cat creds.json | jq -r '.AWS_KEYPAIR_NAME')
   KEY=$(aws ec2 describe-key-pairs \
-    --key-names "$AWS_KEYPAIR_NAME" \
-    --output text \
     --profile $AWS_PROFILE \
-    --region $AWS_REGION | grep $KEYPAIR_NAME)
+    --region $AWS_REGION | grep $AWS_KEYPAIR_NAME)
   if [ -z "$KEY" ]; then
     echo "Skipping, add key-pair $AWS_KEYPAIR_NAME since it exists"
-    exit
   else
     echo "Creating a keypair named $AWS_KEYPAIR_NAME for the ec2 instances"
     echo "Saving output to $AWS_KEYPAIR_NAME-keypair.json"
-    exit
     aws ec2 create-key-pair \
       --key-name $AWS_KEYPAIR_NAME \
       --profile $AWS_PROFILE \
