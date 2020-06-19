@@ -53,8 +53,6 @@ add_aws_keypair()
     --profile $AWS_PROFILE \
     --region $AWS_REGION | grep $AWS_KEYPAIR_NAME)
   if [ -z "$KEY" ]; then
-    echo "Skipping, add key-pair $AWS_KEYPAIR_NAME since it exists"
-  else
     echo "Creating a keypair named $AWS_KEYPAIR_NAME for the ec2 instances"
     echo "Saving output to $AWS_KEYPAIR_NAME-keypair.json"
     aws ec2 create-key-pair \
@@ -63,6 +61,8 @@ add_aws_keypair()
       --region $AWS_REGION \
       --query 'KeyMaterial' \
       --output text > gen/$AWS_KEYPAIR_NAME-keypair.pem
+  else
+    echo "Skipping, add key-pair $AWS_KEYPAIR_NAME since it exists"
   fi
 }
 
