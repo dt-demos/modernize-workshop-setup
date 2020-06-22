@@ -110,7 +110,7 @@ Resources:
     Type: AWS::EC2::Instance
     DependsOn: AttachGateway
     Properties:
-      InstanceType: t3.medium
+      InstanceType: t3.xlarge
       KeyName: !Ref 'KeyName'
       ImageId: !FindInMap
         - Common
@@ -161,7 +161,7 @@ Resources:
     Type: AWS::EC2::Instance
     DependsOn: AttachGateway
     Properties:
-      InstanceType: t3.medium
+      InstanceType: t3.xlarge
       KeyName: !Ref 'KeyName'
       ImageId: !FindInMap
         - Common
