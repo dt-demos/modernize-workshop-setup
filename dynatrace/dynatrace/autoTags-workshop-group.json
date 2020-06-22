@@ -16,8 +16,8 @@
           },
           "comparisonInfo": {
             "type": "STRING",
-            "operator": "CONTAINS",
-            "value": "workshop-ez-1",
+            "operator": "ENDS_WITH",
+            "value": "workshop-ez",
             "negate": false,
             "caseSensitive": true
           }
@@ -39,8 +39,8 @@
           },
           "comparisonInfo": {
             "type": "STRING",
-            "operator": "CONTAINS",
-            "value": "workshop-ez-docker-1",
+            "operator": "ENDS_WITH",
+            "value": "workshop-ez-docker",
             "negate": false,
             "caseSensitive": true
           }
@@ -62,8 +62,8 @@
           },
           "comparisonInfo": {
             "type": "STRING",
-            "operator": "CONTAINS",
-            "value": "workshop-ez-backend-1",
+            "operator": "ENDS_WITH",
+            "value": "workshop-ez-backend",
             "negate": false,
             "caseSensitive": true
           }
