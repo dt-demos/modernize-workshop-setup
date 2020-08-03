@@ -12,4 +12,5 @@ runcmd:
   - git clone https://github.com/dt-demos/modernize-workshop-setup.git /home/workshop/modernize-workshop-setup
   - sudo chown workshop:workshop -R /home/workshop
   - sudo usermod -a -G sudo workshop
+  - sudo curl https://raw.githubusercontent.com/Dynatrace/easyTravel-Docker/master/docker-compose.yml -o /home/workshop/modernize-workshop-setup/docker-compose.yml
   - sudo docker-compose -f /home/workshop/modernize-workshop-setup/docker-compose.yml up -d
