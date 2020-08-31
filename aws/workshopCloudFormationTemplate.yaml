@@ -101,6 +101,9 @@ Resources:
         - IpProtocol: tcp
           FromPort: '8091'
           ToPort: '8091'
+        - IpProtocol: tcp
+          FromPort: '8092'
+          ToPort: '8092'
           CidrIp: '0.0.0.0/0'
         - IpProtocol: tcp
           FromPort: '80'
