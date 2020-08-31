@@ -101,6 +101,6 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
   echo "Monitor CloudFormation stack status @ https://console.aws.amazon.com/cloudformation/home"
   echo ""
   echo "If you need to SSH to host, get the public IP from the AWS console and use"
-  echo "ssh -i \"gen/$AWS_KEYPAIR_NAME\" ubuntu@PUBLIC_IP"
+  echo "ssh -i \"gen/$AWS_KEYPAIR_NAME-keypair.pem\" ubuntu@PUBLIC_IP"
 
 fi
