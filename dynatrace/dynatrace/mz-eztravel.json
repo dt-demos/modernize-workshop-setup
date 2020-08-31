@@ -37,7 +37,8 @@
             "operator": "TAG_KEY_EQUALS",
             "value": {
               "context": "CONTEXTLESS",
-              "key": "workshop-group"
+              "key": "workshop-group",
+              "value":"ez-travel"
             },
             "negate": false
           }
