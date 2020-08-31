@@ -36,6 +36,8 @@ delete_keypair()
       --profile $AWS_PROFILE \
       --region $AWS_REGION
   fi
+
+  sudo rm gen/*.pem
 }
 
 delete_stack()
