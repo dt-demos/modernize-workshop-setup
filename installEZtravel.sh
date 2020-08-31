@@ -95,7 +95,7 @@ sed -i 's/config.reUseChromeDriverFrequency=4/config.reUseChromeDriverFrequency=
 #sed -i 's/config.angularFrontendPortRangeStart=9080/config.angularFrontendPortRangeStart=80/g' /easytravel-2.0.0-x64/resources/easyTravelConfig.properties
 
 MY_PUBLIC_IP=$(curl -s  http://checkip.amazonaws.com) && echo "MY PUBLIC IP = $MY_PUBLIC_IP"
-sudo sed -i 's/config.thirdpartyUrl=http:\/\/${config.thirdpartyHost}:${config.thirdpartyPort}\//config.thirdpartyUrl=http:\/\/='"$MY_PUBLIC_IP"':${config.thirdpartyPort}\//g' $UNIX_USER_HOME_PATH/easytravel-2.0.0-x64/resources/easyTravelConfig.properties
+sudo sed -i 's/config.thirdpartyUrl=http:\/\/${config.thirdpartyHost}:${config.thirdpartyPort}\//config.thirdpartyUrl=http:\/\/'"$MY_PUBLIC_IP"':${config.thirdpartyPort}\//g' $UNIX_USER_HOME_PATH/easytravel-2.0.0-x64/resources/easyTravelConfig.properties
 
 echo "*** Fix finding the Java package path ***"
 sed -i "s/JAVA_BIN=..\\/jre\\/bin\\/java/JAVA_BIN=\\/usr\\/bin\\/java/g" $UNIX_USER_HOME_PATH/easytravel-2.0.0-x64/weblauncher/weblauncher.sh
