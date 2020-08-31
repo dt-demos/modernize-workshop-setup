@@ -61,6 +61,9 @@ add_aws_keypair()
       --region $AWS_REGION \
       --query 'KeyMaterial' \
       --output text > gen/$AWS_KEYPAIR_NAME-keypair.pem
+
+    # adjust permissions required for ssh
+    chmod 400 gen/$AWS_KEYPAIR_NAME-keypair.pem
   else
     echo "Skipping, add key-pair $AWS_KEYPAIR_NAME since it exists"
   fi
@@ -96,5 +99,8 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
   echo "============================================="
   echo ""
   echo "Monitor CloudFormation stack status @ https://console.aws.amazon.com/cloudformation/home"
+  echo ""
+  echo "If you need to SSH to host, get the public IP from the AWS console and use"
+  echo "ssh -i \"gen/$AWS_KEYPAIR_NAME\" ubuntu@PUBLIC_IP"
 
 fi
