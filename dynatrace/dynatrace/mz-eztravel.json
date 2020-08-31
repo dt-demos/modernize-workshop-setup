@@ -1,5 +1,5 @@
 {
-  "name": "ez-travel",
+  "name": "ez-travel-monolith",
   "rules": [
     {
       "type": "WEB_APPLICATION",
@@ -38,7 +38,7 @@
             "value": {
               "context": "CONTEXTLESS",
               "key": "workshop-group",
-              "value":"ez-travel"
+              "value":"ez-travel-monolith"
             },
             "negate": false
           }

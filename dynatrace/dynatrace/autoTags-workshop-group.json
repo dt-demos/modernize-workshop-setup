@@ -4,7 +4,7 @@
     {
       "type": "SERVICE",
       "enabled": true,
-      "valueFormat": "ez-travel",
+      "valueFormat": "ez-travel-monolith",
       "propagationTypes": [
         "SERVICE_TO_HOST_LIKE",
         "SERVICE_TO_PROCESS_GROUP_LIKE"
@@ -17,7 +17,7 @@
           "comparisonInfo": {
             "type": "STRING",
             "operator": "ENDS_WITH",
-            "value": "workshop-ez",
+            "value": "workshop-ez-monolith",
             "negate": false,
             "caseSensitive": true
           }

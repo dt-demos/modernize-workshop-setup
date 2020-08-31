@@ -140,8 +140,8 @@ Resources:
             - " --set-infra-only=false"
             - " --set-host-name="
             - !Ref 'LastName'
-            - "-workshop-ez"
-            - " --set-host-group=workshop-ez\n"
+            - "-workshop-ez-monolith"
+            - " --set-host-group=workshop-ez-monolith\n"
             - "sudo apt-get update\n"
             - "sudo apt-get install -y apt-transport-https ca-certificates curl gnupg-agent\
               \ software-properties-common\n"

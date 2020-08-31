@@ -212,7 +212,7 @@ provision_win_vm()
 provision_eztravel_vm()
 {
   HOSTGROUP=$1
-  HOSTNAME="workshop-ez-$HOSTGROUP"
+  HOSTNAME="workshop-ez-monolith-$HOSTGROUP"
 
   echo "Checking if $HOSTNAME already exists"
   if [ "$(does_vm_exist)" == "true" ]; then
@@ -261,7 +261,7 @@ provision_eztravel_vm()
       #OPEN_PORT="$(az vm open-port --port 1697 --priority 1070 --resource-group "$AZURE_RESOURCE_GROUP" --name "$HOSTNAME" --subscription "$AZURE_SUBSCRIPTION")"
 
       if [ "$ADD_EZTRAVEL_ONEAGENT" == "yes" ]; then
-        add_oneagent_extension oneAgentLinux eztravel
+        add_oneagent_extension oneAgentLinux eztravel-monolith
       else
         echo "Skipping OneAgent install"
         echo ""

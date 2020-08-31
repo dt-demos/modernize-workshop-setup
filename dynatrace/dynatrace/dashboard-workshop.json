@@ -58,7 +58,7 @@
         "filtersPerEntityType": {
           "HOST": {
             "AUTO_TAGS": [
-              "workshop-group:ez-travel"
+              "workshop-group:ez-travel-monolith"
             ]
           }
         }
@@ -110,7 +110,7 @@
         "filtersPerEntityType": {
           "SERVICE": {
             "AUTO_TAGS": [
-              "workshop-group:ez-travel"
+              "workshop-group:ez-travel-monolith"
             ],
             "SERVICE_TYPE": [
               "2"
@@ -272,7 +272,7 @@
         "filtersPerEntityType": {
           "SERVICE": {
             "AUTO_TAGS": [
-              "workshop-group:ez-travel"
+              "workshop-group:ez-travel-monolith"
             ]
           }
         }
@@ -356,7 +356,7 @@
         "filtersPerEntityType": {
           "SERVICE": {
             "AUTO_TAGS": [
-              "workshop-group:ez-travel"
+              "workshop-group:ez-travel-monolith"
             ],
             "SERVICE_TYPE": [
               "2"
