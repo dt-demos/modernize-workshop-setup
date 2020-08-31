@@ -2,31 +2,41 @@
 
 source ./dynatraceConfig.lib
 
+echo "==================================================================="
+echo "About to Delete Dynatrace configuration on:"
+echo "  $DT_BASEURL"
+echo "==================================================================="
+read -p "Proceed with cleanup? (y/n) : " -n 1 -r
 echo ""
-echo "*** Removing Dynatrace config for $DT_BASEURL ***"
-echo
 
-deleteConfig dashboards modernize-workshop
+if [[ $REPLY =~ ^[Yy]$ ]]; then
 
-setFrequentIssueDetectionOn
+    echo ""
+    echo "*** Removing Dynatrace config for $DT_BASEURL ***"
+    echo
 
-setServiceAnomalyDetection ./dynatrace/service-anomalydetectionDefault.json
+    deleteConfig dashboards modernize-workshop
 
-deleteConfig "service/customServices/java" CheckDestination
+    setFrequentIssueDetectionOn
 
-deleteConfig managementZones ez-travel-docker
-deleteConfig managementZones ez-travel
+    setServiceAnomalyDetection ./dynatrace/service-anomalydetectionDefault.json
 
-deleteConfig autoTags workshop-group
+    deleteConfig "service/customServices/java" CheckDestination
 
-# the delete is for the application name so need to do make call for each rule for each app
-deleteConfig "applicationDetectionRules" EasyTravelOrange
-deleteConfig "applicationDetectionRules" EasyTravelOrange
-deleteConfig "applicationDetectionRules" EasyTravelOrangeDocker
+    deleteConfig managementZones ez-travel-docker
+    deleteConfig managementZones ez-travel
 
-deleteConfig "applications/web" EasyTravelOrange
-deleteConfig "applications/web" EasyTravelOrangeDocker
+    deleteConfig autoTags workshop-group
 
-echo ""
-echo "*** Done Removing Dynatrace config ***"
-echo ""
+    # the delete is for the application name so need to do make call for each rule for each app
+    deleteConfig "applicationDetectionRules" EasyTravelOrange
+    deleteConfig "applicationDetectionRules" EasyTravelOrange
+    deleteConfig "applicationDetectionRules" EasyTravelOrangeDocker
+
+    deleteConfig "applications/web" EasyTravelOrange
+    deleteConfig "applications/web" EasyTravelOrangeDocker
+
+    echo ""
+    echo "*** Done Removing Dynatrace config ***"
+    echo ""
+fi

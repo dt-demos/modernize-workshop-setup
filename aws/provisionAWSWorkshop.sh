@@ -67,20 +67,34 @@ add_aws_keypair()
 }
 
 ############################################################
+echo "==================================================================="
+echo "About to provision AWS workshop resources"
 echo ""
-echo "=========================================="
-echo "Provisioning AWS workshop resources"
-echo "Starting: $(date)"
-echo "=========================================="
+echo "1) Add Dynatrace configuration to: $DT_BASEURL"
+echo "2) Add AWS keypair: $AWS_KEYPAIR_NAME"
+echo "3) Create AWS CLoudformation stack: $STACK_NAME"
+echo "==================================================================="
+read -p "Proceed with creation? (y/n) : " -n 1 -r
+echo ""
 
-load_dynatrace_config
-add_aws_keypair
-create_stack
+if [[ $REPLY =~ ^[Yy]$ ]]; then
 
-echo ""
-echo "============================================="
-echo "Provisioning AWS workshop resources COMPLETE"
-echo "End: $(date)"
-echo "============================================="
-echo ""
-echo "Monitor CloudFormation stack status @ https://console.aws.amazon.com/cloudformation/home"
+  echo ""
+  echo "=========================================="
+  echo "Provisioning AWS workshop resources"
+  echo "Starting: $(date)"
+  echo "=========================================="
+
+  load_dynatrace_config
+  add_aws_keypair
+  create_stack
+
+  echo ""
+  echo "============================================="
+  echo "Provisioning AWS workshop resources COMPLETE"
+  echo "End: $(date)"
+  echo "============================================="
+  echo ""
+  echo "Monitor CloudFormation stack status @ https://console.aws.amazon.com/cloudformation/home"
+
+fi

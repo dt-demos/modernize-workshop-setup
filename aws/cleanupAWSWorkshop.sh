@@ -56,15 +56,29 @@ delete_stack()
 }
 
 #*********************************
-echo "==================================================================================="
-echo "Cleaning Up AWS workshop resources"
-echo "Starting: $(date)"
-echo "==================================================================================="
 
-delete_keypair $AWS_KEYPAIR_NAME
-delete_stack
+echo "==================================================================="
+echo "About to Cleaning Up AWS workshop resources"
+echo ""
+echo "1) Delete AWS keypair: $AWS_KEYPAIR_NAME"
+echo "2) Delete AWS CLoudformation stack: $STACK_NAME"
+echo "==================================================================="
+read -p "Proceed with cleanup? (y/n) : " -n 1 -r
+echo ""
 
-echo "==================================================================================="
-echo "Cleaning Up AWS workshop resources COMPLETE"
-echo "End: $(date)"
-echo "============================================="
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+
+  echo "==================================================================================="
+  echo "Cleaning Up AWS workshop resources"
+  echo "Starting: $(date)"
+  echo "==================================================================================="
+
+  delete_keypair $AWS_KEYPAIR_NAME
+  delete_stack
+
+  echo "==================================================================================="
+  echo "Cleaning Up AWS workshop resources COMPLETE"
+  echo "End: $(date)"
+  echo "============================================="
+
+fi
