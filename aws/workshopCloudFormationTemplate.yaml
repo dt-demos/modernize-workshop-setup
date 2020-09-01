@@ -125,7 +125,7 @@ Resources:
           Value: !Join
             - ''
             - - !Ref 'LastName'
-              - -dynatrace-modernize-workshop-ez
+              - -dynatrace-modernize-workshop-ez-monolith
       UserData: !Base64
         Fn::Join:
           - ''
