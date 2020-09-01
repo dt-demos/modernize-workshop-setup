@@ -24,7 +24,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     deleteConfig "service/customServices/java" CheckDestination
 
     deleteConfig managementZones ez-travel-docker
-    deleteConfig managementZones ez-travel
+    deleteConfig managementZones ez-travel-monolith
 
     deleteConfig autoTags workshop-group
 
