@@ -10,7 +10,7 @@ AWS_PROFILE=$(cat $CREDS_FILE | jq -r '.AWS_PROFILE')
 AWS_REGION=$(cat $CREDS_FILE | jq -r '.AWS_REGION')
 RESOURCE_PREFIX=$(cat $CREDS_FILE | jq -r '.RESOURCE_PREFIX')
 
-if [ $PUBLIC_IP == "null" ]; then
+if [ -z $1 ]; then
   HOSTNAME="$RESOURCE_PREFIX-dynatrace-modernize-workshop-ez-monolith"
 else
   HOSTNAME=$1
