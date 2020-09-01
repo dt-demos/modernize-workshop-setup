@@ -16,7 +16,7 @@ setServiceAnomalyDetection ./dynatrace/service-anomalydetection.json
 
 addConfig "service/customServices/java" CheckDestination ./dynatrace/customService-CheckDestination.json
 
-addConfig managementZones ez-travel-monolith ./dynatrace/mz-eztravel.json
+addConfig managementZones ez-travel-monolith ./dynatrace/mz-eztravel-monolith.json
 addConfig managementZones ez-travel-docker ./dynatrace/mz-eztravel-docker.json
 
 addConfig autoTags workshop-group ./dynatrace/autoTags-workshop-group.json
