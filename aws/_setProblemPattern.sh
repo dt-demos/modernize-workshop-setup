@@ -12,7 +12,7 @@ fi
 AWS_PROFILE=$(cat $CREDS_FILE | jq -r '.AWS_PROFILE')
 AWS_REGION=$(cat $CREDS_FILE | jq -r '.AWS_REGION')
 RESOURCE_PREFIX=$(cat $CREDS_FILE | jq -r '.RESOURCE_PREFIX')
-HOSTNAME="$RESOURCE_PREFIX-dynatrace-modernize-workshop-ez"
+HOSTNAME="$RESOURCE_PREFIX-dynatrace-modernize-workshop-ez-monolith"
 
 if [ -z $ENABLED ]; then
   ENABLED=true
@@ -44,3 +44,5 @@ if [[ "$STATUS_CODE" -ne 202 ]] ; then
 else
   echo "Done. Value set to $ENABLED."
 fi
+
+./getProblemPatterns.sh
