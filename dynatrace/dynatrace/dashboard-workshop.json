@@ -17,7 +17,7 @@
       "tileType": "CUSTOM_CHARTING",
       "configured": true,
       "bounds": {
-        "top": 874,
+        "top": 1140,
         "left": 38,
         "width": 570,
         "height": 266
@@ -28,7 +28,7 @@
       },
       "filterConfig": {
         "type": "MIXED",
-        "customName": "System load",
+        "customName": "Host System load",
         "defaultName": "Custom chart",
         "chartConfig": {
           "legendShown": true,
@@ -49,8 +49,8 @@
                 }
               ],
               "sortAscending": false,
-              "sortColumn": true,
-              "aggregationRate": "TOTAL"
+              "aggregationRate": "TOTAL",
+              "sortColumn": true
             }
           ],
           "resultMetadata": {}
@@ -69,7 +69,7 @@
       "tileType": "CUSTOM_CHARTING",
       "configured": true,
       "bounds": {
-        "top": 1178,
+        "top": 874,
         "left": 38,
         "width": 570,
         "height": 228
@@ -101,19 +101,19 @@
                 }
               ],
               "sortAscending": false,
-              "sortColumn": true,
-              "aggregationRate": "TOTAL"
+              "aggregationRate": "TOTAL",
+              "sortColumn": true
             }
           ],
           "resultMetadata": {}
         },
         "filtersPerEntityType": {
           "SERVICE": {
-            "AUTO_TAGS": [
-              "workshop-group:ez-travel-monolith"
-            ],
             "SERVICE_TYPE": [
               "2"
+            ],
+            "AUTO_TAGS": [
+              "workshop-group:ez-travel-monolith"
             ]
           }
         }
@@ -124,7 +124,7 @@
       "tileType": "CUSTOM_CHARTING",
       "configured": true,
       "bounds": {
-        "top": 1178,
+        "top": 874,
         "left": 608,
         "width": 570,
         "height": 228
@@ -135,7 +135,7 @@
       },
       "filterConfig": {
         "type": "MIXED",
-        "customName": "Response time - Docker",
+        "customName": "Response time",
         "defaultName": "Custom chart",
         "chartConfig": {
           "legendShown": true,
@@ -156,19 +156,19 @@
                 }
               ],
               "sortAscending": false,
-              "sortColumn": true,
-              "aggregationRate": "TOTAL"
+              "aggregationRate": "TOTAL",
+              "sortColumn": true
             }
           ],
           "resultMetadata": {}
         },
         "filtersPerEntityType": {
           "SERVICE": {
-            "AUTO_TAGS": [
-              "workshop-group:ez-travel-docker"
-            ],
             "SERVICE_TYPE": [
               "2"
+            ],
+            "AUTO_TAGS": [
+              "workshop-group:ez-travel-docker"
             ]
           }
         }
@@ -179,7 +179,7 @@
       "tileType": "CUSTOM_CHARTING",
       "configured": true,
       "bounds": {
-        "top": 874,
+        "top": 1140,
         "left": 608,
         "width": 570,
         "height": 266
@@ -190,7 +190,7 @@
       },
       "filterConfig": {
         "type": "MIXED",
-        "customName": "System load - Docker",
+        "customName": "Host System load",
         "defaultName": "Custom chart",
         "chartConfig": {
           "legendShown": true,
@@ -211,8 +211,8 @@
                 }
               ],
               "sortAscending": false,
-              "sortColumn": true,
-              "aggregationRate": "TOTAL"
+              "aggregationRate": "TOTAL",
+              "sortColumn": true
             }
           ],
           "resultMetadata": {}
@@ -263,14 +263,17 @@
                 }
               ],
               "sortAscending": false,
-              "sortColumn": true,
-              "aggregationRate": "TOTAL"
+              "aggregationRate": "TOTAL",
+              "sortColumn": true
             }
           ],
           "resultMetadata": {}
         },
         "filtersPerEntityType": {
           "SERVICE": {
+            "SERVICE_TYPE": [
+              "2"
+            ],
             "AUTO_TAGS": [
               "workshop-group:ez-travel-monolith"
             ]
@@ -347,26 +350,26 @@
                 }
               ],
               "sortAscending": false,
-              "sortColumn": true,
-              "aggregationRate": "TOTAL"
+              "aggregationRate": "TOTAL",
+              "sortColumn": true
             }
           ],
           "resultMetadata": {}
         },
         "filtersPerEntityType": {
           "SERVICE": {
-            "AUTO_TAGS": [
-              "workshop-group:ez-travel-monolith"
-            ],
             "SERVICE_TYPE": [
               "2"
+            ],
+            "AUTO_TAGS": [
+              "workshop-group:ez-travel-monolith"
             ]
           }
         }
       }
     },
     {
-      "name": "EZ TRAVEL",
+      "name": "EZ TRAVEL MONOLITH",
       "tileType": "HEADER",
       "configured": true,
       "bounds": {
@@ -432,19 +435,19 @@
                 }
               ],
               "sortAscending": false,
-              "sortColumn": true,
-              "aggregationRate": "TOTAL"
+              "aggregationRate": "TOTAL",
+              "sortColumn": true
             }
           ],
           "resultMetadata": {}
         },
         "filtersPerEntityType": {
           "SERVICE": {
-            "AUTO_TAGS": [
-              "workshop-group:ez-travel-docker"
-            ],
             "SERVICE_TYPE": [
               "2"
+            ],
+            "AUTO_TAGS": [
+              "workshop-group:ez-travel-docker"
             ]
           }
         }
@@ -487,14 +490,17 @@
                 }
               ],
               "sortAscending": false,
-              "sortColumn": true,
-              "aggregationRate": "TOTAL"
+              "aggregationRate": "TOTAL",
+              "sortColumn": true
             }
           ],
           "resultMetadata": {}
         },
         "filtersPerEntityType": {
           "SERVICE": {
+            "SERVICE_TYPE": [
+              "2"
+            ],
             "AUTO_TAGS": [
               "workshop-group:ez-travel-docker"
             ]
