@@ -44,5 +44,3 @@ if [[ "$STATUS_CODE" -ne 202 ]] ; then
 else
   echo "Done. Value set to $ENABLED."
 fi
-
-./getProblemPatterns.sh
