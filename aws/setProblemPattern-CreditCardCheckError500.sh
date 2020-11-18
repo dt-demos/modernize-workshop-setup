@@ -3,9 +3,6 @@
 PROBLEM_PATTERN=CreditCardCheckError500
 ENABLED=$1
 
-
-./_setProblemPattern.sh $PROBLEM_PATTERN $ENABLED
-
 if [ $? -eq 0 ]; then
     echo ""
     echo "--------------------------------------------------------------------------------------"
@@ -15,3 +12,5 @@ if [ $? -eq 0 ]; then
     echo "Root cause is Communication plugin could not contact credit card verification application via named pipe"
     echo "in the Booking Service" 
 fi
+
+./_setProblemPattern.sh $PROBLEM_PATTERN $ENABLED
