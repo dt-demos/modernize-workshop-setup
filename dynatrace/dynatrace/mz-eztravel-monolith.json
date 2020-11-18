@@ -15,7 +15,7 @@
           },
           "comparisonInfo": {
             "type": "TAG",
-            "operator": "TAG_KEY_EQUALS",
+            "operator": "EQUALS",
             "value": {
               "context": "CONTEXTLESS",
               "key": "workshop-group",
