@@ -100,7 +100,28 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
   echo ""
   echo "Monitor CloudFormation stack status @ https://console.aws.amazon.com/cloudformation/home"
   echo ""
-  echo "If you need to SSH to host, get the public IP from the AWS console and use"
-  echo "ssh -i \"gen/$AWS_KEYPAIR_NAME-keypair.pem\" ubuntu@PUBLIC_IP"
+  echo "If you need to SSH to host, get the public IP from the AWS console and use:"
+
+  HOSTNAME="$RESOURCE_PREFIX-dynatrace-modernize-workshop-ez-monolith"
+  PUBLIC_IP="$(aws ec2 describe-instances \
+    --filters "Name=instance-state-name,Values=running" "Name=tag:Name,Values=$HOSTNAME" \
+    --profile $AWS_PROFILE \
+    --region $AWS_REGION \
+    | jq -r '.Reservations[0].Instances[0].PublicIpAddress' )"
+
+  echo ""
+  echo "# $HOSTNAME"
+  echo "ssh -i \"gen/$AWS_KEYPAIR_NAME-keypair.pem\" ubuntu@$PUBLIC_IP"
+
+  HOSTNAME="$RESOURCE_PREFIX-dynatrace-modernize-workshop-ez-docker"
+  PUBLIC_IP="$(aws ec2 describe-instances \
+    --filters "Name=instance-state-name,Values=running" "Name=tag:Name,Values=$HOSTNAME" \
+    --profile $AWS_PROFILE \
+    --region $AWS_REGION \
+    | jq -r '.Reservations[0].Instances[0].PublicIpAddress' )"
+
+  echo ""
+  echo "# $HOSTNAME"
+  echo "ssh -i \"gen/$AWS_KEYPAIR_NAME-keypair.pem\" ubuntu@$PUBLIC_IP"
 
 fi
