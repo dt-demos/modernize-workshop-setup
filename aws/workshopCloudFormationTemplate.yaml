@@ -217,6 +217,7 @@ Resources:
             - "sudo chown workshop:workshop -R /home/workshop\n"
             - "sudo usermod -a -G sudo workshop\n"
             - "sudo curl https://raw.githubusercontent.com/Dynatrace/easyTravel-Docker/master/docker-compose.yml -o /home/workshop/modernize-workshop-setup/docker-compose.yml\n"
+            - "sleep 60"
             - "sudo docker-compose -f /home/workshop/modernize-workshop-setup/docker-compose.yml\
               \ up -d\n"
       NetworkInterfaces:
