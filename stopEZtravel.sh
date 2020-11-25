@@ -21,13 +21,22 @@ else
   echo "No easytravel Java processes to stop"
 fi
 
-CONTAINER=$(sudo docker ps -f name=reverseproxy -q)
+CONTAINER=$(sudo docker ps -f name=reverseproxy-classic -q)
 if [ "$CONTAINER" != "" ]; then
-  echo "removing reverseproxy Docker container"
+  echo "removing reverseproxy-classic Docker container"
   docker stop $CONTAINER
   docker rm $CONTAINER
 else
-  echo "No containers to stop"
+  echo "No reverseproxy-classic container to stop"
+fi
+
+CONTAINER=$(sudo docker ps -f name=reverseproxy-angular -q)
+if [ "$CONTAINER" != "" ]; then
+  echo "removing reverseproxy-angular Docker container"
+  docker stop $CONTAINER
+  docker rm $CONTAINER
+else
+  echo "No reverseproxy-angular container to stop"
 fi
 
 echo "*** Stopping EasyTravel Done. ***"

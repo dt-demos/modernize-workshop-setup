@@ -17,7 +17,8 @@ echo "sleeping 10 seconds to ensure easyTravel is fully down"
 sleep 10
 
 echo "*** Starting reverse proxy ***"
-docker run -p 80:80 -v $UNIX_USER_HOME_PATH/nginx:/etc/nginx/conf.d/:ro -d --name reverseproxy nginx:1.15
+docker run -p 80:80 -v $UNIX_USER_HOME_PATH/nginx/classic:/etc/nginx/conf.d/:ro -d --name reverseproxy-classic nginx:1.15
+docker run -p 81:80 -v $UNIX_USER_HOME_PATH/nginx/angular:/etc/nginx/conf.d/:ro -d --name reverseproxy-angular nginx:1.15
 
 echo "*** Start eztravel ***"
 # if not workshop user, then run as workshop user
