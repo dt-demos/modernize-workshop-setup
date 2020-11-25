@@ -43,7 +43,9 @@ echo "*** Add NGINX ReverseProxy for AngularShop ***"
 # can hit non-standard ports
 printf "\n\n***** Configuring reverse proxy***\n" >> $LOGFILE 2>&1 
 export PUBLIC_IP=`hostname -i | awk '{ print $1'}`
-mkdir -p $UNIX_USER_HOME_PATH/nginx
+mkdir -p $UNIX_USER_HOME_PATH/nginx/classic
+mkdir -p $UNIX_USER_HOME_PATH/nginx/angular
+
 echo "upstream classic {
   server        $PUBLIC_IP:8079;
 }
@@ -53,7 +55,17 @@ server {
   location / {
     proxy_pass  http://classic;
     }
-}" > $UNIX_USER_HOME_PATH/nginx/classic.conf
+}" > $UNIX_USER_HOME_PATH/nginx/classic/classic.conf
+echo "upstream angular {
+  server        $PUBLIC_IP:9079;
+}
+server {
+  listen                0.0.0.0:80;
+  server_name   localhost;
+  location / {
+    proxy_pass  http://angular;
+    }
+}" > $UNIX_USER_HOME_PATH/nginx/angular/angular.conf
 
 echo "*** Install default-jre ***"
 printf "\n\n***** JavaRuntime  install ***\n" >> $LOGFILE 2>&1 
@@ -81,9 +93,9 @@ sed -i 's/config.autostartGroup=/config.autostartGroup=UEM/g' $UNIX_USER_HOME_PA
 
 sed -i 's/config.baseLoadDefault=20/config.baseLoadDefault=30/g' $UNIX_USER_HOME_PATH/easytravel-2.0.0-x64/resources/easyTravelConfig.properties
 sed -i 's/config.baseLoadB2BRatio=0.1/config.baseLoadB2BRatio=0/g' $UNIX_USER_HOME_PATH/easytravel-2.0.0-x64/resources/easyTravelConfig.properties
-sed -i 's/config.baseLoadCustomerRatio=0.25/config.baseLoadCustomerRatio=0.15/g' $UNIX_USER_HOME_PATH/easytravel-2.0.0-x64/resources/easyTravelConfig.properties
-sed -i 's/config.baseLoadMobileNativeRatio=0.1/config.baseLoadMobileNativeRatio=0/g' $UNIX_USER_HOME_PATH/easytravel-2.0.0-x64/resources/easyTravelConfig.properties
-sed -i 's/config.baseLoadMobileBrowserRatio=0.25/config.baseLoadMobileBrowserRatio=0.15/g' $UNIX_USER_HOME_PATH/easytravel-2.0.0-x64/resources/easyTravelConfig.properties
+#sed -i 's/config.baseLoadCustomerRatio=0.25/config.baseLoadCustomerRatio=0.15/g' $UNIX_USER_HOME_PATH/easytravel-2.0.0-x64/resources/easyTravelConfig.properties
+#sed -i 's/config.baseLoadMobileNativeRatio=0.1/config.baseLoadMobileNativeRatio=0/g' $UNIX_USER_HOME_PATH/easytravel-2.0.0-x64/resources/easyTravelConfig.properties
+#sed -i 's/config.baseLoadMobileBrowserRatio=0.25/config.baseLoadMobileBrowserRatio=0.15/g' $UNIX_USER_HOME_PATH/easytravel-2.0.0-x64/resources/easyTravelConfig.properties
 sed -i 's/config.baseLoadHotDealServiceRatio=0.25/config.baseLoadHotDealServiceRatio=0/g' $UNIX_USER_HOME_PATH/easytravel-2.0.0-x64/resources/easyTravelConfig.properties
 sed -i 's/config.baseLoadIotDevicesRatio=0.1/config.baseLoadIotDevicesRatio=0/g' $UNIX_USER_HOME_PATH/easytravel-2.0.0-x64/resources/easyTravelConfig.properties
 sed -i 's/config.baseLoadHeadlessAngularRatio=0.0/config.baseLoadHeadlessAngularRatio=0.15/g' $UNIX_USER_HOME_PATH/easytravel-2.0.0-x64/resources/easyTravelConfig.properties
