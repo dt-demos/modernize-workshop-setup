@@ -1,10 +1,11 @@
 {
   "dashboardMetadata": {
     "name": "modernize-workshop",
-    "shared": false,
+    "owner": "modernize-workshop",
+    "shared": true,
     "sharingDetails": {
       "linkShared": true,
-      "published": false
+      "published": true
     },
     "dashboardFilter": {
       "timeframe": "",
