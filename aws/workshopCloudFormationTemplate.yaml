@@ -245,7 +245,6 @@ Resources:
             - "sudo mkdir -p /home/workshop\n"
             - "git clone https://github.com/dt-demos/modernize-workshop-setup.git\
               \ /home/workshop/modernize-workshop-setup\n"
-            - "git checkout perform2021\n"
             - "sudo chown workshop:workshop -R /home/workshop\n"
             - "sudo usermod -a -G sudo workshop\n"
             - "sudo curl https://raw.githubusercontent.com/Dynatrace/easyTravel-Docker/master/docker-compose.yml -o /home/workshop/modernize-workshop-setup/docker-compose.yml\n"
