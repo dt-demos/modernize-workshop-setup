@@ -180,7 +180,6 @@ Resources:
             - "sudo mkdir -p /home/workshop\n"
             - "git clone https://github.com/dt-demos/modernize-workshop-setup.git\
               \ /home/workshop/modernize-workshop-setup\n"
-            - "git checkout perform2021\n"
             - "sudo chown workshop:workshop -R /home/workshop\n"
             - "sleep 60\n"
             - "sudo /home/workshop/modernize-workshop-setup/installEZtravel.sh\n"
