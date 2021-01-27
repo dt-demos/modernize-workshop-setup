@@ -87,7 +87,7 @@ addConfig() {
   if [ "$CONFIG_NAME" == "EasyTravelOrange" ]; then
     echo "Waiting 30 seconds to ensure $CONFIG_NAME exists"
     sleep 30
-    echo "Adding applicationDetectionRules for $CONFIG_NAME (ID=$ID)"
+    echo "Adding applicationDetectionRules for $CONFIG_NAME (ID=$DT_ID)"
     addApplicationRule $DT_ID app-rule1-EasyTravelOrange.json
     addApplicationRule $DT_ID app-rule2-EasyTravelOrange.json
     echo ""
