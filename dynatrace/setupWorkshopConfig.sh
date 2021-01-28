@@ -21,8 +21,8 @@ addConfig managementZones ez-travel-docker ./dynatrace/mz-eztravel-docker.json
 
 addConfig autoTags workshop-group ./dynatrace/autoTags-workshop-group.json
 
-addConfig "applications/web" EasyTravelOrange ./dynatrace/app-EasyTravelOrange.json
-addConfig "applications/web" EasyTravelOrangeDocker ./dynatrace/app-EasyTravelOrangeDocker.json
+#addConfig "applications/web" EasyTravelOrange ./dynatrace/app-EasyTravelOrange.json
+#addConfig "applications/web" EasyTravelOrangeDocker ./dynatrace/app-EasyTravelOrangeDocker.json
 
 echo ""
 echo "-----------------------------------------------------------------------------------"
