@@ -168,6 +168,7 @@ Resources:
             - "sudo apt-get update\n"
             - "sudo apt-get install -y apt-transport-https ca-certificates curl gnupg-agent\
               \ software-properties-common\n"
+            - "sudo apt-get install -y libgtk-3-0 libxss1 libasound2 libgbm-dev\n"
             - "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key\
               \ add -\n"
             - "sudo add-apt-repository \"deb [arch=amd64] https://download.docker.com/linux/ubuntu\
