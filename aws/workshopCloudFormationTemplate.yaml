@@ -183,7 +183,7 @@ Resources:
               \ /home/workshop/modernize-workshop-setup\n"
             - "sudo chown workshop:workshop -R /home/workshop\n"
             - "sleep 60\n"
-            - "sudo /home/workshop/modernize-workshop-setup/installEZtravel.sh\n"
+            - "sudo /home/workshop/modernize-workshop-setup/installEZtravelMonolith.sh\n"
       NetworkInterfaces:
         - GroupSet:
             - !Ref 'EZTravelInstanceSecurityGroup'
@@ -248,10 +248,8 @@ Resources:
               \ /home/workshop/modernize-workshop-setup\n"
             - "sudo chown workshop:workshop -R /home/workshop\n"
             - "sudo usermod -a -G sudo workshop\n"
-            - "sudo curl https://raw.githubusercontent.com/Dynatrace/easyTravel-Docker/master/docker-compose.yml -o /home/workshop/modernize-workshop-setup/docker-compose.yml\n"
             - "sleep 60\n"
-            - "sudo docker-compose -f /home/workshop/modernize-workshop-setup/docker-compose.yml\
-              \ up -d\n"
+            - "sudo /home/workshop/modernize-workshop-setup/startEZtravelDocker.sh\n"
       NetworkInterfaces:
         - GroupSet:
             - !Ref 'EZTravelInstanceSecurityGroup'

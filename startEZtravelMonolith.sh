@@ -5,12 +5,12 @@ UNIX_USER_HOME_PATH=/home/workshop
 START_TIME="$(date)"
 
 echo "*** Calling Stop EasyTravel ***"
-sudo $UNIX_USER_HOME_PATH/modernize-workshop-setup/stopEZtravel.sh
+sudo $UNIX_USER_HOME_PATH/modernize-workshop-setup/stopEZtravelMonolith.sh
 
 printf "\n\n***** Init Log ***\n" > $LOGFILE 2>&1
 { date ; apt update 2>/dev/null; whoami ; } >> $LOGFILE ; sudo chmod 777 $LOGFILE
 
-printf "\n\n***** Deleting /tmp/weblauncher.log ***\n" remove log >> $LOGFILE 2>&1
+printf "\n\n***** Deleting /tmp/weblauncher.log ***\n" >> $LOGFILE 2>&1
 sudo rm -f /tmp/weblauncher.log
 
 echo "sleeping 10 seconds to ensure easyTravel is fully down"
@@ -45,4 +45,4 @@ echo ""
 echo "View weblauncher log again with: tail -f /tmp/weblauncher.log"
 echo ""
 
-sudo $UNIX_USER_HOME_PATH/modernize-workshop-setup/showEZtravel.sh
+sudo $UNIX_USER_HOME_PATH/modernize-workshop-setup/showEZtravelUrl.sh
