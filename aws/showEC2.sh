@@ -17,27 +17,36 @@ echo "To SSH to EC2 hosts use:"
 echo "-----------------------------------------------------------------------------------"
 
 HOSTNAME="$RESOURCE_PREFIX-dynatrace-modernize-workshop-ez-monolith"
-PUBLIC_IP="$(aws ec2 describe-instances \
+PUBLIC_IP_MONOLITH="$(aws ec2 describe-instances \
   --filters "Name=instance-state-name,Values=running" "Name=tag:Name,Values=$HOSTNAME" \
   --profile $AWS_PROFILE \
   --region $AWS_REGION \
   | jq -r '.Reservations[0].Instances[0].PublicIpAddress' )"
 
 echo ""
-echo "# $HOSTNAME"
-echo "ssh -i \"gen/$AWS_KEYPAIR_NAME-keypair.pem\" ubuntu@$PUBLIC_IP"
+echo "MONOLITH"
+echo "ssh -i \"gen/$AWS_KEYPAIR_NAME-keypair.pem\" ubuntu@$PUBLIC_IP_MONOLITH"
 
 HOSTNAME="$RESOURCE_PREFIX-dynatrace-modernize-workshop-ez-docker"
-PUBLIC_IP="$(aws ec2 describe-instances \
+PUBLIC_IP_DOCKER="$(aws ec2 describe-instances \
   --filters "Name=instance-state-name,Values=running" "Name=tag:Name,Values=$HOSTNAME" \
   --profile $AWS_PROFILE \
   --region $AWS_REGION \
   | jq -r '.Reservations[0].Instances[0].PublicIpAddress' )"
 
 echo ""
+echo "DOCKER"
+echo "ssh -i \"gen/$AWS_KEYPAIR_NAME-keypair.pem\" ubuntu@$PUBLIC_IP_DOCKER"
+echo ""
+echo ""
+echo "-----------------------------------------------------------------------------------"
+echo "Website URLs:"
 echo "-----------------------------------------------------------------------------------"
 echo ""
-echo "# $HOSTNAME"
-echo "ssh -i \"gen/$AWS_KEYPAIR_NAME-keypair.pem\" ubuntu@$PUBLIC_IP"
+echo "MONOLITH"
+echo "http://$PUBLIC_IP_MONOLITH"
+echo ""
+echo "DOCKER"
+echo "http://$PUBLIC_IP_DOCKER"
 echo ""
 echo ""
