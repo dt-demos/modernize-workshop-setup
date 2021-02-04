@@ -10,4 +10,4 @@ runcmd:
   - sudo mkdir -p /home/workshop
   - git clone https://github.com/dt-demos/modernize-workshop-setup.git /home/workshop/modernize-workshop-setup
   - sudo chown workshop:workshop -R /home/workshop
-  - sudo /home/workshop/modernize-workshop-setup/installEZtravel.sh
+  - sudo /home/workshop/modernize-workshop-setup/installEZtravelMonolith.sh
