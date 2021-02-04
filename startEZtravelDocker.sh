@@ -13,7 +13,7 @@ rm -f /tmp/weblauncher.log
 printf "\n\n***** Calling stopEZtravelDocker.sh ***\n" >> $LOGFILE 2>&1
 sudo $UNIX_USER_HOME_PATH/modernize-workshop-setup/stopEZtravelDocker.sh
 
-sudo docker-compose -f $UNIX_USER_HOME_PATH/modernize-workshop-setup/docker-compose.yaml up -d
+sudo docker-compose -f "$UNIX_USER_HOME_PATH/modernize-workshop-setup/docker-compose.yaml" up -d
 
 END_TIME="$(date)"
 printf "\n\n" >> $LOGFILE 2>&1
