@@ -1,7 +1,7 @@
 mongodb:
   hostname: easytravel-mongodb
   container_name: mongodb
-  image: "dynatrace/easytravel-mongodb:2.0.0.3273"
+  image: "dynatrace/easytravel-mongodb:2.0.0.3292"
   ports:
   - 27017
   - 28017
