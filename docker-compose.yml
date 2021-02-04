@@ -1,0 +1,61 @@
+mongodb:
+  hostname: easytravel-mongodb
+  container_name: mongodb
+  image: "dynatrace/easytravel-mongodb:2.0.0.3273"
+  ports:
+  - 27017
+  - 28017
+
+backend:
+  hostname: easytravel-backend
+  container_name: backend
+  image: "dynatrace/easytravel-backend:2.0.0.3273"
+  ports:
+  - 8080
+  links:
+  - mongodb
+  environment:
+    CATALINA_OPTS: "-Dconfig.apmServerDefault=${ET_APM_SERVER_DEFAULT} -Xmx300m"
+    ET_DATABASE_LOCATION: "easytravel-mongodb:27017"
+    ET_MONGO_AUTH_DB: "admin"
+    ET_DATABASE_USER: "etAdmin"
+    ET_DATABASE_PASSWORD: "adminadmin"
+
+frontend:
+  hostname: easytravel-frontend
+  container_name: frontend
+  image: "dynatrace/easytravel-frontend:2.0.0.3273"
+  ports:
+  - "8080:8080"
+  links:
+  - backend
+  - mongodb
+  environment:
+    CATALINA_OPTS: "-Dconfig.apmServerDefault=${ET_APM_SERVER_DEFAULT} -Xmx525m"
+    ET_BACKEND_URL: "http://easytravel-backend:8080"
+
+www:
+  hostname: easytravel-www
+  container_name: www
+  image: "dynatrace/easytravel-nginx:2.0.0.3256"
+  ports:
+  - "80:80"
+  links:
+  - frontend
+  - backend
+  environment:
+    ET_FRONTEND_LOCATION: "easytravel-frontend:8080"
+    ET_BACKEND_LOCATION: "easytravel-backend:8080"
+
+loadgen:
+  container_name: loadgen
+  image: "dynatrace/easytravel-loadgen:2.0.0.3273"
+  links:
+  - backend
+  - frontend
+  - www
+  environment:
+    ET_APM_SERVER_DEFAULT: "${ET_APM_SERVER_DEFAULT}"
+    ET_FRONTEND_URL: "http://easytravel-www:80"
+    ET_BACKEND_URL: "http://easytravel-www:8080"
+    ET_PROBLEMS: "BadCacheSynchronization,CPULoad,DatabaseCleanup,DatabaseSlowdown,FetchSizeTooSmall,JourneySearchError404,JourneySearchError500,LoginProblems,MobileErrors,TravellersOptionBox"
