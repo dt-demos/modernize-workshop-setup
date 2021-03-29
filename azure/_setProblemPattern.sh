@@ -13,7 +13,7 @@ AZURE_RESOURCE_GROUP=$(cat $CREDS_FILE | jq -r '.AZURE_RESOURCE_GROUP')
 AZURE_SUBSCRIPTION=$(cat $CREDS_FILE | jq -r '.AZURE_SUBSCRIPTION')
 AZURE_LOCATION=$(cat $CREDS_FILE | jq -r '.AZURE_LOCATION')
 RESOURCE_PREFIX=$(cat $CREDS_FILE | jq -r '.RESOURCE_PREFIX')
-HOSTNAME="$RESOURCE_PREFIX-dynatrace-modernize-workshop-ez"
+HOSTNAME="workshop-ez-monolith-1"
 
 if [ -z $ENABLED ]; then
   ENABLED=true
@@ -30,8 +30,7 @@ if [ -z "$PROBLEM_PATTERN" ]; then
 fi
 
 PUBLIC_IP=$(az vm list \
-  --location "$AZURE_LOCATION" \
-  --name "$AZURE_RESOURCE_GROUP" \
+  --resource-group "$AZURE_RESOURCE_GROUP" \
   --subscription "$AZURE_SUBSCRIPTION" \
   --query "[?name=='$HOSTNAME'].publicIps" -d -o tsv)
 
@@ -45,3 +44,16 @@ if [[ "$STATUS_CODE" -ne 202 ]] ; then
 else
   echo "Done. Value set to $ENABLED."
 fi
+
+echo ""
+echo "--------------------------------------------------------------------------------------"
+echo "Enabled Patterns on $HOSTNAME ($PUBLIC_IP)"
+echo "--------------------------------------------------------------------------------------"
+curl -s "http://$PUBLIC_IP:8091/services/ConfigurationService/getEnabledPluginNames" | \
+  sed -e 's|<ns:getEnabledPluginNamesResponse xmlns:ns=\"http://webservice.business.easytravel.dynatrace.com\">||g' | \
+  sed -e 's|</ns:getEnabledPluginNamesResponse>||g' | \
+  sed -e 's|</ns:return><ns:return>|\n|g' | \
+  sed -e 's|<ns:return>|\n|g' | \
+  sed -e 's|</ns:return>|\n|g'
+echo ""
+echo ""
