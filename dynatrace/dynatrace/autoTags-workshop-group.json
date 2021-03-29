@@ -16,7 +16,7 @@
           },
           "comparisonInfo": {
             "type": "STRING",
-            "operator": "ENDS_WITH",
+            "operator": "CONTAINS",
             "value": "workshop-ez-monolith",
             "negate": false,
             "caseSensitive": true
@@ -39,31 +39,8 @@
           },
           "comparisonInfo": {
             "type": "STRING",
-            "operator": "ENDS_WITH",
+            "operator": "CONTAINS",
             "value": "workshop-ez-docker",
-            "negate": false,
-            "caseSensitive": true
-          }
-        }
-      ]
-    },
-    {
-      "type": "SERVICE",
-      "enabled": true,
-      "valueFormat": "ez-travel-backend",
-      "propagationTypes": [
-        "SERVICE_TO_HOST_LIKE",
-        "SERVICE_TO_PROCESS_GROUP_LIKE"
-      ],
-      "conditions": [
-        {
-          "key": {
-            "attribute": "HOST_NAME"
-          },
-          "comparisonInfo": {
-            "type": "STRING",
-            "operator": "ENDS_WITH",
-            "value": "workshop-ez-backend",
             "negate": false,
             "caseSensitive": true
           }
