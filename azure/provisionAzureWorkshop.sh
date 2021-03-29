@@ -6,8 +6,18 @@ load_dynatrace_config()
     # doing this change directory business, so that can share script across AWS and Azure
     cp creds.json ../dynatrace/creds.json
     cd ../dynatrace
-    ./setupDynatraceConfig.sh
+    ./setupWorkshopConfig.sh
     cd ../azure
+}
+
+create_hosts()
+{
+    # setup active gate
+    ./createHosts.sh active-gate
+
+    # workshop VMs with easyTravel
+    ./createHosts.sh ez 1 yes
+    ./createHosts.sh ez-docker 1 yes
 }
 
 echo ""
@@ -17,16 +27,8 @@ echo "Starting: $(date)"
 echo "=========================================="
 
 load_dynatrace_config
+create_hosts
 
-# setup active gate
-./createHosts.sh active-gate
-
-# workshop VMs with easyTravel
-./createHosts.sh ez 1 yes
-./createHosts.sh ez-docker 1 yes
-
-#./createHosts.sh win 3 yes
-#./createHosts.sh linux 6 yes
 echo ""
 echo "============================================="
 echo "Provision Azure workshop resources COMPLETE"
