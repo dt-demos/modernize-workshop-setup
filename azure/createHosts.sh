@@ -91,8 +91,8 @@ provision_linux_active_gate()
 
   echo "#cloud-config" > $ACTIVATE_GATE_FILE
   echo "runcmd:" >> $ACTIVATE_GATE_FILE
-  echo "  - wget -O /tmp/Dynatrace-ActiveGate-Linux-x86-1.193.130.sh \"$DT_BASEURL/api/v1/deployment/installer/gateway/unix/latest?arch=x86&flavor=default\" --header=\"Authorization:Api-Token $DT_PAAS_TOKEN\"" >> $ACTIVATE_GATE_FILE
-  echo "  - sudo /bin/sh /tmp/Dynatrace-ActiveGate-Linux-x86-1.193.130.sh" >> $ACTIVATE_GATE_FILE
+  echo "  - wget -O /tmp/Dynatrace-ActiveGate-Linux-x86.sh \"$DT_BASEURL/api/v1/deployment/installer/gateway/unix/latest?arch=x86&flavor=default\" --header=\"Authorization:Api-Token $DT_PAAS_TOKEN\"" >> $ACTIVATE_GATE_FILE
+  echo "  - sudo /bin/sh /tmp/Dynatrace-ActiveGate-Linux-x86.sh" >> $ACTIVATE_GATE_FILE
   echo "" >> $ACTIVATE_GATE_FILE
 
   echo "Checking if $HOSTNAME already exists"
