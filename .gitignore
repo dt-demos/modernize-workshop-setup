@@ -15,3 +15,4 @@ cloud-init-active-gate.txt
 *.gen
 *.pem
 awscliv2.zip
+.DS_Store
