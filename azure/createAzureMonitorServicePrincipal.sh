@@ -41,31 +41,35 @@ create_resource_group()
 
 # create_resource_group
 
-echo "Seeing if $SP_NAME exists"
+echo "Seeing if $SP_NAME exists in Azure"
 ID=$(az ad sp list --query [] --filter "displayname eq '$SP_NAME'" --query [].appId -o tsv)
 if ! [ -z "$ID" ]; then
-    echo "Deleting existing $SP_NAME"
+    echo "Deleting existing $SP_NAME within Azure"
     az ad sp delete --id $ID
 else
-    echo "$SP_NAME did not exist"
+    echo "$SP_NAME did not exist in Azure"
 fi
 
 #--scopes /subscriptions/$AZURE_SUBSCRIPTION/subscriptions/YourSubscriptionID2
-echo "Adding $SP_NAME"
+echo "Adding $SP_NAME to Azure"
 az ad sp create-for-rbac \
     --name "http://$SP_NAME" \
     --role reader \
     > "$SUBSCRIPTION_FILE"
 
+echo "Sleeping 10 seconds to allow for Azure subscription creation"
+sleep 10
+
+echo "Reading values from $SUBSCRIPTION_FILE file"
 SP_TENTANT=$(cat $SUBSCRIPTION_FILE | jq -r '.tenant')
 SP_APP_ID=$(cat $SUBSCRIPTION_FILE | jq -r '.appId')
 SP_PASSWORD=$(cat $SUBSCRIPTION_FILE | jq -r '.password')
 
+echo "Generating ../dynatrace/dynatrace/gen/$CONFIG_FILE file"
 cat ../dynatrace/dynatrace/$CONFIG_FILE | \
-    sed 's~appId.*~'appId"\": \"$SP_APP_ID"\",'~' | \
-    sed 's~directoryId.*~'directoryId"\": \"$SP_TENTANT"\",'~' | \
-    sed 's~key.*~'key"\": \"$SP_PASSWORD"\",'~' > ../dynatrace/dynatrace/gen/$CONFIG_FILE
-
+    sed 's|appId.*|'appId"\": \"$SP_APP_ID"\",'|' | \
+    sed 's|directoryId.*|'directoryId"\": \"$SP_TENTANT"\",'|' | \
+    sed 's|key.*|'key"\": \"$SP_PASSWORD"\",'|' > ../dynatrace/dynatrace/gen/$CONFIG_FILE
 
 echo "Adding Dynatrace config needed for Azure monitor"
 addConfig "azure/credentials" azure-modernize-workshop ../dynatrace/dynatrace/gen/azure-credentials.json
