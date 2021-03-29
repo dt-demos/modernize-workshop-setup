@@ -8,7 +8,8 @@ echo "Setting up Dynatrace config for $DT_BASEURL"
 echo "-----------------------------------------------------------------------------------"
 echo ""
 
-addConfig dashboards modernize-workshop ./dynatrace/dashboard-workshop.json
+# the new DB api requires a valid "owner" to view it
+#addConfig dashboards modernize-workshop ./dynatrace/dashboard-workshop.json
 
 setFrequentIssueDetectionOff
 
