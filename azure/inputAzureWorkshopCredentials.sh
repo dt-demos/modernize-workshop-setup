@@ -26,7 +26,7 @@ echo "==================================================================="
 read -p "Your last name           (current: $RESOURCE_PREFIX) : " RESOURCE_PREFIX_NEW
 echo    "Dynatrace Base URL       (ex. https://ABC.live.dynatrace.com) "
 read -p "                         (current: $DT_BASEURL) : " DT_BASEURL_NEW
-read -p "Dynatrace Environment ID (current: $DT_ENVIRONMENT_ID) : " DT_ENVIRONMENT_ID_NEW
+#read -p "Dynatrace Environment ID (current: $DT_ENVIRONMENT_ID) : " DT_ENVIRONMENT_ID_NEW
 read -p "Dynatrace PaaS Token     (current: $DT_PAAS_TOKEN) : " DT_PAAS_TOKEN_NEW
 read -p "Dynatrace API Token      (current: $DT_API_TOKEN) : " DT_API_TOKEN_NEW
 #read -p "Azure Resource Group     (current: $AZURE_RESOURCE_GROUP) : " AZURE_RESOURCE_GROUP_NEW
@@ -40,12 +40,28 @@ RESOURCE_PREFIX=${RESOURCE_PREFIX_NEW:-$RESOURCE_PREFIX}
 DT_BASEURL=${DT_BASEURL_NEW:-$DT_BASEURL}
 DT_API_TOKEN=${DT_API_TOKEN_NEW:-$DT_API_TOKEN}
 DT_PAAS_TOKEN=${DT_PAAS_TOKEN_NEW:-$DT_PAAS_TOKEN}
-DT_ENVIRONMENT_ID=${DT_ENVIRONMENT_ID_NEW:-$DT_ENVIRONMENT_ID}
+#DT_ENVIRONMENT_ID=${DT_ENVIRONMENT_ID_NEW:-$DT_ENVIRONMENT_ID}
 AZURE_RESOURCE_GROUP=${AZURE_RESOURCE_GROUP_NEW:-$AZURE_RESOURCE_GROUP}
 AZURE_SUBSCRIPTION=${AZURE_SUBSCRIPTION_NEW:-$AZURE_SUBSCRIPTION}
 AZURE_LOCATION=${AZURE_LOCATION_NEW:-$AZURE_LOCATION}
 # append a prefix to resource group
 AZURE_RESOURCE_GROUP="$RESOURCE_PREFIX-azure-modernize-workshop"
+
+# pull out the DT_ENVIRONMENT_ID. DT_BASEURL will be one of these patterns
+if [[ $(echo $DT_BASEURL | grep "/e/" | wc -l) == *"1"* ]]; then
+  #echo "Match pattern: https://{your-domain}/e/{your-environment-id}"
+  DT_ENVIRONMENT_ID=$(echo $DT_BASEURL | awk -F"/e/" '{ print $2 }')
+elif [[ $(echo $DT_BASEURL | grep ".live." | wc -l) == *"1"* ]]; then
+  #echo "Match pattern: https://{your-environment-id}.live.dynatrace.com"
+  DT_ENVIRONMENT_ID=$(echo $DT_BASEURL | awk -F"." '{ print $1 }' | awk -F"https://" '{ print $2 }')
+elif [[ $(echo $DT_BASEURL | grep ".sprint." | wc -l) == *"1"* ]]; then
+  #echo "Match pattern: https://{your-environment-id}.sprint.dynatracelabs.com"
+  DT_ENVIRONMENT_ID=$(echo $DT_BASEURL | awk -F"." '{ print $1 }' | awk -F"https://" '{ print $2 }')
+else
+  echo "ERROR: No DT_ENVIRONMENT_ID pattern match to $DT_BASEURL"
+  exit 1
+fi
+
 #remove trailing / if the have it
 if [ "${DT_BASEURL: -1}" == "/" ]; then
   echo "removing / from DT_BASEURL"
@@ -53,14 +69,17 @@ if [ "${DT_BASEURL: -1}" == "/" ]; then
 fi
 
 echo -e "Please confirm all are correct:"
-echo ""
+echo "--------------------------------------------------"
 echo "Your last name           : $RESOURCE_PREFIX"
 echo "Dynatrace Base URL       : $DT_BASEURL"
-echo "Dynatrace Environment ID : $DT_ENVIRONMENT_ID"
 echo "Dynatrace PaaS Token     : $DT_PAAS_TOKEN"
 echo "Dynatrace API Token      : $DT_API_TOKEN"
 echo "Azure Subscription ID    : $AZURE_SUBSCRIPTION"
+echo "--------------------------------------------------"
+echo "derived values"
+echo "--------------------------------------------------"
 echo "Azure Resource Group     : $AZURE_RESOURCE_GROUP"
+echo "Dynatrace Environment ID : $DT_ENVIRONMENT_ID"
 #echo "Azure Location           : $AZURE_LOCATION"
 echo "==================================================================="
 read -p "Is this all correct? (y/n) : " -n 1 -r
