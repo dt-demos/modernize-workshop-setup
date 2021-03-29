@@ -36,8 +36,11 @@ DT_API_TOKEN=$(cat $CREDS_FILE | jq -r '.DT_API_TOKEN')
 does_vm_exist()
 {
   if [ -z $(az vm get-instance-view -g $AZURE_RESOURCE_GROUP -n $HOSTNAME --subscription $AZURE_SUBSCRIPTION --query vmId) ]; then
+    echo "$HOSTNAME does NOT exist"
+    echo "If you see 'ERROR: (ResourceNotFound)', that is OK.  Its just the output from azure CLI"
     echo false
   else
+    echo "$HOSTNAME does exist"
     echo true
   fi
 }
