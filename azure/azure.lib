@@ -20,7 +20,7 @@ create_service_principal()
   SP_NAME="$AZURE_RESOURCE_GROUP-sp" 
   SP_FILE="./gen/azure-sp.json"
   MONACO_JSON_FILE="./gen/azure-credentials.json"
-  MONACO_CONFIG_FILE="./gen/azure-credentials.yaml"
+  MONACO_CONFIG_FILE="./gen/config.yaml"
 
   # delete sp if it exists
   echo "Seeing if $SP_NAME exists in Azure"
@@ -51,11 +51,11 @@ create_service_principal()
   echo "- credentials: \"azure-credentials.json\"" >> $MONACO_CONFIG_FILE
   echo "" >> $MONACO_CONFIG_FILE
   echo "credentials:" >> $MONACO_CONFIG_FILE
-  echo "appId:" >> $SP_APP_ID
-  echo "directoryId:" >> $SP_DIRECTORY_ID
-  echo "key:" >> $SP_KEY
   echo "- name: \"azure-modernize-workshop\"" >> $MONACO_CONFIG_FILE
-
+  echo "- appId: \"$SP_APP_ID\"" >> $MONACO_CONFIG_FILE
+  echo "- directoryId: \"$SP_DIRECTORY_ID\"" >> $MONACO_CONFIG_FILE
+  echo "- key: \"$SP_KEY\"" >> $MONACO_CONFIG_FILE
+  
   echo ""
   echo "Generated $MONACO_CONFIG_FILE file contents"
   cat $MONACO_CONFIG_FILE
