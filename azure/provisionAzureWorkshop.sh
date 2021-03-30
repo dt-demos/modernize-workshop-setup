@@ -6,10 +6,10 @@ source ./azure.lib
 load_dynatrace_config()
 {
     # copy the service principal file previously geneated by create_service_principal()
-    MONACO_BASE_FOLDER="../dynatrace/monaco/projects/workshop"
-    mkdir -p $MONACO_BASE_FOLDER
-    cp -f ./gen/azure-credentials.yaml "$MONACO_BASE_FOLDER/azure-credentials/azure-credentials.yaml"
-    cp -f ./gen/config.json "$MONACO_BASE_FOLDER/azure-credentials/config.json"
+    MONACO_BASE_FOLDER="../dynatrace/monaco/projects/eztravel"
+    mkdir -p "$MONACO_BASE_FOLDER/azure-credentials"
+    cp -f ./gen/azure-credentials.json "$MONACO_BASE_FOLDER/azure-credentials/azure-credentials.json"
+    cp -f ./gen/config.yaml "$MONACO_BASE_FOLDER/azure-credentials/config.yaml"
 
     # this file is needed by the Dynatrace config scripts
     cp -f creds.json ../dynatrace/creds.json

@@ -7,4 +7,3 @@ mz-eztravel-monolith:
 
 mz-eztravel-docker:
   - name: "ez-travel-docker"
-  - skipDeployment: "true"

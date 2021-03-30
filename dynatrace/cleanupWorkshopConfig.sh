@@ -18,7 +18,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 
     # run monaco as code script
     PROJECT_BASE_PATH=./monaco/projects
-    PROJECT=workshop
+    PROJECT=eztravel
     ENVIONMENT_FILE=./monaco/environments.yaml
 
     cp $PROJECT_BASE_PATH/$PROJECT/delete.txt $PROJECT_BASE_PATH/$PROJECT/delete.yaml 
