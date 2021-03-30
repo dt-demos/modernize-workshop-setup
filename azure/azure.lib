@@ -42,31 +42,38 @@ create_service_principal()
   echo "Sleeping 10 seconds to allow for Azure subscription creation"
   sleep 10
 
+  SP_APP_ID=$(cat $SP_FILE | jq -r '.appId')
+  SP_DIRECTORY_ID=$(cat $SP_FILE | jq -r '.tenant')
+  SP_KEY=$(cat $SP_FILE | jq -r '.password')
+
   echo "Generating $MONACO_CONFIG_FILE file used by monaco"
   echo "config:" > $MONACO_CONFIG_FILE
   echo "- credentials: \"azure-credentials.json\"" >> $MONACO_CONFIG_FILE
   echo "" >> $MONACO_CONFIG_FILE
-  echo "- credentials:" >> $MONACO_CONFIG_FILE
+  echo "credentials:" >> $MONACO_CONFIG_FILE
+  echo "appId:" >> $SP_APP_ID
+  echo "directoryId:" >> $SP_DIRECTORY_ID
+  echo "key:" >> $SP_KEY
   echo "- name: \"azure-modernize-workshop\"" >> $MONACO_CONFIG_FILE
 
-  echo "Generating $MONACO_JSON_FILE file used by monaco"
-  SP_APP_ID=$(cat $SP_FILE | jq -r '.appId')
-  SP_DIRECTORY_ID=$(cat $SP_FILE | jq -r '.directoryId')
-  SP_KEY=$(cat $SP_FILE | jq -r '.key')
+  echo ""
+  echo "Generated $MONACO_CONFIG_FILE file contents"
+  cat $MONACO_CONFIG_FILE
 
-  echo "\"{\"" > $MONACO_JSON_FILE
+  echo "Generating $MONACO_JSON_FILE file used by monaco"
+  echo "{" > $MONACO_JSON_FILE
   echo "\"label\": \"{{ .name }}\"," >> $MONACO_JSON_FILE
-  echo "\"appId\": \"$SP_APP_ID\"," >> $MONACO_JSON_FILE
-  echo "\"directoryId\": \"$SP_DIRECTORY_ID\"," >> $MONACO_JSON_FILE
-  echo "\"appId\": \"$SP_APP_ID\"," >> $MONACO_JSON_FILE
+  echo "\"appId\": \"{{ .appId }}\"," >> $MONACO_JSON_FILE
+  echo "\"directoryId\": \"{{ .directoryId }}\"," >> $MONACO_JSON_FILE
   echo "\"active\": true," >> $MONACO_JSON_FILE
-  echo "\"key\": \"$SP_KEY\"," >> $MONACO_JSON_FILE
+  echo "\"key\": \"{{ .key }}\"," >> $MONACO_JSON_FILE
   echo "\"autoTagging\": true," >> $MONACO_JSON_FILE
   echo "\"monitorOnlyTaggedEntities\": false," >> $MONACO_JSON_FILE
   echo "\"monitorOnlyTagPairs\": []" >> $MONACO_JSON_FILE
+  echo "}" >> $MONACO_JSON_FILE
 
   echo ""
-  echo "Generated file contents"
+  echo "Generated $MONACO_JSON_FILE file contents"
   cat $MONACO_JSON_FILE
 
 }
