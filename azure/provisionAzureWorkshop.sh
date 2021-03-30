@@ -9,7 +9,7 @@ load_dynatrace_config()
     MONACO_BASE_FOLDER="../dynatrace/monaco/projects/workshop"
     mkdir -p $MONACO_BASE_FOLDER
     cp -f ./gen/azure-credentials.yaml "$MONACO_BASE_FOLDER/azure-credentials/azure-credentials.yaml"
-    cp -f ./gen/azure-credentials.json "$MONACO_BASE_FOLDER/azure-credentials/azure-credentials.json"
+    cp -f ./gen/config.json "$MONACO_BASE_FOLDER/azure-credentials/config.json"
 
     # this file is needed by the Dynatrace config scripts
     cp -f creds.json ../dynatrace/creds.json
@@ -38,7 +38,7 @@ echo "=========================================="
 
 #create_hosts
 create_service_principal
-#load_dynatrace_config
+load_dynatrace_config
 
 echo ""
 echo "============================================="
