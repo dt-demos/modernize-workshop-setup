@@ -7,25 +7,25 @@ config:
   - app-rule2-easy-travel-orange: "app-rule2-easy-travel-orange.json"
 
 app-rule1-easy-travel-angular:
-  - name: "application-web/eztravel/app-easy-travel-angular.name"
-  - applicationidentifier: "application-web/eztravel/app-easy-travel-angular.id"
+  - name: "eztravel/application-web//app-easy-travel-angular.name"
+  - applicationidentifier: "eztravel/application-web//app-easy-travel-angular.id"
 
 app-rule2-easy-travel-angular:
-  - name: "application-web/eztravel/app-easy-travel-angular.name"
-  - applicationidentifier: "application-web/eztravel/app-easy-travel-angular.id"
+  - name: "eztravel/application-web//app-easy-travel-angular.name"
+  - applicationidentifier: "eztravel/application-web//app-easy-travel-angular.id"
 
 app-rule3-easy-travel-angular:
-  - name: "application-web/eztravel/app-easy-travel-angular.name"
-  - applicationidentifier: "application-web/eztravel/app-easy-travel-angular.id"
+  - name: "eztravel/application-web//app-easy-travel-angular.name"
+  - applicationidentifier: "eztravel/application-web//app-easy-travel-angular.id"
 
 app-rule4-easy-travel-angular:
-  - name: "application-web/eztravel/app-easy-travel-angular.name"
-  - applicationidentifier: "application-web/eztravel/app-easy-travel-angular.id"
+  - name: "eztravel/application-web//app-easy-travel-angular.name"
+  - applicationidentifier: "eztravel/application-web//app-easy-travel-angular.id"
 
 app-rule1-easy-travel-orange:
-  - name: "application-web/eztravel/app-easy-travel-orange.name"
-  - applicationidentifier: "application-web/eztravel/app-easy-travel-orange.id"
+  - name: "eztravel/application-web//app-easy-travel-orange.name"
+  - applicationidentifier: "eztravel/application-web//app-easy-travel-orange.id"
 
 app-rule2-easy-travel-orange:
-  - name: "application-web/eztravel/app-easy-travel-orange.name"
-  - applicationidentifier: "application-web/eztravel/app-easy-travel-orange.id"
+  - name: "eztravel/application-web//app-easy-travel-orange.name"
+  - applicationidentifier: "eztravel/application-web//app-easy-travel-orange.id"
