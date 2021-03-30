@@ -17,7 +17,8 @@ chmod +x monaco-binary
 # run monaco configuration
 # add the -dry-run argument to test
 #monaco -dry-run --environments ./monaco/environments.yaml --project eztravel ./monaco/projects
-./monaco-binary monaco deploy --environments ./monaco/environments.yaml --project eztravel ./monaco/projects
+export NEW_CLI=1
+./monaco-binary deploy --environments ./monaco/environments.yaml --project eztravel ./monaco/projects
 
 # custom API calls
 setFrequentIssueDetectionOff
