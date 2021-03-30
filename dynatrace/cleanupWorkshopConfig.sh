@@ -21,9 +21,10 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     PROJECT=eztravel
     ENVIONMENT_FILE=./monaco/environments.yaml
 
-    cp $PROJECT_BASE_PATH/$PROJECT/delete.txt $PROJECT_BASE_PATH/$PROJECT/delete.yaml 
-    monaco -v --environments $ENVIONMENT_FILE --project $PROJECT $PROJECT_BASE_PATH
-    rm $PROJECT_BASE_PATH/$PROJECT/delete.yaml 
+    cp $PROJECT_BASE_PATH/$PROJECT/delete.txt $PROJECT_BASE_PATH/delete.yaml 
+    export NEW_CLI=1
+    ./monaco-binary deploy -v --environments $ENVIONMENT_FILE --project $PROJECT $PROJECT_BASE_PATH
+    rm $PROJECT_BASE_PATH/delete.yaml 
 
     # make custom API calls
     setFrequentIssueDetectionOn
