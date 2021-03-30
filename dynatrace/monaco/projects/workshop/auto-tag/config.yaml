@@ -1,0 +1,5 @@
+config:
+  - auto-tag-workshop-group: "auto-tag-workshop-group.json"
+
+auto-tag-workshop-group:
+  - name: "workshop-group"

@@ -74,6 +74,31 @@ addConfig() {
     | jq -r '.id')
   echo "Created $CONFIG_NAME (ID=$DT_ID)"
 
+  if [ "$CONFIG_NAME" == "EasyTravelAngular" ]; then
+    echo "Waiting 30 seconds to ensure $CONFIG_NAME exists"
+    sleep 30
+    echo "Adding applicationDetectionRules for $CONFIG_NAME (ID=$DT_ID)"
+    addApplicationRule $DT_ID app-rule1-EasyTravelAngular.json
+    addApplicationRule $DT_ID app-rule2-EasyTravelAngular.json
+    addApplicationRule $DT_ID app-rule3-EasyTravelAngular.json
+    addApplicationRule $DT_ID app-rule4-EasyTravelAngular.json
+    echo ""
+  fi
+  if [ "$CONFIG_NAME" == "EasyTravelOrange" ]; then
+    echo "Waiting 30 seconds to ensure $CONFIG_NAME exists"
+    sleep 30
+    echo "Adding applicationDetectionRules for $CONFIG_NAME (ID=$DT_ID)"
+    addApplicationRule $DT_ID app-rule1-EasyTravelOrange.json
+    addApplicationRule $DT_ID app-rule2-EasyTravelOrange.json
+    echo ""
+  fi
+  if [ "$CONFIG_NAME" == "EasyTravelOrangeDocker" ]; then
+    echo "Waiting 30 seconds to ensure $CONFIG_NAME exists"
+    sleep 30
+    echo "Adding applicationDetectionRules for $CONFIG_NAME (ID=$ID)"
+    addApplicationRule $DT_ID app-rule1-EasyTravelOrangeDocker.json
+    echo ""
+  fi
 }
 
 deleteConfig() {

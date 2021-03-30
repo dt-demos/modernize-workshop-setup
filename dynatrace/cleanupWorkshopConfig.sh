@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# this will read in creds.json and export URL and TOKEN as environment variables
 source ./dynatraceConfig.lib
 
 echo "==================================================================="
@@ -15,26 +16,18 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     echo "*** Removing Dynatrace config for $DT_BASEURL ***"
     echo
 
-    deleteConfig dashboards modernize-workshop
+    # run monaco as code script
+    PROJECT_BASE_PATH=./monaco/projects
+    PROJECT=workshop
+    ENVIONMENT_FILE=./monaco/environments.yaml
 
+    cp $PROJECT_BASE_PATH/$PROJECT/delete.txt $PROJECT_BASE_PATH/$PROJECT/delete.yaml 
+    monaco -v --environments $ENVIONMENT_FILE --project $PROJECT $PROJECT_BASE_PATH
+    rm $PROJECT_BASE_PATH/$PROJECT/delete.yaml 
+
+    # make custom API calls
     setFrequentIssueDetectionOn
-
-    setServiceAnomalyDetection ./dynatrace/service-anomalydetectionDefault.json
-
-    deleteConfig "service/customServices/java" CheckDestination
-
-    deleteConfig managementZones ez-travel-docker
-    deleteConfig managementZones ez-travel-monolith
-
-    deleteConfig autoTags workshop-group
-
-    # the delete is for the application name so need to do make call for each rule for each app
-    deleteConfig "applicationDetectionRules" EasyTravelOrange
-    deleteConfig "applicationDetectionRules" EasyTravelOrange
-    deleteConfig "applicationDetectionRules" EasyTravelOrangeDocker
-
-    deleteConfig "applications/web" EasyTravelOrange
-    deleteConfig "applications/web" EasyTravelOrangeDocker
+    setServiceAnomalyDetection ./custom/service-anomalydetectionDefault.json
 
     echo ""
     echo "*** Done Removing Dynatrace config ***"

@@ -1,0 +1,9 @@
+config:
+  - app-easy-travel-angular: "app-easy-travel-angular.json"
+  - app-easy-travel-orange: "app-easy-travel-orange.json"
+
+app-easy-travel-angular:
+  - name: "EasyTravelAngular"
+
+app-easy-travel-orange:
+  - name: "EasyTravelOrange"

@@ -1,0 +1,36 @@
+{
+  "name": "{{ .name }}",
+  "enabled": true,
+  "rules": [
+    {
+      "enabled": true,
+      "fileName": "",
+      "className": "com.dynatrace.easytravel.business.webservice.JourneyService",
+      "matcher": "EQUALS",
+      "methodRules": [
+        {
+          "methodName": "checkDestination",
+          "argumentTypes": [
+            "java.lang.String"
+          ],
+          "returnType": "boolean"
+        },
+        {
+          "methodName": "checkDestination",
+          "returnType": "void"
+        },
+        {
+          "methodName": "checkDestination",
+          "argumentTypes": [
+            "java.lang.String"
+          ],
+          "returnType": "boolean"
+        }
+      ],
+      "annotations": []
+    }
+  ],
+  "queueEntryPoint": false,
+  "queueEntryPointType": null,
+  "processGroups": []
+}

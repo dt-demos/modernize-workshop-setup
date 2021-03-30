@@ -1,0 +1,10 @@
+config:
+  - mz-eztravel-monolith: "mz-eztravel-monolith.json"
+  - mz-eztravel-docker: "mz-eztravel-docker.json"
+
+mz-eztravel-monolith:
+  - name: "ez-travel-monolith"
+
+mz-eztravel-docker:
+  - name: "ez-travel-docker"
+  - skipDeployment: "true"

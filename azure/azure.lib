@@ -1,27 +1,9 @@
 #!/bin/bash
 
-#*********************************
-# Reference: 
-# Dynatrace: https://www.dynatrace.com/support/help/technology-support/cloud-platforms/microsoft-azure/azure-services/virtual-machines/deploy-oneagent-on-azure-virtual-machines
-# Azure:     https://docs.microsoft.com/en-us/cli/azure/vm?view=azure-cli-latest#az-vm-create
-#*********************************
-HOST_TYPE=$1               # 'linux','win',ez'
-NUM_HOSTS=$2
-ADD_EZTRAVEL_ONEAGENT=$3   # only for eztravel, pass in 'yes' if want agent added
-
-# Example: 1 host running ezTravel with no OneAgent :  ./createHosts.sh ez
-# Example: 2 host running ezTravel with OneAgent    :  ./createHosts.sh ez 1 yes
-# Example: 5 linux host                             :  ./createHosts.sh linux 5
-# Example: 5 windows hosts                          :  ./createHosts.sh win 5
-
 CREDS_FILE=creds.json
 if ! [ -f "$CREDS_FILE" ]; then
   echo "ERROR: missing $CREDS_FILE"
   exit 1
-fi
-
-if [ -z $2 ]; then
-  NUM_HOSTS=1
 fi
 
 AZURE_RESOURCE_GROUP=$(cat $CREDS_FILE | jq -r '.AZURE_RESOURCE_GROUP')
@@ -31,6 +13,63 @@ DT_ENVIRONMENT_ID=$(cat $CREDS_FILE | jq -r '.DT_ENVIRONMENT_ID')
 DT_BASEURL=$(cat $CREDS_FILE | jq -r '.DT_BASEURL')
 DT_PAAS_TOKEN=$(cat $CREDS_FILE | jq -r '.DT_PAAS_TOKEN')
 DT_API_TOKEN=$(cat $CREDS_FILE | jq -r '.DT_API_TOKEN')
+
+#*********************************
+create_service_principal()
+{
+  SP_NAME="$AZURE_RESOURCE_GROUP-sp" 
+  SP_FILE="./gen/azure-sp.json"
+  MONACO_JSON_FILE="./gen/azure-credentials.json"
+  MONACO_CONFIG_FILE="./gen/azure-credentials.yaml"
+
+  # delete sp if it exists
+  echo "Seeing if $SP_NAME exists in Azure"
+  ID=$(az ad sp list --query [] --filter "displayname eq '$SP_NAME'" --query [].appId -o tsv)
+  if ! [ -z "$ID" ]; then
+      echo "Deleting existing $SP_NAME within Azure"
+      az ad sp delete --id $ID
+  else
+      echo "$SP_NAME did not exist in Azure"
+  fi
+
+  #--scopes /subscriptions/$AZURE_SUBSCRIPTION/subscriptions/YourSubscriptionID2
+  echo "Adding $SP_NAME to Azure and sending output to $SP_FILE"
+  az ad sp create-for-rbac \
+      --name "http://$SP_NAME" \
+      --role reader \
+      > "$SP_FILE"
+
+  echo "Sleeping 10 seconds to allow for Azure subscription creation"
+  sleep 10
+
+  echo "Generating $MONACO_CONFIG_FILE file used by monaco"
+  echo "config:" > $MONACO_CONFIG_FILE
+  echo "- credentials: \"azure-credentials.json\"" >> $MONACO_CONFIG_FILE
+  echo "" >> $MONACO_CONFIG_FILE
+  echo "- credentials:" >> $MONACO_CONFIG_FILE
+  echo "- name: \"azure-modernize-workshop\"" >> $MONACO_CONFIG_FILE
+
+  echo "Generating $MONACO_JSON_FILE file used by monaco"
+  SP_APP_ID=$(cat $SP_FILE | jq -r '.appId')
+  SP_DIRECTORY_ID=$(cat $SP_FILE | jq -r '.directoryId')
+  SP_KEY=$(cat $SP_FILE | jq -r '.key')
+
+  echo "\"{\"" > $MONACO_JSON_FILE
+  echo "\"label\": \"{{ .name }}\"," >> $MONACO_JSON_FILE
+  echo "\"appId\": \"$SP_APP_ID\"," >> $MONACO_JSON_FILE
+  echo "\"directoryId\": \"$SP_DIRECTORY_ID\"," >> $MONACO_JSON_FILE
+  echo "\"appId\": \"$SP_APP_ID\"," >> $MONACO_JSON_FILE
+  echo "\"active\": true," >> $MONACO_JSON_FILE
+  echo "\"key\": \"$SP_KEY\"," >> $MONACO_JSON_FILE
+  echo "\"autoTagging\": true," >> $MONACO_JSON_FILE
+  echo "\"monitorOnlyTaggedEntities\": false," >> $MONACO_JSON_FILE
+  echo "\"monitorOnlyTagPairs\": []" >> $MONACO_JSON_FILE
+
+  echo ""
+  echo "Generated file contents"
+  cat $MONACO_JSON_FILE
+
+}
 
 #*********************************
 does_vm_exist()
@@ -385,48 +424,67 @@ provision_eztravel_docker_vm()
   fi
 }
 
-#*********************************
-echo "==================================================================================="
-echo "*** Provisioning $NUM_HOSTS hosts of type $HOST_TYPE ***"
-create_resource_group
-HOST_CTR=1
-while [ $HOST_CTR -le $NUM_HOSTS ]
-do
+createhost() {
+  #*********************************
+  # Reference: 
+  # Dynatrace: https://www.dynatrace.com/support/help/technology-support/cloud-platforms/microsoft-azure/azure-services/virtual-machines/deploy-oneagent-on-azure-virtual-machines
+  # Azure:     https://docs.microsoft.com/en-us/cli/azure/vm?view=azure-cli-latest#az-vm-create
+  #*********************************
+  HOST_TYPE=$1               # 'linux','win',ez'
+  NUM_HOSTS=$2
+  ADD_EZTRAVEL_ONEAGENT=$3   # only for eztravel, pass in 'yes' if want agent added
 
-  case $HOST_TYPE in
-  linux)
-    echo "Provisioning $HOST_TYPE ($HOST_CTR of $NUM_HOSTS): Starting: $(date)"
-    provision_linux_vm $HOST_CTR
-    ;;
-  win)
-    echo "Provisioning $HOST_TYPE ($HOST_CTR of $NUM_HOSTS): Starting: $(date)"
-    provision_win_vm $HOST_CTR
-    ;;
-  ez)
-    echo "Provisioning $HOST_TYPE ($HOST_CTR of $NUM_HOSTS): Starting: $(date)"
-    provision_eztravel_vm $HOST_CTR
-    ;;
-  ez-backend)
-    echo "Provisioning $HOST_TYPE ($HOST_CTR of $NUM_HOSTS): Starting: $(date)"
-    provision_eztravel_backend_vm $HOST_CTR
-    ;;
-  ez-docker)
-    echo "Provisioning $HOST_TYPE ($HOST_CTR of $NUM_HOSTS): Starting: $(date)"
-    provision_eztravel_docker_vm $HOST_CTR
-    ;;
-  active-gate)
-    echo "Provisioning $HOST_TYPE ($HOST_CTR of $NUM_HOSTS): Starting: $(date)"
-    provision_linux_active_gate $HOST_CTR
-    ;;
-  *) 
-    echo "Invalid HOST_TYPE option. Valid values are 'linux','win','ez','ez-backend','active-gate'"
-    break
-    ;;
-  esac
-  echo "Complete: $(date)"
-  HOST_CTR=$(( $HOST_CTR + 1 ))
+  if [ -z $2 ]; then
+    NUM_HOSTS=1
+  fi
 
-done
+  # Example: 1 host running ezTravel with no OneAgent :  ./createHosts.sh ez
+  # Example: 2 host running ezTravel with OneAgent    :  ./createHosts.sh ez 1 yes
+  # Example: 5 linux host                             :  ./createHosts.sh linux 5
+  # Example: 5 windows hosts                          :  ./createHosts.sh win 5
 
-echo "*** Done. ***"
-echo "==================================================================================="
+  echo "==================================================================================="
+  echo "*** Provisioning $NUM_HOSTS hosts of type $HOST_TYPE ***"
+  create_resource_group
+  HOST_CTR=1
+  while [ $HOST_CTR -le $NUM_HOSTS ]
+  do
+
+    case $HOST_TYPE in
+    linux)
+      echo "Provisioning $HOST_TYPE ($HOST_CTR of $NUM_HOSTS): Starting: $(date)"
+      provision_linux_vm $HOST_CTR
+      ;;
+    win)
+      echo "Provisioning $HOST_TYPE ($HOST_CTR of $NUM_HOSTS): Starting: $(date)"
+      provision_win_vm $HOST_CTR
+      ;;
+    ez)
+      echo "Provisioning $HOST_TYPE ($HOST_CTR of $NUM_HOSTS): Starting: $(date)"
+      provision_eztravel_vm $HOST_CTR
+      ;;
+    ez-backend)
+      echo "Provisioning $HOST_TYPE ($HOST_CTR of $NUM_HOSTS): Starting: $(date)"
+      provision_eztravel_backend_vm $HOST_CTR
+      ;;
+    ez-docker)
+      echo "Provisioning $HOST_TYPE ($HOST_CTR of $NUM_HOSTS): Starting: $(date)"
+      provision_eztravel_docker_vm $HOST_CTR
+      ;;
+    active-gate)
+      echo "Provisioning $HOST_TYPE ($HOST_CTR of $NUM_HOSTS): Starting: $(date)"
+      provision_linux_active_gate $HOST_CTR
+      ;;
+    *) 
+      echo "Invalid HOST_TYPE option. Valid values are 'linux','win','ez','ez-backend','active-gate'"
+      break
+      ;;
+    esac
+    echo "Complete: $(date)"
+    HOST_CTR=$(( $HOST_CTR + 1 ))
+
+  done
+
+  echo "*** Done. ***"
+  echo "==================================================================================="
+}

@@ -1,0 +1,5 @@
+config:
+  - custom-service-check-destination: "custom-service-check-destination.json"
+
+custom-service-check-destination:
+  - name: "CheckDestination"

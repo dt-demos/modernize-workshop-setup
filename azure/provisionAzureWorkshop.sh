@@ -1,10 +1,20 @@
 #!/bin/bash
 
+# contains functions called in this script
+source ./azure.lib
+
 load_dynatrace_config()
 {
-    # workshop config like tags, dashboard, MZ
-    # doing this change directory business, so that can share script across AWS and Azure
-    cp creds.json ../dynatrace/creds.json
+    # copy the service principal file previously geneated by create_service_principal()
+    MONACO_BASE_FOLDER="../dynatrace/monaco/projects/workshop"
+    mkdir -p $MONACO_BASE_FOLDER
+    cp -f ./gen/azure-credentials.yaml "$MONACO_BASE_FOLDER/azure-credentials/azure-credentials.yaml"
+    cp -f ./gen/azure-credentials.json "$MONACO_BASE_FOLDER/azure-credentials/azure-credentials.json"
+
+    # this file is needed by the Dynatrace config scripts
+    cp -f creds.json ../dynatrace/creds.json
+
+    # this scripts will all monaco to add workshop config like tags, dashboard, MZ
     cd ../dynatrace
     ./setupWorkshopConfig.sh
     cd ../azure
@@ -13,11 +23,11 @@ load_dynatrace_config()
 create_hosts()
 {
     # setup active gate
-    ./createHosts.sh active-gate
+    createhost active-gate
 
     # workshop VMs with easyTravel
-    ./createHosts.sh ez 1 yes
-    ./createHosts.sh ez-docker 1 yes
+    createhost ez 1 yes
+    createhost ez-docker 1 yes
 }
 
 echo ""
@@ -26,8 +36,9 @@ echo "Provisioning Azure workshop resources"
 echo "Starting: $(date)"
 echo "=========================================="
 
-load_dynatrace_config
-create_hosts
+#create_hosts
+create_service_principal
+#load_dynatrace_config
 
 echo ""
 echo "============================================="

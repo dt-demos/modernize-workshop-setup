@@ -8,7 +8,9 @@ aws/notused/
 notused/
 dynatrace/dynatrace/gen/*.json
 azure/gen/*.json
+azure/gen/*.yaml
 aws/gen/*.json
+aws/gen/*.yaml
 azure-sp.json
 cloud-init-active-gate.txt
 *keypair.json
@@ -16,3 +18,4 @@ cloud-init-active-gate.txt
 *.pem
 awscliv2.zip
 .DS_Store
+.logs
