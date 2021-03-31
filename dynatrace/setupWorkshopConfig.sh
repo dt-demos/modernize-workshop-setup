@@ -10,15 +10,15 @@ echo "--------------------------------------------------------------------------
 echo ""
 
 # copy monaco binary
-rm -f monaco-binary
-wget -q -O monaco-binary https://github.com/dynatrace-oss/dynatrace-monitoring-as-code/releases/download/v1.5.0/monaco-linux-amd64
-chmod +x monaco-binary
+#rm -f monaco-binary
+#wget -q -O monaco-binary https://github.com/dynatrace-oss/dynatrace-monitoring-as-code/releases/download/v1.5.0/monaco-linux-amd64
+#chmod +x monaco-binary
 
 # run monaco configuration
 # add the -dry-run argument to test
 #monaco -dry-run --environments ./monaco/environments.yaml --project eztravel ./monaco/projects
 export NEW_CLI=1
-./monaco-binary deploy --environments ./monaco/environments.yaml --project eztravel ./monaco/projects
+./monaco-binary deploy -v --environments ./monaco/environments.yaml --project eztravel ./monaco/projects
 
 # custom API calls
 setFrequentIssueDetectionOff

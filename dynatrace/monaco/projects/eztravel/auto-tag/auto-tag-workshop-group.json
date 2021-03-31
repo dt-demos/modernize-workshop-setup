@@ -17,7 +17,7 @@
           "comparisonInfo": {
             "type": "STRING",
             "operator": "CONTAINS",
-            "value": "{{ .name }}",
+            "value": "{{ .matchname }}",
             "negate": false,
             "caseSensitive": true
           }

@@ -1,0 +1,11 @@
+config:
+  - monolith-slo: "monolith-slo.json"
+  - docker-slo: "docker-slo.json"
+
+monolith-slo:
+  - name: "Monolith Error Rate"
+  - skipDeployment: "false"
+
+docker-slo:
+  - name: "Docker Error Rate"
+  - skipDeployment: "false"
