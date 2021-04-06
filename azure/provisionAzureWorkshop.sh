@@ -38,8 +38,8 @@ echo "=========================================="
 
 createhost dt-orders-monolith 1 yes
 #create_hosts
-#create_service_principal
-#load_dynatrace_config
+create_service_principal
+load_dynatrace_config
 
 echo ""
 echo "============================================="

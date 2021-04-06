@@ -6,4 +6,4 @@ runcmd:
   - git clone --single-branch --branch azure https://github.com/dt-demos/modernize-workshop-setup.git /home/workshop/modernize-workshop-setup
   - sudo chown workshop:workshop -R /home/workshop
   - sudo usermod -a -G sudo workshop
-  - sudo /home/workshop/modernize-workshop-setup/dt-orders/setup.sh monolith > /home/workshop.setup.log
+  - sudo /home/workshop/modernize-workshop-setup/dt-orders/setup.sh monolith > /home/workshop/setup.log

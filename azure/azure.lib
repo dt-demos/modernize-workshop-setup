@@ -32,11 +32,11 @@ create_service_principal()
       echo "$SP_NAME did not exist in Azure"
   fi
 
-  #--scopes /subscriptions/$AZURE_SUBSCRIPTION/subscriptions/YourSubscriptionID2
   echo "Adding $SP_NAME to Azure and sending output to $SP_FILE"
   az ad sp create-for-rbac \
       --name "http://$SP_NAME" \
       --role reader \
+      --scopes "/subscriptions/$AZURE_SUBSCRIPTION" \
       > "$SP_FILE"
 
   echo "Sleeping 10 seconds to allow for Azure subscription creation"
